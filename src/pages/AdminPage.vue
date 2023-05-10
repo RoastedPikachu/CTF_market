@@ -28,9 +28,9 @@
               </div>
 
               <aside>
-                  <textarea id="Title" placeholder="Заголовок" maxlength="100"></textarea>
+                  <textarea id="Title" placeholder="Заголовок" maxlength="100" v-model="title"></textarea>
 
-                  <textarea id="Description" placeholder="Описание" maxlength="400"></textarea>
+                  <textarea id="Description" placeholder="Описание" maxlength="400" v-model="description"></textarea>
 
                   <select v-model="category">
                       <option disabled>Категории:</option>
@@ -42,7 +42,7 @@
 
                   <div id="Price">
                       <label for="PriceInput">Цена:</label>
-                      <input type="text" id="PriceInput" placeholder="Баллы" maxlength="10">
+                      <input type="text" id="PriceInput" placeholder="Баллы" maxlength="10" v-model="price">
                   </div>
 
                   <div id="Sizes">
@@ -67,8 +67,7 @@
     </main>
 </template>
 
-<script lang="ts">
-    import { defineComponent } from 'vue';
+<script setup lang="ts">
     import { ref } from 'vue';
     import axios from 'axios';
 
@@ -79,165 +78,158 @@
         file: string
     }
 
-    export default defineComponent({
-        name: 'TestPage',
-        setup() {
-            const targetId = ref(0);
-            const photos = ref([
-                {
-                    id: 0,
-                    isShowed: true,
-                    isLoaded: false,
-                    file: ''
-                },
-                {
-                    id: 1,
-                    isShowed: false,
-                    isLoaded: false,
-                    file: ''
-                },
-                {
-                    id: 2,
-                    isShowed: false,
-                    isLoaded: false,
-                    file: ''
-                },
-                {
-                    id: 3,
-                    isShowed: false,
-                    isLoaded: false,
-                    file: ''
-                },
-                {
-                    id: 4,
-                    isShowed: false,
-                    isLoaded: false,
-                    file: ''
-                },
-                {
-                    id: 5,
-                    isShowed: false,
-                    isLoaded: false,
-                    file: ''
-                },
-                {
-                    id: 6,
-                    isShowed: false,
-                    isLoaded: false,
-                    file: ''
-                },
-                {
-                    id: 7,
-                    isShowed: false,
-                    isLoaded: false,
-                    file: ''
-                },
-                {
-                    id: 8,
-                    isShowed: false,
-                    isLoaded: false,
-                    file: ''
-                },
-                {
-                    id: 9,
-                    isShowed: false,
-                    isLoaded: false,
-                    file: ''
-                },
-            ]);
-            const category = ref('Категории:');
-            const sizes = ref([
-                {
-                    id: 0,
-                    prop: 'XS',
-                    value: ''
-                },
-                {
-                    id: 1,
-                    prop: 'S',
-                    value: ''
-                },
-                {
-                    id: 2,
-                    prop: 'M',
-                    value: ''
-                },
-                {
-                    id: 3,
-                    prop: 'L',
-                    value: ''
-                },
-                {
-                    id: 4,
-                    prop: 'XL',
-                    value: ''
-                }
-            ]);
 
-            const sendPhoto = (id:number) => {
-                const url = new URL('http://79.174.12.75:8000/api/v1/test/');
-
-                // const formData = new FormData();
-                // formData.append('shopItemImg', this.image, 'item.png');
-
-                axios.post(url.toString(), {[`file${id}`]: photos.value[id].file}, {
-                    headers: {'Content-Type': 'application/json;charset=utf-8'}
-                })
-            };
-
-            const setPhoto = (event:any) => {
-                const FR = new FileReader();
-
-                FR.addEventListener('load', (event:any) => {
-                    photos.value[targetId.value].file = event.target.result;
-                    photos.value[targetId.value].isLoaded = true;
-                })
-                FR.readAsDataURL(event.target.files[0]);
-
-                setTimeout(() => sendPhoto(targetId.value), 300);
-            };
-
-            const getPreviousPhoto = () => {
-
-                photos.value[targetId.value].isShowed = false;
-
-                if(targetId.value === 0) {
-                    targetId.value = photos.value.length;
-                }
-                targetId.value--;
-
-                photos.value[targetId.value].isShowed = true;
-            };
-
-            const getNextPhoto = () => {
-
-                photos.value[targetId.value].isShowed = false;
-
-                if(targetId.value === photos.value.length - 1) {
-                    targetId.value = -1;
-                }
-                targetId.value++;
-
-                photos.value[targetId.value].isShowed = true;
-            };
-
-            const addProductCard = () => {
-                console.log(category.value)
-            };
-
-            return {
-                targetId,
-                photos,
-                category,
-                sizes,
-                sendPhoto,
-                setPhoto,
-                getPreviousPhoto,
-                getNextPhoto,
-                addProductCard
-            }
+    const targetId = ref(0);
+    const photos = ref([
+        {
+            id: 0,
+            isShowed: true,
+            isLoaded: false,
+            file: ''
         },
-    });
+        {
+            id: 1,
+            isShowed: false,
+            isLoaded: false,
+            file: ''
+        },
+        {
+            id: 2,
+            isShowed: false,
+            isLoaded: false,
+            file: ''
+        },
+        {
+            id: 3,
+            isShowed: false,
+            isLoaded: false,
+            file: ''
+        },
+        {
+            id: 4,
+            isShowed: false,
+            isLoaded: false,
+            file: ''
+        },
+        {
+            id: 5,
+            isShowed: false,
+            isLoaded: false,
+            file: ''
+        },
+        {
+            id: 6,
+            isShowed: false,
+            isLoaded: false,
+            file: ''
+        },
+        {
+            id: 7,
+            isShowed: false,
+            isLoaded: false,
+            file: ''
+        },
+        {
+            id: 8,
+            isShowed: false,
+            isLoaded: false,
+            file: ''
+        },
+        {
+            id: 9,
+            isShowed: false,
+            isLoaded: false,
+            file: ''
+        },
+    ] as Photo[]);
+    const title = ref('');
+    const description = ref('');
+    const category = ref('Категории:');
+    const price = ref('');
+    const sizes = ref([
+        {
+            id: 0,
+            prop: 'XS',
+            value: ''
+        },
+        {
+            id: 1,
+            prop: 'S',
+            value: ''
+        },
+        {
+            id: 2,
+            prop: 'M',
+            value: ''
+        },
+        {
+            id: 3,
+            prop: 'L',
+            value: ''
+        },
+        {
+            id: 4,
+            prop: 'XL',
+            value: ''
+        }
+    ]);
+
+    const sendPhoto = (id:number) => {
+        const url = new URL('http://79.174.12.75:8000/api/v1/test/');
+
+        // const formData = new FormData();
+        // formData.append('shopItemImg', this.image, 'item.png');
+
+        axios.post(url.toString(), {[`file${id}`]: photos.value[id].file}, {
+            headers: {'Content-Type': 'application/json;charset=utf-8'}
+        })
+    };
+
+    const setPhoto = (event:any) => {
+        const FR = new FileReader();
+
+        FR.addEventListener('load', (event:any) => {
+            photos.value[targetId.value].file = event.target.result;
+            photos.value[targetId.value].isLoaded = true;
+
+            sendPhoto(targetId.value);
+        })
+        FR.readAsDataURL(event.target.files[0]);
+    };
+
+    const getPreviousPhoto = () => {
+
+        photos.value[targetId.value].isShowed = false;
+
+        if(targetId.value === 0) {
+            targetId.value = photos.value.length;
+        }
+
+        targetId.value--;
+
+        photos.value[targetId.value].isShowed = true;
+    };
+
+    const getNextPhoto = () => {
+
+        photos.value[targetId.value].isShowed = false;
+
+        if(targetId.value === photos.value.length - 1) {
+            targetId.value = -1;
+        }
+
+        targetId.value++;
+
+        photos.value[targetId.value].isShowed = true;
+    };
+
+    const addProductCard = () => {
+        console.log(title.value);
+        console.log(description.value);
+        console.log(category.value);
+        console.log(price.value);
+        console.log(sizes.value.map(item => item));
+    };
 </script>
 
 <style lang="scss" scoped>
@@ -399,7 +391,7 @@
                 justify-content: center;
                 flex-wrap: wrap;
                 width: 100%;
-                height: 110px;
+                height: 120px;
                 span {
                     display: flex;
                     justify-content: space-between;
@@ -430,7 +422,7 @@
                         }
                     }
                     .sizesInput {
-                        padding: 0px 10px;
+                        padding: 0 10px;
                         width: 35px;
                         height: 100%;
                         background-color: rgba(158, 158, 158, 0.25);

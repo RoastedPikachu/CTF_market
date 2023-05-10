@@ -1,18 +1,12 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
-import TestPage from '@/pages/TestPage.vue';
-import CreateItemPage from '@/pages/CreateItemPage.vue';
+import AdminPage from '@/pages/AdminPage.vue';
 
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
-    name: 'test',
-    component: TestPage
+    name: 'admin',
+    component: AdminPage
   },
-  {
-    path: '/createItem',
-    name: 'createItem',
-    component: CreateItemPage
-  }
   // {
   //   path: '/about',
   //   name: 'about',
