@@ -29,7 +29,7 @@
 </script>
 
 <style lang="scss" scoped>
-    @import '@/styles/mixins.scss';
+    @import '@/assets/styles/mixins.scss';
 
     main {
         display: flex;
@@ -151,6 +151,7 @@
                     button {
                         width: 200px;
                         height: 50px;
+                        font-size: 18px;
                     }
                 }
                 #SignIn_Register {

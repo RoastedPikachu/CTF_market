@@ -42,7 +42,7 @@
 </script>
 
 <style lang="scss" scoped>
-    @import '@/styles/mixins.scss';
+    @import '@/assets/styles/mixins.scss';
 
     main {
         display: flex;
@@ -123,11 +123,46 @@
             font-size: 14px;
             font-weight: 400;
             font-family: 'DM Sans', sans-serif;
+            text-align: center;
             .route {
                 color: #42d4ba;
                 font-weight: 600;
             }
           }
+        }
+    }
+
+    @media(max-width: 480px) {
+        main {
+            #Register {
+                width: 85%;
+                height: 600px;
+                #Register_Logo {
+                    margin-top: 0px;
+                    margin-left: 10px;
+                    width: 77.5%;
+                    height: 70px;
+                }
+                form {
+                    margin-top: -40px;
+                    height: 440px;
+                    div {
+                        width: 75%;
+                        img {
+                            width: 20px;
+                        }
+                    }
+                    button {
+                        width: 220px;
+                        height: 50px;
+                        font-size: 16px;
+                    }
+                }
+                #Register_SignIn {
+                    width: 75%;
+                    line-height: 22px;
+                }
+            }
         }
     }
 </style>
