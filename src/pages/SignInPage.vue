@@ -6,12 +6,12 @@
           <form>
               <div>
                   <img src="@/assets/emailIcon.svg" alt="Почта">
-                  <input type="text" placeholder="Почта">
+                  <input type="text" placeholder="Почта" v-model="email">
               </div>
 
               <div>
                   <img src="@/assets/passwordIcon.svg" alt="Пароль">
-                  <input type="password" placeholder="Пароль">
+                  <input type="password" placeholder="Пароль" v-model="password">
               </div>
 
               <p>Забыли пароль?</p>
@@ -25,7 +25,10 @@
 </template>
 
 <script setup lang="ts">
+    import { ref } from 'vue';
 
+    const email = ref('');
+    const password = ref('');
 </script>
 
 <style lang="scss" scoped>

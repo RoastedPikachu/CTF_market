@@ -6,27 +6,27 @@
           <form>
               <div>
                   <img src="@/assets/manIcon.svg" alt="Имя">
-                  <input type="text" placeholder="Имя">
+                  <input type="text" placeholder="Имя" v-model="firstName">
               </div>
 
               <div>
                   <img src="@/assets/manIcon.svg" alt="Фамилия">
-                  <input type="text" placeholder="Фамилия">
+                  <input type="text" placeholder="Фамилия" v-model="secondName">
               </div>
 
               <div>
                   <img src="@/assets/emailIcon.svg" alt="Почта">
-                  <input type="text" placeholder="Почта">
+                  <input type="text" placeholder="Почта" v-model="email">
+              </div>
+
+              <div>
+                  <img src="@/assets/phoneIcon.svg" alt="Телефон">
+                  <input type="text" placeholder="Телефон" v-model="phone">
               </div>
 
               <div>
                   <img src="@/assets/passwordIcon.svg" alt="Пароль">
-                  <input type="text" placeholder="Пароль">
-              </div>
-
-              <div>
-                  <img src="@/assets/passwordIcon.svg" alt="Повторите пароль">
-                  <input type="text" placeholder="Повторите пароль">
+                  <input type="text" placeholder="Пароль" v-model="password">
               </div>
 
               <button type="button">Зарегистрироваться</button>
@@ -38,7 +38,13 @@
 </template>
 
 <script setup lang="ts">
+    import { ref } from 'vue';
 
+    const firstName = ref('');
+    const secondName = ref('');
+    const email = ref('');
+    const phone = ref('');
+    const password = ref('');
 </script>
 
 <style lang="scss" scoped>
@@ -98,6 +104,11 @@
                     font-size: 14px;
                     font-weight: 400;
                     font-family: 'DM Sans', sans-serif;
+                }
+            }
+            div:nth-child(4) {
+                img {
+                    margin-top: 4px;
                 }
             }
             button {
