@@ -241,7 +241,8 @@
       width: 70%;
       height: 950px;
       img {
-        height: 30px;
+        width: 25%;
+        height: 50px;
       }
       section {
         margin: 0;

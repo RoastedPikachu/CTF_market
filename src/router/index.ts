@@ -1,12 +1,24 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 import AdminPage from '@/pages/AdminPage.vue';
+import SignInPage from '@/pages/SignInPage.vue';
+import RegistrationPage from '@/pages/RegistrationPage.vue';
 
 const routes: Array<RouteRecordRaw> = [
   {
-    path: '/',
+    path: '/admin',
     name: 'admin',
     component: AdminPage
   },
+  {
+    path: '/signIn',
+    name: 'signIn',
+    component: SignInPage
+  },
+  {
+    path: '/registration',
+    name: 'registration',
+    component: RegistrationPage
+  }
   // {
   //   path: '/about',
   //   name: 'about',
