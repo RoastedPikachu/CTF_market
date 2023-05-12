@@ -29,6 +29,8 @@
 </script>
 
 <style lang="scss" scoped>
+    @import '@/styles/mixins.scss';
+
     main {
         display: flex;
         justify-content: center;
@@ -36,6 +38,7 @@
         width: 100%;
         height: 100vh;
         background-image: url('@/assets/SignInBackground.svg');
+        background-size: cover;
         background-repeat: no-repeat;
         #SignIn {
             display: flex;
@@ -75,13 +78,7 @@
                         width: 22.5px;
                     }
                     input {
-                        padding-top: 4px;
-                        width: calc(100% - 37.5px);
-                        height: calc(100% - 4px);
-                        border: none;
-                        border-radius: 10px;
-                        color: #000000;
-                        outline: none;
+                        @include input(4px, 10px);
                     }
                     ::placeholder {
                         color: #bababa;
@@ -122,9 +119,43 @@
                 font-size: 14px;
                 font-weight: 400;
                 font-family: 'DM Sans', sans-serif;
+                text-align: center;
                 .route {
                     color: #42d4ba;
                     font-weight: 600;
+                }
+            }
+        }
+    }
+
+    @media(max-width: 480px) {
+        main {
+            #SignIn {
+                width: 85%;
+                height: 460px;
+                #SignIn_Logo {
+                    margin-top: 0px;
+                    margin-left: 10px;
+                    width: 77.5%;
+                    height: 70px;
+                }
+                form {
+                    margin-top: -40px;
+                    height: 260px;
+                    div {
+                        width: 75%;
+                        img {
+                            width: 20px;
+                        }
+                    }
+                    button {
+                        width: 200px;
+                        height: 50px;
+                    }
+                }
+                #SignIn_Register {
+                    width: 75%;
+                    line-height: 22px;
                 }
             }
         }

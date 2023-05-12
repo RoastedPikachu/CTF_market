@@ -1,0 +1,9 @@
+@mixin input($pad, $rad) {
+  padding-top: $pad;
+  width: calc(100% - 37.5px);
+  height: calc(100% - 4px);
+  border: none;
+  border-radius: $rad;
+  color: #000000;
+  outline: none;
+}
