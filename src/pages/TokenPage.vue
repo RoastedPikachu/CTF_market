@@ -2,11 +2,15 @@
   <main>
       <div id="Token">
           <img id="Token_Logo" src="@/assets/Logo.svg" alt="CTFmarket">
+
           <form>
               <div>
                   <img src="@/assets/emailIcon.svg" alt="Токен">
                   <input type="text" placeholder="Введите Токен" v-model="token">
               </div>
+
+              <p id="Token_Error" v-if="error">{{ error }}</p>
+
               <button>Отправить</button>
           </form>
       </div>
@@ -17,6 +21,7 @@
     import { ref } from 'vue';
 
     const token = ref('');
+    const error = ref('No token???');
 </script>
 
 <style lang="scss" scoped>
@@ -93,6 +98,14 @@
                     font-weight: 700;
                     font-family: 'DM Sans', sans-serif;
                     cursor: pointer;
+                }
+                #Token_Error {
+                    width: 100%;
+                    color: #fa3e3e;
+                    font-size: 14px;
+                    font-weight: 500;
+                    font-family: 'DM Sans', sans-serif;
+                    text-align: center;
                 }
             }
         }

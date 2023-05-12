@@ -29,6 +29,8 @@
                   <input type="text" placeholder="Пароль" v-model="password">
               </div>
 
+              <p id="Register_Error" v-if="error">{{ error }}</p>
+
               <button type="button">Зарегистрироваться</button>
           </form>
 
@@ -45,6 +47,7 @@
     const email = ref('');
     const phone = ref('');
     const password = ref('');
+    const error = ref('hahahahahahah, Hitler!');
 </script>
 
 <style lang="scss" scoped>
@@ -126,6 +129,14 @@
                 font-weight: 700;
                 font-family: 'DM Sans', sans-serif;
                 cursor: pointer;
+            }
+            #Register_Error {
+                width: 100%;
+                color: #fa3e3e;
+                font-size: 14px;
+                font-weight: 500;
+                font-family: 'DM Sans', sans-serif;
+                text-align: center;
             }
           }
           #Register_SignIn {

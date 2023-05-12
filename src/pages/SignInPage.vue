@@ -14,6 +14,8 @@
                   <input type="password" placeholder="Пароль" v-model="password">
               </div>
 
+              <p id="SignIn_Error" v-if="error">{{ error }}</p>
+
               <p>Забыли пароль?</p>
 
               <button type="button">Войти</button>
@@ -29,6 +31,7 @@
 
     const email = ref('');
     const password = ref('');
+    const error = ref('У тебя хуй видно');
 </script>
 
 <style lang="scss" scoped>
@@ -114,6 +117,14 @@
                     font-weight: 700;
                     font-family: 'DM Sans', sans-serif;
                     cursor: pointer;
+                }
+                #SignIn_Error {
+                    width: 100%;
+                    color: #fa3e3e;
+                    font-size: 14px;
+                    font-weight: 500;
+                    font-family: 'DM Sans', sans-serif;
+                    text-align: center;
                 }
             }
             #SignIn_Register {
