@@ -110,4 +110,31 @@
             }
         }
     }
+
+    @media(max-width: 480px) {
+        main {
+            #Token {
+                #Token_Logo {
+                    margin-top: 0px;
+                    height: 60px;
+                }
+                form {
+                    margin-top: -50px;
+                    height: 160px;
+                    div {
+                        img {
+                            width: 20px;
+                        }
+                        input {
+                            padding-top: 2px;
+                        }
+                    }
+                    button {
+                        height: 45px;
+                        font-size: 18px;
+                    }
+                }
+            }
+        }
+    }
 </style>
