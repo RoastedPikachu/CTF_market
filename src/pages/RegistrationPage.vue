@@ -40,19 +40,36 @@
 </template>
 
 <script setup lang="ts">
+    import { useRouter, useRoute } from 'vue-router';
     import { ref, onMounted } from 'vue';
     import axios from 'axios';
+
+    const router = useRouter();
+    const route = useRoute();
 
     const firstName = ref('');
     const secondName = ref('');
     const email = ref('');
     const phone = ref('');
     const password = ref('');
+    const userId = ref(route.params.id);
     const tgId = ref(0);
     const error = ref('hahahahahahah, Hitler!');
 
     const getDataAboutUserById = () => {
-        const url = new URL('http://79.174.12.75:9999/account/register/');
+        const url = new URL('http://79.174.12.75:9999/account/get_user_data_from_bot_id/');
+
+        axios.post(url.toString(), { user_id: userId.value}, {
+            headers: { 'Content-Type': 'application/json;charset=utf-8' }
+        })
+            .then((res:any) => {
+                firstName.value = res.data.first_name;
+                secondName.value = res.data.last_name;
+                tgId.value = res.data.telegram_id;
+            })
+            .catch((err:any) => {
+                console.log(err);
+            })
     }
 
     const setDataAboutUser = () => {
@@ -67,7 +84,7 @@
             headers: { 'Content-Type': 'application/json;charset=utf-8' }
         })
             .then((res:any) => {
-                console.log(res);
+                router.push(`/signIn/${userId.value}`);
             })
             .catch((error:any) => {
                 console.log(error);
@@ -75,7 +92,7 @@
     }
 
     onMounted(() => {
-
+        getDataAboutUserById();
     });
 </script>
 

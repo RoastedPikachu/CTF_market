@@ -27,8 +27,12 @@
 </template>
 
 <script setup lang="ts">
+    import { useRouter, useRoute } from 'vue-router';
     import { ref } from 'vue';
     import axios from 'axios';
+
+    const router = useRouter();
+    const route = useRoute();
 
     const email = ref('');
     const password = ref('');
@@ -44,7 +48,7 @@
             headers: { 'Content-Type': 'application/json;charset=utf-8' }
         })
             .then((res:any) => {
-                console.log(res);
+                router.push(`/${route.params.id}`);
             })
             .catch((error:any) => {
                 console.log(error);
