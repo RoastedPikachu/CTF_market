@@ -11,17 +11,35 @@
 
               <p id="Token_Error" v-if="error">{{ error }}</p>
 
-              <button>Отправить</button>
+              <button type="button" @click="setToken">Отправить</button>
           </form>
       </div>
   </main>
 </template>
 
 <script setup lang="ts">
+    import { useRouter } from 'vue-router';
     import { ref } from 'vue';
+    import axios from 'axios';
+
+    const router = useRouter();
 
     const token = ref('');
     const error = ref('No token???');
+
+    const setToken = () => {
+        const url = new URL('http://79.174.12.75:9999/account/get_data_from_secret_key/');
+
+        axios.post(url.toString(), { secret_key: 'super_secret_key'}, {
+            headers: { 'Content-Type': 'application/json;charset=utf-8' }
+        })
+            .then((res:any) => {
+                router.push(`/registration/${res.data.id}`);
+            })
+            .catch((error:any) => {
+                console.log(error);
+            })
+    }
 </script>
 
 <style lang="scss" scoped>

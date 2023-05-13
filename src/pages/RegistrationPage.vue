@@ -31,7 +31,7 @@
 
               <p id="Register_Error" v-if="error">{{ error }}</p>
 
-              <button type="button">Зарегистрироваться</button>
+              <button type="button" @click="setDataAboutUser()">Зарегистрироваться</button>
           </form>
 
           <p id="Register_SignIn">У вас уже есть аккаунт? <router-link to="/signIn" class="route">Войти</router-link></p>
@@ -40,14 +40,43 @@
 </template>
 
 <script setup lang="ts">
-    import { ref } from 'vue';
+    import { ref, onMounted } from 'vue';
+    import axios from 'axios';
 
     const firstName = ref('');
     const secondName = ref('');
     const email = ref('');
     const phone = ref('');
     const password = ref('');
+    const tgId = ref(0);
     const error = ref('hahahahahahah, Hitler!');
+
+    const getDataAboutUserById = () => {
+        const url = new URL('http://79.174.12.75:9999/account/register/');
+    }
+
+    const setDataAboutUser = () => {
+        const url = new URL('http://79.174.12.75:9999/account/register/');
+
+        axios.post(url.toString(), {
+            user_id: tgId.value,
+            password: password.value,
+            email: email.value,
+            phone: phone.value
+        }, {
+            headers: { 'Content-Type': 'application/json;charset=utf-8' }
+        })
+            .then((res:any) => {
+                console.log(res);
+            })
+            .catch((error:any) => {
+                console.log(error);
+            })
+    }
+
+    onMounted(() => {
+
+    });
 </script>
 
 <style lang="scss" scoped>

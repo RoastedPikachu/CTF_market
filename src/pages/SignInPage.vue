@@ -18,7 +18,7 @@
 
               <p>Забыли пароль?</p>
 
-              <button type="button">Войти</button>
+              <button type="button" @click="setSignInData()">Войти</button>
           </form>
 
           <p id="SignIn_Register">У вас ещё нет аккаунта? <router-link to="/registration" class="route">Зарегистрироваться</router-link></p>
@@ -28,10 +28,28 @@
 
 <script setup lang="ts">
     import { ref } from 'vue';
+    import axios from 'axios';
 
     const email = ref('');
     const password = ref('');
     const error = ref('У тебя хуй видно');
+
+    const setSignInData = () => {
+        const url = new URL('http://79.174.12.75:9999/account/login/');
+
+        axios.post(url.toString(), {
+            email: email.value,
+            password: password.value
+        }, {
+            headers: { 'Content-Type': 'application/json;charset=utf-8' }
+        })
+            .then((res:any) => {
+                console.log(res);
+            })
+            .catch((error:any) => {
+                console.log(error);
+            })
+    }
 </script>
 
 <style lang="scss" scoped>
