@@ -1,10 +1,16 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
+import HomePage from '@/pages/HomePage.vue';
 import AdminPage from '@/pages/AdminPage.vue';
 import SignInPage from '@/pages/SignInPage.vue';
 import RegistrationPage from '@/pages/RegistrationPage.vue';
 import TokenPage from '@/pages/TokenPage.vue';
 
 const routes: Array<RouteRecordRaw> = [
+  {
+    path: '/:id',
+    name: 'home',
+    component: HomePage
+  },
   {
     path: '/admin',
     name: 'admin',
