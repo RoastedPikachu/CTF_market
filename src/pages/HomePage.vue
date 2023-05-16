@@ -1,10 +1,18 @@
 <template>
-  <main>
-    <img src="@/assets/SignInBackground.svg" alt="Задний фон">
-  </main>
+    <TheHeaderComp/>
+
+    <main>
+        <img src="@/assets/HomeBgText.svg" alt="CTFMarket. Летняя школа CTF 2023">
+        <img src="@/assets/SignInBackground.svg" alt="Задний фон">
+    </main>
+
+    <TheFooterComp/>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+  import TheHeaderComp from '@/widgets/shared/TheHeaderComp.vue';
+  import TheFooterComp from '@/widgets/shared/TheFooterComp.vue';
+
 
 </script>
 

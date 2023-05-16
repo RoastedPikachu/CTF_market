@@ -1,20 +1,26 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 import HomePage from '@/pages/HomePage.vue';
 import AdminPage from '@/pages/AdminPage.vue';
+import ShopItemsPage from '@/pages/ShopItemsPage.vue';
 import SignInPage from '@/pages/SignInPage.vue';
 import RegistrationPage from '@/pages/RegistrationPage.vue';
 import TokenPage from '@/pages/TokenPage.vue';
 
 const routes: Array<RouteRecordRaw> = [
   {
-    path: '/:id',
+    path: '/',
     name: 'home',
     component: HomePage
   },
   {
-    path: '/admin',
+    path: '/admin/createShopItem',
     name: 'admin',
     component: AdminPage
+  },
+  {
+    path: '/shopItems',
+    name: 'shopItems',
+    component: ShopItemsPage
   },
   {
     path: '/signIn/:id',
