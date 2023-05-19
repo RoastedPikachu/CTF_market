@@ -84,7 +84,7 @@
             headers: { 'Content-Type': 'application/json;charset=utf-8' }
         })
             .then((res:any) => {
-                router.push(`/signIn/${userId.value}`);
+                router.push(`/signIn`);
             })
             .catch((error:any) => {
                 console.log(error);

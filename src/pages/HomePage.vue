@@ -10,10 +10,8 @@
 </template>
 
 <script setup lang="ts">
-  import TheHeaderComp from '@/widgets/shared/TheHeaderComp.vue';
-  import TheFooterComp from '@/widgets/shared/TheFooterComp.vue';
-
-
+    import TheHeaderComp from '@/widgets/shared/TheHeaderComp.vue';
+    import TheFooterComp from '@/widgets/shared/TheFooterComp.vue';
 </script>
 
 <style lang="scss" scoped>

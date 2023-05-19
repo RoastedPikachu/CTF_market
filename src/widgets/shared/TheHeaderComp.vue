@@ -1,23 +1,137 @@
 <template>
   <header>
       <img src="" alt="Профиль" id="ProfileImg">
+
       <nav>
-          <router-link to="/" class="route">Главная</router-link>
-          <router-link to="/shopItems" class="route">Товары</router-link>
-          <router-link to="/signIn" class="route">Вход</router-link>
+          <router-link :to="{ name: 'home', params: { token: route.params.token }}" class="route">Главная</router-link>
+          <router-link :to="{ name: 'shopItems', params: { token: route.params.token }}" class="route">Товары</router-link>
+          <router-link :to="{ name: 'signIn', params: { token: route.params.token }}" class="route">Вход</router-link>
           <router-link to="/token" class="route">Регистрация</router-link>
       </nav>
+
       <span>
-          <img src="@/assets/shoppingCartIcon.svg" alt="Корзина">
+          <img src="@/assets/shoppingCartIcon.svg" alt="Корзина" @click="isModalShoppingCartActive = !isModalShoppingCartActive">
+
           <p>{{ countOfPoints }}</p>
       </span>
+
+      <div id="ModalShoppingCart" v-if="isModalShoppingCartActive">
+          <span>
+              <img src="@/assets/arrowRightIcon.svg" alt="Назад" @click="isModalShoppingCartActive = !isModalShoppingCartActive">
+
+              <p>Корзина</p>
+
+              <img src="@/assets/binIcon.svg" alt="Очистить корзину" @click="shoppingCartItems = []">
+          </span>
+
+          <div id="shoppingCartItemsWrapper">
+              <div class="shoppingCartItem" v-for="shoppingCartItem of shoppingCartItems" :key="shoppingCartItem.id">
+                  <img src="@/assets/shoppingCartItem.svg" :alt="shoppingCartItem.title" class="shoppingCartItemImage">
+
+                  <div class="shoppingCartItem_Right">
+                  <span>
+                      <p>{{ shoppingCartItem.title }}</p>
+
+                      <p>{{ shoppingCartItem.cost }} баллов</p>
+                  </span>
+
+                      <div>
+                      <span>
+                          <button @click="shoppingCartItem.count--">&mdash;</button>
+
+                          <p>{{ shoppingCartItem.count }}</p>
+
+                          <button @click="shoppingCartItem.count++">+</button>
+                      </span>
+
+                          <img src="@/assets/itemBinIcon.svg" alt="Удалить" @click="delShoppingCartItem(shoppingCartItem.id)">
+                      </div>
+                  </div>
+              </div>
+          </div>
+
+          <div id="ShoppingCart_Bottom">
+              <span id="ShoppingCart_BottomBalance">
+                  <p>Баланс</p>
+
+                  <p>{{ balance }} баллов</p>
+              </span>
+
+              <span>
+                  <p>К ОПЛАТЕ</p>
+
+                  <p>{{ totalCost }} баллов</p>
+              </span>
+
+              <input type="text" placeholder="Введите адрес" v-model="address">
+
+              <button>
+                  Оплатить
+                  <img src="@/assets/arrowRightIcon.svg" alt="Оплатить">
+              </button>
+          </div>
+      </div>
   </header>
 </template>
 
 <script lang="ts" setup>
-  import { ref } from 'vue';
+  import { useRoute } from 'vue-router';
+  import { ref, onMounted } from 'vue';
 
+  interface ShoppingCartItem {
+      id: number;
+      image: string;
+      title: string;
+      cost: number;
+      count: number;
+  }
+
+  const route = useRoute();
+
+  const isModalShoppingCartActive = ref(false);
   const countOfPoints = ref(0);
+  const shoppingCartItems = ref([
+      {
+          id: 1,
+          image: '',
+          title: 'Наушники для жопы',
+          cost: 270,
+          count: 100
+      },
+      {
+          id: 2,
+          image: '',
+          title: 'sgsgsgsdgsggs',
+          cost: 200,
+          count: 100
+      },
+      {
+          id: 3,
+          image: '',
+          title: 'Чё-то умное',
+          cost: 370,
+          count: 100
+      },
+      {
+          id: 4,
+          image: '',
+          title: 'Чё-то умное',
+          cost: 370,
+          count: 100
+      },
+  ] as ShoppingCartItem[]);
+  const balance = ref(0);
+  const totalCost = ref(0);
+  const address = ref('');
+
+  onMounted(() => {
+      const accumArr = shoppingCartItems.value.map(item => item.cost);
+      totalCost.value = accumArr.reduce((accum, item) => accum += item);
+  });
+
+  const delShoppingCartItem = (id:number) => {
+      shoppingCartItems.value = shoppingCartItems.value.filter(item => item.id != id);
+  }
 </script>
 
 <style lang="scss" scoped>
@@ -29,8 +143,8 @@
     width: 90%;
     height: 100px;
     #ProfileImg {
-      width: 40px;
-      height: 40px;
+      width: 50px;
+      height: 50px;
       background-color: #747474;
       border-radius: 10px;
     }
@@ -60,9 +174,186 @@
         margin-left: 10px;
         color: #ffffff;
         font-size: 24px;
-        font-weight: 500;
+        font-weight: 400;
         font-family: 'Montserrat', sans-serif;
       }
+    }
+    #ModalShoppingCart {
+        position: absolute;
+        top: 70px;
+        right: 5%;
+        padding: 20px 35px;
+        width: 305px;
+        height: 750px;
+        background-color: #1e1e1e;
+        border: 2px solid rgba(255, 255, 255, 0.2);
+        border-radius: 20px;
+        z-index: 10;
+        span {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            height: 70px;
+            img:first-child {
+                width: 20px;
+                height: 22px;
+                transform: rotate(180deg);
+            }
+            img:last-child {
+                width: 26px;
+            }
+            p {
+                color: #ffffff;
+                font-size: 18px;
+                font-weight: 700;
+                font-family: 'Montserrat', 'sans-serif';
+            }
+        }
+        #shoppingCartItemsWrapper {
+            margin-top: 20px;
+            width: 100%;
+            height: auto;
+            min-height: 440px;
+            .shoppingCartItem {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-top: 20px;
+                width: 100%;
+                height: 85px;
+                .shoppingCartItemImage {
+                    width: 85px;
+                    height: 100%;
+                    background-color: #ffffff;
+                    border-radius: 10px;
+                }
+                .shoppingCartItem_Right {
+                    width: 67.5%;
+                    height: 100%;
+                    span {
+                        display: flex;
+                        align-items: center;
+                        flex-wrap: wrap;
+                        width: 100%;
+                        height: 50%;
+                        p {
+                            margin-left: 0;
+                            width: 100%;
+                            color: #ffffff;
+                            font-size: 16px;
+                            font-weight: 500;
+                            font-family: 'DM Sans', sans-serif;
+                        }
+                        p:last-child {
+                            font-size: 14px;
+                            font-weight: 700;
+                        }
+                    }
+                    div {
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                        margin-top: 5px;
+                        width: 100%;
+                        height: 50%;
+                        span {
+                            display: flex;
+                            justify-content: space-between;
+                            align-items: center;
+                            flex-wrap: nowrap;
+                            width: 60%;
+                            height: 100%;
+                            button {
+                                display: flex;
+                                justify-content: center;
+                                align-items: center;
+                                width: 60px;
+                                height: 30px;
+                                background-color: #ffffff;
+                                border: none;
+                                border-radius: 10px;
+                                font-size: 18px;
+                                cursor: pointer;
+                            }
+                            button:last-child {
+                                font-size: 22px;
+                            }
+                            p {
+                                text-align: center;
+                            }
+                        }
+                        img {
+                            cursor: pointer;
+                        }
+                    }
+                }
+            }
+            .shoppingCartItem:first-child {
+                margin-top: 0;
+            }
+        }
+        #ShoppingCart_Bottom {
+            margin-top: 10px;
+            width: 100%;
+            height: 210px;
+            span {
+                height: 40px;
+                p {
+                    margin-left: 0;
+                    color: rgba(255, 255, 255, 0.6);
+                    font-size: 24px;
+                    font-weight: 700;
+                    font-family: 'DM Sans', sans-serif;
+                }
+                p:last-child {
+                    color: #ffffff;
+                    font-size: 16px;
+                }
+            }
+            #ShoppingCart_BottomBalance {
+                p {
+                    font-size: 16px;
+                }
+            }
+            input {
+                margin-top: 10px;
+                padding: 0 20px;
+                width: calc(100% - 44px);
+                height: 41px;
+                background-color: #434343;
+                border: 1px solid rgba(255, 255, 255, 0.6);
+                border-radius: 10px;
+                color: #bababa;
+                font-size: 14px;
+                font-weight: 700;
+                font-family: 'DM Sans', sans-serif;
+                outline: none;
+            }
+            ::placeholder {
+                color: #bababa;
+                font-size: 14px;
+                font-weight: 700;
+                font-family: 'DM Sans', sans-serif;
+            }
+            button {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-top: 10px;
+                padding: 0 20px;
+                width: 100%;
+                height: 50px;
+                background-color: #42d4ba;
+                border: none;
+                border-radius: 10px;
+                color: #ffffff;
+                font-size: 16px;
+                font-weight: 700;
+                font-family: 'DM Sans', sans-serif;
+                cursor: pointer;
+            }
+        }
     }
   }
 </style>

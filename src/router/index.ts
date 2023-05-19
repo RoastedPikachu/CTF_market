@@ -8,22 +8,22 @@ import TokenPage from '@/pages/TokenPage.vue';
 
 const routes: Array<RouteRecordRaw> = [
   {
-    path: '/',
+    path: '/:token?',
     name: 'home',
     component: HomePage
   },
   {
-    path: '/admin/createShopItem',
+    path: '/admin/createShopItem/:token?',
     name: 'admin',
     component: AdminPage
   },
   {
-    path: '/shopItems',
+    path: '/shopItems/:token?',
     name: 'shopItems',
     component: ShopItemsPage
   },
   {
-    path: '/signIn/:id',
+    path: '/signIn',
     name: 'signIn',
     component: SignInPage
   },

@@ -4,6 +4,7 @@
 
 <style lang="scss">
   @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Montserrat:wght@300;400;500;600;700&display=swap');
+  @import url('@/assets/fonts/ruberoid/stylesheet.css');
   @import "normalize-scss/sass/normalize/import-now";
 
   * {
