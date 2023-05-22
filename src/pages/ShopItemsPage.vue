@@ -75,7 +75,7 @@
                       <p>От {{ shopItem.deliveryTime }}</p>
                   </span>
 
-                  <button>
+                  <button @click="addItemToShoppingCart(shopItem)">
                       Подробнее
                       <img src="@/assets/arrowRightIcon.svg" alt="Подробнее">
                   </button>
@@ -89,6 +89,7 @@
 
 <script lang="ts" setup>
   import { ref } from 'vue';
+  import store from '@/store';
   import TheHeaderComp from '@/widgets/shared/TheHeaderComp.vue';
   import TheFooterComp from '@/widgets/shared/TheFooterComp.vue';
 
@@ -195,6 +196,16 @@
 
   const minPrice = ref('');
   const maxPrice = ref('');
+
+  const addItemToShoppingCart = (item:ShopItem) => {
+      store.dispatch('addItemToShoppingCart', {
+          id: item.id,
+          image: item.image,
+          title: item.title,
+          cost: item.price,
+          count: 1
+      });
+  }
 </script>
 
 <style lang="scss" scoped>

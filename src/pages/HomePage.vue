@@ -2,8 +2,13 @@
     <TheHeaderComp/>
 
     <main>
-        <img src="@/assets/HomeBgText.svg" alt="CTFMarket. Летняя школа CTF 2023">
-        <img src="@/assets/SignInBackground.svg" alt="Задний фон">
+        <img src="@/assets/topLogoText.svg" alt="CTFMarket" id="TopLogoText">
+
+        <div id="MovingImgWrapper">
+            <img src="@/assets/bottomLogoText.svg" alt="Летняя школа CTF 2023" id="BottomLogoText">
+
+            <img src="@/assets/SignInBackground.svg" alt="Задний фон">
+        </div>
     </main>
 
     <TheFooterComp/>
@@ -22,5 +27,27 @@
       width: 100%;
       background-size: cover;
     }
+    #MovingImgWrapper {
+        width: 100%;
+        overflow: hidden;
+    }
+  }
+
+  @keyframes slide{
+    from {
+        margin-left: -50vw;
+    }
+    to {
+        margin-left: -150vw;
+    }
+  }
+
+  @keyframes slideBack{
+      from {
+          margin-left: 0;
+      }
+      to {
+          margin-left: 100vw;
+      }
   }
 </style>

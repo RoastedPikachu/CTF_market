@@ -21,7 +21,7 @@
 
               <p>Корзина</p>
 
-              <img src="@/assets/binIcon.svg" alt="Очистить корзину" @click="shoppingCartItems = []">
+              <img src="@/assets/binIcon.svg" alt="Очистить корзину" @click="clearShoppingCart()">
           </span>
 
           <div id="shoppingCartItemsWrapper">
@@ -37,14 +37,14 @@
 
                       <div>
                       <span>
-                          <button @click="shoppingCartItem.count--">&mdash;</button>
+                          <button @click="decreaseShoppingCartItemCount(shoppingCartItem)">&mdash;</button>
 
                           <p>{{ shoppingCartItem.count }}</p>
 
-                          <button @click="shoppingCartItem.count++">+</button>
+                          <button @click="increaseShoppingCartItemCount(shoppingCartItem)">+</button>
                       </span>
 
-                          <img src="@/assets/itemBinIcon.svg" alt="Удалить" @click="delShoppingCartItem(shoppingCartItem.id)">
+                          <img src="@/assets/itemBinIcon.svg" alt="Удалить" @click="removeShoppingCartItem(shoppingCartItem.id)">
                       </div>
                   </div>
               </div>
@@ -65,7 +65,7 @@
 
               <input type="text" placeholder="Введите адрес" v-model="address">
 
-              <button>
+              <button :class="{ active: isPointsEnough }">
                   Оплатить
                   <img src="@/assets/arrowRightIcon.svg" alt="Оплатить">
               </button>
@@ -76,61 +76,63 @@
 
 <script lang="ts" setup>
   import { useRoute } from 'vue-router';
-  import { ref, onMounted } from 'vue';
-
-  interface ShoppingCartItem {
-      id: number;
-      image: string;
-      title: string;
-      cost: number;
-      count: number;
-  }
+  import { ref, onMounted, watch } from 'vue';
+  import store from '@/store';
 
   const route = useRoute();
 
   const isModalShoppingCartActive = ref(false);
+  const isPointsEnough = ref(false);
   const countOfPoints = ref(0);
-  const shoppingCartItems = ref([
-      {
-          id: 1,
-          image: '',
-          title: 'Наушники для жопы',
-          cost: 270,
-          count: 100
-      },
-      {
-          id: 2,
-          image: '',
-          title: 'sgsgsgsdgsggs',
-          cost: 200,
-          count: 100
-      },
-      {
-          id: 3,
-          image: '',
-          title: 'Чё-то умное',
-          cost: 370,
-          count: 100
-      },
-      {
-          id: 4,
-          image: '',
-          title: 'Чё-то умное',
-          cost: 370,
-          count: 100
-      },
-  ] as ShoppingCartItem[]);
-  const balance = ref(0);
+  const shoppingCartItems = ref(store.state.shoppingCart);
+  const balance = ref(30000);
   const totalCost = ref(0);
   const address = ref('');
 
   onMounted(() => {
-      const accumArr = shoppingCartItems.value.map(item => item.cost);
-      totalCost.value = accumArr.reduce((accum, item) => accum += item);
-  });
+      if(shoppingCartItems.value.length) {
+          const accumArr = shoppingCartItems.value.map(item => +item.cost);
+          totalCost.value = accumArr.reduce((accum, item) => accum += item);
+      } else {
+          totalCost.value = 0;
+      }
 
-  const delShoppingCartItem = (id:number) => {
-      shoppingCartItems.value = shoppingCartItems.value.filter(item => item.id != id);
+      isPointsEnough.value = totalCost.value < balance.value;
+  })
+
+  watch(() => store.state.shoppingCart, () => {
+      shoppingCartItems.value = store.state.shoppingCart;
+
+      if(shoppingCartItems.value.length) {
+          const accumArr = shoppingCartItems.value.map(item => +item.cost);
+          totalCost.value = accumArr.reduce((accum, item) => accum += item);
+      } else {
+          totalCost.value = 0;
+      }
+
+      isPointsEnough.value = totalCost.value < balance.value;
+  }, {deep: true});
+
+  const removeShoppingCartItem = (id:number) => {
+      store.dispatch('removeItemFromShoppingCart', id);
+  }
+
+  const clearShoppingCart = () => {
+      store.dispatch('clearShoppingCart');
+  }
+
+  const increaseShoppingCartItemCount = (item:any) => {
+      item.count++;
+      store.dispatch('changeItemFromShoppingCart', item);
+  }
+
+  const decreaseShoppingCartItemCount = (item:any) => {
+      if(item.count > 1) {
+          item.count--;
+          store.dispatch('changeItemFromShoppingCart', item);
+      } else {
+          store.dispatch('removeItemFromShoppingCart', item.id);
+      }
   }
 </script>
 
@@ -344,7 +346,7 @@
                 padding: 0 20px;
                 width: 100%;
                 height: 50px;
-                background-color: #42d4ba;
+                background-color: #434343;
                 border: none;
                 border-radius: 10px;
                 color: #ffffff;
@@ -352,6 +354,9 @@
                 font-weight: 700;
                 font-family: 'DM Sans', sans-serif;
                 cursor: pointer;
+            }
+            .active {
+                background-color: #42d4ba;
             }
         }
     }

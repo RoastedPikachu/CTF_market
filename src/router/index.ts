@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 import HomePage from '@/pages/HomePage.vue';
-import AdminPage from '@/pages/AdminPage.vue';
+import AdminCreateItemPage from '@/pages/AdminCreateItemPage.vue';
+import AdminWatchForOrdersPage from '@/pages/AdminWatchForOrdersPage.vue';
 import ShopItemsPage from '@/pages/ShopItemsPage.vue';
 import SignInPage from '@/pages/SignInPage.vue';
 import RegistrationPage from '@/pages/RegistrationPage.vue';
@@ -14,8 +15,13 @@ const routes: Array<RouteRecordRaw> = [
   },
   {
     path: '/admin/createShopItem/:token?',
-    name: 'admin',
-    component: AdminPage
+    name: 'adminCreate',
+    component: AdminCreateItemPage
+  },
+  {
+    path: '/admin/watchForOrders',
+    name: 'adminWatch',
+    component: AdminWatchForOrdersPage
   },
   {
     path: '/shopItems/:token?',
