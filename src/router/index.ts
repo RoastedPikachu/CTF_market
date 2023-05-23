@@ -3,9 +3,9 @@ import HomePage from '@/pages/HomePage.vue';
 import AdminCreateItemPage from '@/pages/AdminCreateItemPage.vue';
 import AdminWatchForOrdersPage from '@/pages/AdminWatchForOrdersPage.vue';
 import ShopItemsPage from '@/pages/ShopItemsPage.vue';
+import ShopItemPage from '@/pages/ShopItemPage.vue';
 import SignInPage from '@/pages/SignInPage.vue';
 import RegistrationPage from '@/pages/RegistrationPage.vue';
-import TokenPage from '@/pages/TokenPage.vue';
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -29,20 +29,20 @@ const routes: Array<RouteRecordRaw> = [
     component: ShopItemsPage
   },
   {
+    path: '/shopItem/:token?',
+    name: 'shopItem',
+    component: ShopItemPage
+  },
+  {
     path: '/signIn',
     name: 'signIn',
     component: SignInPage
   },
   {
-    path: '/registration/:id',
+    path: '/registration',
     name: 'registration',
     component: RegistrationPage
   },
-  {
-    path: '/token',
-    name: 'token',
-    component: TokenPage
-  }
   // {
   //   path: '/about',
   //   name: 'about',

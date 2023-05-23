@@ -6,7 +6,7 @@
           <router-link :to="{ name: 'home', params: { token: route.params.token }}" class="route">Главная</router-link>
           <router-link :to="{ name: 'shopItems', params: { token: route.params.token }}" class="route">Товары</router-link>
           <router-link :to="{ name: 'signIn', params: { token: route.params.token }}" class="route">Вход</router-link>
-          <router-link to="/token" class="route">Регистрация</router-link>
+          <router-link to="/registration" class="route">Регистрация</router-link>
       </nav>
 
       <span>

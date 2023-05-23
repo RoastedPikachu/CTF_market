@@ -5,13 +5,13 @@
 
           <form>
               <div>
-                  <img src="@/assets/manIcon.svg" alt="Имя">
-                  <input type="text" placeholder="Имя" v-model="firstName">
+                  <img src="@/assets/manIcon.svg" alt="ФИО">
+                  <input type="text" placeholder="ФИО" v-model="name">
               </div>
 
               <div>
-                  <img src="@/assets/manIcon.svg" alt="Фамилия">
-                  <input type="text" placeholder="Фамилия" v-model="secondName">
+                  <img src="@/assets/emailIcon.svg" alt="Токен">
+                  <input type="text" placeholder="Введите Токен" v-model="token">
               </div>
 
               <div>
@@ -47,8 +47,8 @@
     const router = useRouter();
     const route = useRoute();
 
-    const firstName = ref('');
-    const secondName = ref('');
+    const name = ref('');
+    const token = ref('');
     const email = ref('');
     const phone = ref('');
     const password = ref('');
@@ -63,8 +63,6 @@
             headers: { 'Content-Type': 'application/json;charset=utf-8' }
         })
             .then((res:any) => {
-                firstName.value = res.data.first_name;
-                secondName.value = res.data.last_name;
                 tgId.value = res.data.telegram_id;
             })
             .catch((err:any) => {
