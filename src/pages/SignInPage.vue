@@ -14,7 +14,7 @@
                   <input type="password" placeholder="Пароль" v-model="password">
               </div>
 
-              <p id="SignIn_Error" v-if="error">{{ error }}</p>
+              <p id="SignIn_Error" v-if="errorMess">{{ errorMess }}</p>
 
               <p>Забыли пароль?</p>
 
@@ -35,23 +35,42 @@
 
     const email = ref('');
     const password = ref('');
-    const error = ref('У тебя хуй видно');
+    const errorMess = ref('');
 
     const setSignInData = () => {
-        const url = new URL('http://79.174.12.75:9999/account/login/');
+        const url = new URL('http://79.174.12.75:2323/account/auth/login/');
 
         axios.post(url.toString(), {
-            email: email.value,
-            password: password.value
+            password: password.value,
+            email: email.value
         }, {
             headers: { 'Content-Type': 'application/json;charset=utf-8' }
         })
             .then((res:any) => {
-                document.cookie =`token=${res.data.token}; path=/; max-age=2592000; secure=true`;
-                router.push(`/${res.data.token}`);
+                if(res.data.error) {
+                    throw res.data.error;
+                } else {
+                    document.cookie =`token=${res.data.token}; path=/; max-age=2592000; secure=true`;
+                    router.push(`/`);
+                }
             })
             .catch((error:any) => {
-                console.log(error);
+                switch(error) {
+                    case 5: errorMess.value = 'Заполните поле "пароль"';
+                        break;
+
+                    case 6: errorMess.value = 'Заполните поле "почта"';
+                        break;
+
+                    case 8: errorMess.value = 'Пользователь с такой почтой не найден';
+                        break;
+
+                    case 9: errorMess.value = 'Неверный пароль';
+                        break;
+
+                    case 0: errorMess.value = 'Неизвестная ошибка';
+                        break;
+                }
             })
     }
 </script>

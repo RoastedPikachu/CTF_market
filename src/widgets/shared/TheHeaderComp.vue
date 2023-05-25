@@ -13,6 +13,8 @@
           <img src="@/assets/shoppingCartIcon.svg" alt="Корзина" @click="isModalShoppingCartActive = !isModalShoppingCartActive">
 
           <p>{{ countOfPoints }}</p>
+
+          <img src="@/assets/ctfCoinIcon.svg" alt="CTFCoin">
       </span>
 
       <div id="ModalShoppingCart" v-if="isModalShoppingCartActive">
@@ -60,7 +62,7 @@
               <span>
                   <p>К ОПЛАТЕ</p>
 
-                  <p>{{ totalCost }} баллов</p>
+                  <p>{{ totalCost }}</p>
               </span>
 
               <input type="text" placeholder="Введите адрес" v-model="address">
@@ -138,12 +140,15 @@
 
 <style lang="scss" scoped>
   header {
+    position: fixed;
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin: 0 5%;
     width: 90%;
     height: 100px;
+    background-color: #1e1e1e;
+    z-index: 10;
     #ProfileImg {
       width: 50px;
       height: 50px;
@@ -167,9 +172,9 @@
       display: flex;
       justify-content: flex-start;
       align-items: center;
-      width: 5%;
+      width: 10%;
       img {
-        width: 40%;
+        width: 25%;
         cursor: pointer;
       }
       p {

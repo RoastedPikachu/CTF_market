@@ -9,12 +9,6 @@
               <img src="@/assets/filterIcon.svg" alt="Фильтры">
               Фильтры
           </button>
-
-<!--          <p>Категория</p>-->
-
-<!--          <p>Размеры</p>-->
-
-<!--          <p>Цена</p>-->
       </div>
 
       <Transition>
@@ -67,18 +61,18 @@
 
       <section id="ShopItemsContainer">
           <div class="shopItem" v-for="shopItem of shopItems" :key="shopItem.id">
-              <img src="@/assets/testShopItem.svg" :alt="shopItem.title" class="shopItemImage">
+              <img :src="shopItem.images[0]" :alt="shopItem.title" class="shopItemImage">
 
               <div>
                   <span>
                       <p>От {{ shopItem.price }}&#8381;</p>
-                      <p>От {{ shopItem.deliveryTime }}</p>
+                      <p>{{ shopItem.description.slice(0, 21) + '&#8230;' }}</p>
                   </span>
 
-                  <button @click="addItemToShoppingCart(shopItem)">
+                  <router-link :to="{ name: 'shopItem', params: { id: shopItem.id } }" class="routeMoreButton">
                       Подробнее
                       <img src="@/assets/arrowRightIcon.svg" alt="Подробнее">
-                  </button>
+                  </router-link>
               </div>
           </div>
       </section>
@@ -88,8 +82,9 @@
 </template>
 
 <script lang="ts" setup>
-  import { ref } from 'vue';
+  import { ref, onMounted } from 'vue';
   import store from '@/store';
+  import axios from 'axios';
   import TheHeaderComp from '@/widgets/shared/TheHeaderComp.vue';
   import TheFooterComp from '@/widgets/shared/TheFooterComp.vue';
 
@@ -97,8 +92,8 @@
       id: number,
       title: string,
       price: string,
-      deliveryTime: string,
-      image: string
+      description: string,
+      images: string[]
   }
 
   interface Category {
@@ -114,36 +109,7 @@
   }
 
   const isModalFilterActive = ref(false);
-  const shopItems = ref([
-      {
-          id: 0,
-          title: 'Футболочка',
-          price: '10000',
-          deliveryTime: '15 дней',
-          image: ''
-      },
-      {
-          id: 1,
-          title: 'Футболочка',
-          price: '10000',
-          deliveryTime: '15 дней',
-          image: ''
-      },
-      {
-          id: 2,
-          title: 'Футболочка',
-          price: '10000',
-          deliveryTime: '15 дней',
-          image: ''
-      },
-      {
-          id: 3,
-          title: 'Футболочка',
-          price: '10000',
-          deliveryTime: '15 дней',
-          image: ''
-      }
-  ] as ShopItem[]);
+  const shopItems = ref([] as ShopItem[]);
   const categories = ref([
       {
           id: 1,
@@ -206,6 +172,28 @@
           count: 1
       });
   }
+
+  const getShopItems = (start:number, stop:number) => {
+      const url = new URL('http://79.174.12.75:2323/product/get/many/');
+
+      axios.post(url.toString(), {
+          start: start,
+          stop: stop
+      }, {
+            headers: { 'Content-Type': 'application/json;charset=utf-8' }
+      })
+          .then((res) => {
+              shopItems.value = Object.values(res.data);
+              console.log(shopItems.value);
+          })
+          .catch((err) => {
+              console.log(err);
+          })
+  }
+
+  onMounted(() => {
+      getShopItems(0, 10);
+  })
 </script>
 
 <style lang="scss" scoped>
@@ -215,6 +203,7 @@
     min-height: 1300px;
     height: auto;
     #ShopItemsLogo {
+      margin-top: 100px;
       width: 50%;
       height: 150px;
     }
@@ -431,6 +420,7 @@
               height: 340px;
               background-color: #ffffff;
               border-radius: 30px;
+              background-size: cover;
           }
           div {
               display: flex;
@@ -442,9 +432,10 @@
                   display: flex;
                   align-items: center;
                   flex-wrap: wrap;
-                  width: 40%;
+                  width: 45%;
                   height: 55px;
                   p {
+                      width: 100%;
                       font-weight: 500;
                       font-family: 'Ruberoid', sans-serif;
                   }
@@ -457,7 +448,7 @@
                       font-size: 16px;
                   }
               }
-              button {
+              .routeMoreButton {
                   display: flex;
                   justify-content: center;
                   align-items: center;
@@ -472,6 +463,7 @@
                   font-size: 16px;
                   font-weight: 500;
                   font-family: 'Ruberoid', sans-serif;
+                  text-decoration: none;
                   cursor: pointer;
                   img {
                       margin-left: 10px;

@@ -9,12 +9,12 @@ import RegistrationPage from '@/pages/RegistrationPage.vue';
 
 const routes: Array<RouteRecordRaw> = [
   {
-    path: '/:token?',
+    path: '/',
     name: 'home',
     component: HomePage
   },
   {
-    path: '/admin/createShopItem/:token?',
+    path: '/admin/createShopItem/',
     name: 'adminCreate',
     component: AdminCreateItemPage
   },
@@ -24,12 +24,12 @@ const routes: Array<RouteRecordRaw> = [
     component: AdminWatchForOrdersPage
   },
   {
-    path: '/shopItems/:token?',
+    path: '/shopItems/',
     name: 'shopItems',
     component: ShopItemsPage
   },
   {
-    path: '/shopItem/:token?',
+    path: '/shopItem/:id',
     name: 'shopItem',
     component: ShopItemPage
   },

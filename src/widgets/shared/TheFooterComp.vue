@@ -2,6 +2,7 @@
   <footer>
       <div id="BlurContacts">
           <h2>КОНТАКТЫ</h2>
+
           <p>КОНТАКТЫ</p>
       </div>
   </footer>

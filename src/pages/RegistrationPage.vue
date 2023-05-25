@@ -10,7 +10,7 @@
               </div>
 
               <div>
-                  <img src="@/assets/emailIcon.svg" alt="Токен">
+                  <img src="@/assets/passwordIcon.svg" alt="Токен">
                   <input type="text" placeholder="Введите Токен" v-model="token">
               </div>
 
@@ -29,7 +29,7 @@
                   <input type="text" placeholder="Пароль" v-model="password">
               </div>
 
-              <p id="Register_Error" v-if="error">{{ error }}</p>
+              <p id="Register_Error" v-if="errorMess">{{ errorMess }}</p>
 
               <button type="button" @click="setDataAboutUser()">Зарегистрироваться</button>
           </form>
@@ -40,41 +40,24 @@
 </template>
 
 <script setup lang="ts">
-    import { useRouter, useRoute } from 'vue-router';
-    import { ref, onMounted } from 'vue';
+    import { useRouter } from 'vue-router';
+    import { ref } from 'vue';
     import axios from 'axios';
 
     const router = useRouter();
-    const route = useRoute();
 
     const name = ref('');
     const token = ref('');
     const email = ref('');
     const phone = ref('');
     const password = ref('');
-    const userId = ref(route.params.id);
-    const tgId = ref(0);
-    const error = ref('hahahahahahah, Hitler!');
-
-    const getDataAboutUserById = () => {
-        const url = new URL('http://79.174.12.75:9999/account/get_user_data_from_bot_id/');
-
-        axios.post(url.toString(), { user_id: userId.value}, {
-            headers: { 'Content-Type': 'application/json;charset=utf-8' }
-        })
-            .then((res:any) => {
-                tgId.value = res.data.telegram_id;
-            })
-            .catch((err:any) => {
-                console.log(err);
-            })
-    }
+    const errorMess = ref('');
 
     const setDataAboutUser = () => {
-        const url = new URL('http://79.174.12.75:9999/account/register/');
+        const url = new URL('http://79.174.12.75:2323/account/auth/register/');
 
         axios.post(url.toString(), {
-            user_id: tgId.value,
+            secret_key: token,
             password: password.value,
             email: email.value,
             phone: phone.value
@@ -82,16 +65,37 @@
             headers: { 'Content-Type': 'application/json;charset=utf-8' }
         })
             .then((res:any) => {
-                router.push(`/signIn`);
+                if(res.data.error) {
+                    throw res.data.error;
+                } else {
+                    router.push(`/signIn`);
+                }
             })
             .catch((error:any) => {
-                console.log(error);
+                switch(error) {
+                    case 2: errorMess.value = 'Пользователь по такому токену не найден';
+                        break;
+
+                    case 3: errorMess.value = 'Пользователь с таким токеном уже существует';
+                        break;
+
+                    case 4: errorMess.value = 'Заполните поле "токен"';
+                        break;
+
+                    case 5: errorMess.value = 'Заполните поле "пароль"';
+                        break;
+
+                    case 6: errorMess.value = 'Заполните поле "почта"';
+                        break;
+
+                    case 7: errorMess.value = 'Заполните поле "телефон"';
+                        break;
+
+                    case 0: errorMess.value = 'Неизвестная ошибка';
+                        break;
+                }
             })
     }
-
-    onMounted(() => {
-        getDataAboutUserById();
-    });
 </script>
 
 <style lang="scss" scoped>
@@ -107,20 +111,16 @@
         background-size: cover;
         background-repeat: no-repeat;
         #Register {
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          flex-wrap: wrap;
-          width: 500px;
+          width: 480px;
           height: 680px;
           background-color: transparent;
           backdrop-filter: blur(6px);
           border: 0.5px solid rgba(255, 255, 255, 0.4);
           border-radius: 30px;
           #Register_Logo {
-            margin-top: 20px;
-            margin-left: 15px;
-            width: 85%;
+            margin-top: 30px;
+            margin-left: 7.5px;
+            width: 100%;
             height: 75px;
           }
           form {
@@ -128,7 +128,7 @@
             justify-content: center;
             align-items: center;
             flex-wrap: wrap;
-            margin-top: -30px;
+            margin-top: 10px;
             height: 480px;
             div {
                 display: flex;
@@ -184,7 +184,7 @@
             }
           }
           #Register_SignIn {
-            margin-top: -40px;
+            margin-top: 20px;
             color: #ffffff;
             font-size: 14px;
             font-weight: 400;
