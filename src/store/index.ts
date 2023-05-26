@@ -12,18 +12,22 @@ interface ShoppingCartItem {
 export default createStore({
   state: {
     shoppingCart: [] as ShoppingCartItem[],
+    countOfItemsInShoppingCart: 0
   },
   getters: {
   },
   mutations: {
     ADD_ITEM_TO_SHOPPING_CART(state, payload:ShoppingCartItem) {
       state.shoppingCart.push(payload);
+      state.countOfItemsInShoppingCart++;
     },
     REMOVE_ITEM_FROM_SHOPPING_CART(state, id:number) {
       state.shoppingCart = state.shoppingCart.filter(item => item.id != id);
+      state.countOfItemsInShoppingCart--;
     },
     CLEAR_SHOPPING_CART(state) {
       state.shoppingCart = [];
+      state.countOfItemsInShoppingCart = 0;
     },
     CHANGE_ITEM_FROM_SHOPPING_CART(state, payload:ShoppingCartItem) {
       state.shoppingCart.splice(payload.id, 1, payload);

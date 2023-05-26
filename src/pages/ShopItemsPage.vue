@@ -28,7 +28,7 @@
               </span>
               </div>
 
-              <div id="ModalFilterWindow_Sizes">
+              <div id="ModalFilterWindow_Sizes" v-if="categories[1].isActive || categories[2].isActive">
                   <p>Размеры</p>
 
                   <div>
@@ -53,9 +53,9 @@
                   </div>
               </div>
 
-              <button id="ModalFilterWindow_Accept">Применить</button>
+              <button id="ModalFilterWindow_Accept" @click="filterShopItems()">Применить</button>
 
-              <button id="ModalFilterWindow_Reset">Сбросить фильтры</button>
+              <button id="ModalFilterWindow_Reset" @click="shopItems = initialShopItems">Сбросить фильтры</button>
           </div>
       </Transition>
 
@@ -91,7 +91,7 @@
   interface ShopItem {
       id: number,
       title: string,
-      price: string,
+      price: number,
       description: string,
       images: string[]
   }
@@ -109,6 +109,7 @@
   }
 
   const isModalFilterActive = ref(false);
+  const initialShopItems = ref([] as ShopItem[]);
   const shopItems = ref([] as ShopItem[]);
   const categories = ref([
       {
@@ -163,16 +164,6 @@
   const minPrice = ref('');
   const maxPrice = ref('');
 
-  const addItemToShoppingCart = (item:ShopItem) => {
-      store.dispatch('addItemToShoppingCart', {
-          id: item.id,
-          image: item.image,
-          title: item.title,
-          cost: item.price,
-          count: 1
-      });
-  }
-
   const getShopItems = (start:number, stop:number) => {
       const url = new URL('http://79.174.12.75:2323/product/get/many/');
 
@@ -183,13 +174,18 @@
             headers: { 'Content-Type': 'application/json;charset=utf-8' }
       })
           .then((res) => {
+              console.log(res.data)
               shopItems.value = Object.values(res.data);
-              console.log(shopItems.value);
+              initialShopItems.value = Object.values(res.data);
           })
           .catch((err) => {
               console.log(err);
           })
   }
+
+  const filterShopItems = () => {
+      shopItems.value =shopItems.value.filter(item => item.price > +minPrice.value && item.price < +maxPrice.value);
+  };
 
   onMounted(() => {
       getShopItems(0, 10);
@@ -263,8 +259,10 @@
         opacity: 0;
     }
     #ModalFilterWindow {
+        padding-bottom: 20px;
         width: 100%;
-        height: 500px;
+        min-height: 360px;
+        height: auto;
         #ModalFilterWindow_Categories {
             height: 90px;
             p {

@@ -173,6 +173,7 @@
                 font-weight: 700;
                 font-family: 'DM Sans', sans-serif;
                 cursor: pointer;
+                outline: none;
             }
             #Register_Error {
                 width: 100%;
@@ -190,6 +191,7 @@
             font-weight: 400;
             font-family: 'DM Sans', sans-serif;
             text-align: center;
+            outline: none;
             .route {
                 color: #42d4ba;
                 font-weight: 600;

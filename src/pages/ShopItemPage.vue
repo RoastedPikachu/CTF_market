@@ -6,7 +6,7 @@
 
         <div id="MainShopItemInfo">
             <div id="MainShopItemInfo_Images">
-                <img src="" alt="">
+                <img :src="item.images[0]" :alt="item.description">
 
                 <span>
                     <img src="@/assets/arrowRightIcon.svg" alt="Вперёд">
@@ -15,19 +15,19 @@
             </div>
 
             <aside>
-                <h2>Футболка с принтом</h2>
+                <h2>{{ item.title }}</h2>
 
-                <p>Описание</p>
+                <p>{{ item.description }}</p>
 
-                <p>Цена: 10000 баллов</p>
+                <p>Цена: {{ item.price }} баллов</p>
 
                 <div>
                     <p>Размеры</p>
 
-                    <button v-for="size of sizes" :key="size.id">{{ size.prop }}</button>
+                    <button v-for="size of sizes" :key="size.id" :class="{ active: size.isActive }" @click="size.isActive = !size.isActive">{{ size.prop }}</button>
                 </div>
 
-                <button>В корзину</button>
+                <button id="AddToShoppingCart" @click="addItemToShoppingCart(item)">В корзину</button>
             </aside>
         </div>
     </main>
@@ -36,43 +36,98 @@
 </template>
 
 <script lang="ts" setup>
-  import { ref } from 'vue';
+  import { ref, onMounted } from 'vue';
+  import { useRoute } from 'vue-router';
+  import axios from 'axios';
   import TheHeaderComp from '@/widgets/shared/TheHeaderComp.vue';
   import TheFooterComp from '@/widgets/shared/TheFooterComp.vue';
+  import store from "@/store";
 
+  interface ShopItem {
+      id: number,
+      title: string,
+      price: string,
+      description: string,
+      images: string[]
+  }
+
+  const route = useRoute();
+
+  const item = ref({
+      id: 0,
+      title: '',
+      price: '',
+      description: '',
+      images: ['']
+  } as ShopItem);
   const sizes = ref([
       {
           id: 1,
-          prop: 'XS'
+          prop: 'XS',
+          isActive: false,
       },
       {
           id: 2,
-          prop: 'S'
+          prop: 'S',
+          isActive: false
       },
       {
           id: 3,
-          prop: 'M'
+          prop: 'M',
+          isActive: false
       },
       {
           id: 4,
-          prop: 'L'
+          prop: 'L',
+          isActive: false
       },
       {
           id: 5,
-          prop: 'XL'
+          prop: 'XL',
+          isActive: false
       },
       {
           id: 6,
-          prop: 'XXL'
+          prop: 'XXL',
+          isActive: false
       }
   ]);
+
+  const addItemToShoppingCart = (item:ShopItem) => {
+      store.dispatch('addItemToShoppingCart', {
+          id: Math.random() * 1000000,
+          image: item.images[0],
+          title: item.title,
+          cost: item.price,
+          count: 1
+      });
+  }
+
+  const getInfoAboutShopItem = () => {
+      const url = new URL('http://79.174.12.75:2323/product/get/one/');
+
+      axios.post(url.toString(), { product_id: route.params.id }, {
+          headers: { 'Content-Type': 'application/json;charset=utf-8' }
+      })
+          .then((res:any) => {
+              console.log(res);
+              item.value = res.data;
+          })
+          .catch((error:any) => {
+              console.log(error);
+          })
+  }
+
+  onMounted(() => {
+      getInfoAboutShopItem();
+  })
 </script>
 
 <style lang="scss" scoped>
   main {
     margin: 0 12.5%;
     width: 75%;
-    height: 800px;
+    height: 900px;
     #ShopItemsLogo {
       margin-top: 100px;
       width: 45%;
@@ -129,6 +184,9 @@
           font-weight: 500;
           font-family: 'DM Sans', sans-serif;
         }
+        p:nth-child(3) {
+            color: #ffffff;
+        }
         div {
           display: flex;
           justify-content: space-between;
@@ -161,6 +219,23 @@
             background-color: #42d4ba;
             border: 1px solid #42d4ba;
           }
+        }
+        #AddToShoppingCart {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 20px;
+            width: 80%;
+            height: 60px;
+            background-color: #42d4ba;
+            border: none;
+            border-radius: 15px;
+            color: #ffffff;
+            font-size: 18px;
+            font-weight: 700;
+            font-family: 'DM Sans', sans-serif;
+            cursor: pointer;
+            outline: none;
         }
       }
     }

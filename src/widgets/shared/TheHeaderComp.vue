@@ -1,6 +1,32 @@
 <template>
   <header>
-      <img src="" alt="Профиль" id="ProfileImg">
+      <img src="@/assets/userAvatar.svg" alt="Профиль" id="ProfileImg" @click="isModalProfileActive = !isModalProfileActive">
+
+      <div id="ModalProfileWindow" v-if="isModalProfileActive">
+          <img src="@/assets/x-markIcon.png" alt="Закрыть">
+
+          <div>
+              <img src="@/assets/userAvatar.svg" alt="Профиль">
+
+              <span>
+                  <p></p>
+                  <p></p>
+              </span>
+          </div>
+
+          <div>
+              <p>Почта</p>
+
+              <p></p>
+          </div>
+
+          <button>Выйти из аккаунта</button>
+
+          <span>
+              <p>Баланс: </p>
+              <p>{{ countOfPoints }}</p>
+          </span>
+      </div>
 
       <nav>
           <router-link :to="{ name: 'home', params: { token: route.params.token }}" class="route">Главная</router-link>
@@ -12,14 +38,12 @@
       <span>
           <img src="@/assets/shoppingCartIcon.svg" alt="Корзина" @click="isModalShoppingCartActive = !isModalShoppingCartActive">
 
-          <p>{{ countOfPoints }}</p>
-
-          <img src="@/assets/ctfCoinIcon.svg" alt="CTFCoin">
+          <p>{{ countOfItemsInShoppingCart }}</p>
       </span>
 
       <div id="ModalShoppingCart" v-if="isModalShoppingCartActive">
           <span>
-              <img src="@/assets/arrowRightIcon.svg" alt="Назад" @click="isModalShoppingCartActive = !isModalShoppingCartActive">
+              <img src="@/assets/x-markIcon.png" alt="Назад" @click="isModalShoppingCartActive = !isModalShoppingCartActive">
 
               <p>Корзина</p>
 
@@ -28,7 +52,7 @@
 
           <div id="shoppingCartItemsWrapper">
               <div class="shoppingCartItem" v-for="shoppingCartItem of shoppingCartItems" :key="shoppingCartItem.id">
-                  <img src="@/assets/shoppingCartItem.svg" :alt="shoppingCartItem.title" class="shoppingCartItemImage">
+                  <img :src="shoppingCartItem.image" :alt="shoppingCartItem.title" class="shoppingCartItemImage">
 
                   <div class="shoppingCartItem_Right">
                   <span>
@@ -83,9 +107,11 @@
 
   const route = useRoute();
 
+  const isModalProfileActive = ref(false);
   const isModalShoppingCartActive = ref(false);
   const isPointsEnough = ref(false);
   const countOfPoints = ref(0);
+  const countOfItemsInShoppingCart = ref(store.state.countOfItemsInShoppingCart);
   const shoppingCartItems = ref(store.state.shoppingCart);
   const balance = ref(30000);
   const totalCost = ref(0);
@@ -101,6 +127,10 @@
 
       isPointsEnough.value = totalCost.value < balance.value;
   })
+
+  watch(() => store.state.countOfItemsInShoppingCart, () => {
+      countOfItemsInShoppingCart.value = store.state.countOfItemsInShoppingCart;
+  });
 
   watch(() => store.state.shoppingCart, () => {
       shoppingCartItems.value = store.state.shoppingCart;
@@ -144,7 +174,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin: 0 5%;
+    padding: 0 5%;
     width: 90%;
     height: 100px;
     background-color: #1e1e1e;
@@ -153,7 +183,18 @@
       width: 50px;
       height: 50px;
       background-color: #747474;
-      border-radius: 10px;
+      border-radius: 50%;
+      cursor: pointer;
+    }
+    #ModalProfileWindow {
+        position: absolute;
+        top: 25px;
+        left: 5%;
+        width: 300px;
+        height: 350px;
+        background-color: #1e1e1e;
+        border: 2px solid #4b4b4b;
+        border-radius: 20px;
     }
     nav {
       display: flex;
@@ -166,19 +207,20 @@
         font-weight: 700;
         font-family: 'DM Sans', sans-serif;
         text-decoration: none;
+        outline: none;
       }
     }
     span {
       display: flex;
       justify-content: flex-start;
       align-items: center;
-      width: 10%;
+      width: 60px;
       img {
-        width: 25%;
+        width: 32.5px;
         cursor: pointer;
       }
       p {
-        margin-left: 10px;
+        margin-left: 15px;
         color: #ffffff;
         font-size: 24px;
         font-weight: 400;
@@ -191,7 +233,7 @@
         right: 5%;
         padding: 20px 35px;
         width: 305px;
-        height: 750px;
+        height: 650px;
         background-color: #1e1e1e;
         border: 2px solid rgba(255, 255, 255, 0.2);
         border-radius: 20px;
@@ -203,9 +245,8 @@
             width: 100%;
             height: 70px;
             img:first-child {
-                width: 20px;
+                width: 22px;
                 height: 22px;
-                transform: rotate(180deg);
             }
             img:last-child {
                 width: 26px;
@@ -221,7 +262,7 @@
             margin-top: 20px;
             width: 100%;
             height: auto;
-            min-height: 440px;
+            min-height: 350px;
             .shoppingCartItem {
                 display: flex;
                 justify-content: space-between;
@@ -303,7 +344,7 @@
         #ShoppingCart_Bottom {
             margin-top: 10px;
             width: 100%;
-            height: 210px;
+            height: 160px;
             span {
                 height: 40px;
                 p {

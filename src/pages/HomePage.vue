@@ -24,6 +24,7 @@
     width: 100%;
     height: 1000px;
     img {
+      margin-top: 100px;
       width: 100%;
       background-size: cover;
     }
