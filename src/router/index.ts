@@ -6,6 +6,7 @@ import ShopItemsPage from '@/pages/ShopItemsPage.vue';
 import ShopItemPage from '@/pages/ShopItemPage.vue';
 import SignInPage from '@/pages/SignInPage.vue';
 import RegistrationPage from '@/pages/RegistrationPage.vue';
+import Error404Page from '@/pages/Error404Page.vue';
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -43,6 +44,15 @@ const routes: Array<RouteRecordRaw> = [
     name: 'registration',
     component: RegistrationPage
   },
+  {
+    path: '/404',
+    name: 'error404',
+    component: Error404Page
+  },
+  {
+    path: '/:catchAll(.*)',
+    redirect: '/404'
+  }
   // {
   //   path: '/about',
   //   name: 'about',
