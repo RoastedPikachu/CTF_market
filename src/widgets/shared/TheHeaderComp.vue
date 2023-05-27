@@ -2,36 +2,42 @@
   <header>
       <img src="@/assets/userAvatar.svg" alt="Профиль" id="ProfileImg" @click="isModalProfileActive = !isModalProfileActive">
 
-      <div id="ModalProfileWindow" v-if="isModalProfileActive">
-          <img src="@/assets/x-markIcon.png" alt="Закрыть">
+      <div id="ModalProfileWindow" v-if="isModalProfileActive && isSignIn">
+          <img src="@/assets/x-markIcon.png" alt="Закрыть" id="ModalProfileWindow_Close" @click="isModalProfileActive = !isModalProfileActive">
 
-          <div>
+          <div id="ModalProfileWindow_UserBrieflyInfo">
               <img src="@/assets/userAvatar.svg" alt="Профиль">
 
               <span>
-                  <p></p>
-                  <p></p>
+                  <p>{{ fullName }}</p>
+
+                  <p>{{ phone }}</p>
               </span>
           </div>
 
-          <div>
+          <div id="ModalProfileWindow_Email">
               <p>Почта</p>
 
-              <p></p>
+              <p>{{ email }}</p>
           </div>
 
-          <button>Выйти из аккаунта</button>
+          <button @click="signOut()">Выйти из аккаунта</button>
 
-          <span>
+          <span id="ModalProfileWindow_Balance">
               <p>Баланс: </p>
-              <p>{{ countOfPoints }}</p>
+
+              <span>
+                  <p>{{ balance }}</p>
+
+                  <img src="@/assets/ctfCoinIcon.svg" alt="CTFCoin">
+              </span>
           </span>
       </div>
 
       <nav>
-          <router-link :to="{ name: 'home', params: { token: route.params.token }}" class="route">Главная</router-link>
-          <router-link :to="{ name: 'shopItems', params: { token: route.params.token }}" class="route">Товары</router-link>
-          <router-link :to="{ name: 'signIn', params: { token: route.params.token }}" class="route">Вход</router-link>
+          <router-link to="/home" class="route">Главная</router-link>
+          <router-link to="/shopItems" class="route">Товары</router-link>
+          <router-link to="/signIn" class="route">Вход</router-link>
           <router-link to="/registration" class="route">Регистрация</router-link>
       </nav>
 
@@ -101,21 +107,25 @@
 </template>
 
 <script lang="ts" setup>
-  import { useRoute } from 'vue-router';
   import { ref, onMounted, watch } from 'vue';
   import store from '@/store';
+  import axios from 'axios';
 
-  const route = useRoute();
-
+  const isSignIn = ref(store.state.isSignIn);
   const isModalProfileActive = ref(false);
   const isModalShoppingCartActive = ref(false);
   const isPointsEnough = ref(false);
-  const countOfPoints = ref(0);
+
   const countOfItemsInShoppingCart = ref(store.state.countOfItemsInShoppingCart);
   const shoppingCartItems = ref(store.state.shoppingCart);
-  const balance = ref(30000);
+
+  const balance = ref(0);
   const totalCost = ref(0);
+
+  const phone = ref('');
+  const email = ref('');
   const address = ref('');
+  const fullName = ref('');
 
   onMounted(() => {
       if(shoppingCartItems.value.length) {
@@ -126,7 +136,15 @@
       }
 
       isPointsEnough.value = totalCost.value < balance.value;
+
+      if(isSignIn.value) {
+          getInfoAboutUserByToken();
+      }
   })
+
+  watch(() => store.state.isSignIn, () => {
+      isSignIn.value = store.state.isSignIn;
+  });
 
   watch(() => store.state.countOfItemsInShoppingCart, () => {
       countOfItemsInShoppingCart.value = store.state.countOfItemsInShoppingCart;
@@ -166,6 +184,44 @@
           store.dispatch('removeItemFromShoppingCart', item.id);
       }
   }
+
+  const signOut = () => {
+      balance.value = 0;
+
+      email.value = '';
+      fullName.value = '';
+      phone.value = '';
+
+      store.dispatch('changeIsSignIn');
+  }
+
+  const getCookie = (name:string) => {
+      let matches = document.cookie.match(new RegExp(
+          //eslint-disable-next-line
+          "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
+      ));
+      return matches ? decodeURIComponent(matches[1]) : undefined;
+  }
+
+  const getInfoAboutUserByToken = () => {
+      const url = new URL('http://79.174.12.75:2323/account/data/');
+
+      const token = getCookie('token');
+
+      axios.post(url.toString(), { token: token }, {
+          headers: { 'Content-Type': 'application/json;charset=utf-8' }
+      })
+          .then((res) => {
+              balance.value = res.data.score;
+
+              email.value = res.data.email;
+              fullName.value = `${res.data.first_name} ${res.data.last_name}`;
+              phone.value = `+${res.data.phone.slice(0, 1)}(${res.data.phone.slice(1, 4)})${res.data.phone.slice(4, 7)}-${res.data.phone.slice(7, 9)}-${res.data.phone.slice(9, 11)}`;
+          })
+          .catch((error) => {
+              console.log(error);
+          })
+  }
 </script>
 
 <style lang="scss" scoped>
@@ -190,11 +246,120 @@
         position: absolute;
         top: 25px;
         left: 5%;
-        width: 300px;
-        height: 350px;
+        padding: 20px 0;
+        width: 260px;
+        height: 260px;
         background-color: #1e1e1e;
         border: 2px solid #4b4b4b;
         border-radius: 20px;
+        #ModalProfileWindow_Close {
+            position: absolute;
+            top: 30px;
+            right: 20px;
+            width: 15px;
+            height: 15px;
+            cursor: pointer;
+        }
+        #ModalProfileWindow_UserBrieflyInfo {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px 15px;
+            width: calc(100% - 40px);
+            height: 65px;
+            border: 1px solid #4b4b4b;
+            border-width: 0 0 1px 0;
+            img {
+                width: 60px;
+                height: 60px;
+            }
+            span {
+                display: flex;
+                align-items: center;
+                flex-wrap: wrap;
+                margin-left: 0;
+                width: calc(100% - 70px);
+                height: 35px;
+                p {
+                    margin-left: 0;
+                    width: 100%;
+                    color: #ffffff;
+                    font-size: 16px;
+                    font-weight: 500;
+                    font-family: 'DM Sans', sans-serif;
+                }
+                p:last-child {
+                    margin-top: 7.5px;
+                    font-size: 14px;
+                }
+            }
+        }
+        #ModalProfileWindow_Email {
+            padding: 12.5px 20px;
+            width: calc(100% - 40px);
+            height: 50px;
+            border: 1px solid #4b4b4b;
+            border-width: 1px 0 1px 0;
+            p {
+                color: #ffffff;
+                font-size: 18px;
+                font-weight: 500;
+                font-family: 'DM Sans', sans-serif;
+            }
+            p:last-child {
+                margin-top: 7.5px;
+                font-size: 16px;
+            }
+        }
+        button {
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            width: 100%;
+            height: 60px;
+            background-color: transparent;
+            border: 1px solid #4b4b4b;
+            border-width: 1px 0 1px 0;
+            color: #fa3e3e;
+            font-size: 18px;
+            font-weight: 700;
+            font-family: 'DM Sans', sans-serif;
+            cursor: pointer;
+            outline: none;
+        }
+        #ModalProfileWindow_Balance {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            width: calc(100% - 40px);
+            height: 60px;
+            p {
+                margin-left: 0;
+                color: #ffffff;
+                font-size: 18px;
+                font-weight: 700;
+                font-family: 'DM Sans', sans-serif;
+            }
+            span {
+                display: flex;
+                justify-content: flex-end;
+                align-items: center;
+                p {
+                    font-size: 24px;
+                }
+                img {
+                    margin-left: 5px;
+                    width: 25px;
+                    height: 25px;
+                    cursor: default;
+                }
+            }
+            p:last-child {
+                margin-left: 20px;
+                font-size: 20px;
+            }
+        }
     }
     nav {
       display: flex;

@@ -57,7 +57,7 @@
         const url = new URL('http://79.174.12.75:2323/account/auth/register/');
 
         axios.post(url.toString(), {
-            secret_key: token,
+            secret_key: token.value,
             password: password.value,
             email: email.value,
             phone: phone.value

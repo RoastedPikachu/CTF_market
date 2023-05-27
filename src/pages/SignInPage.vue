@@ -29,6 +29,7 @@
 <script setup lang="ts">
     import { useRouter } from 'vue-router';
     import { ref } from 'vue';
+    import store from '@/store';
     import axios from 'axios';
 
     const router = useRouter();
@@ -51,6 +52,7 @@
                     throw res.data.error;
                 } else {
                     document.cookie =`token=${res.data.token}; path=/; max-age=2592000; secure=true`;
+                    store.dispatch('changeIsSignIn');
                     router.push(`/`);
                 }
             })

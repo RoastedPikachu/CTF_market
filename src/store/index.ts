@@ -11,12 +11,16 @@ interface ShoppingCartItem {
 
 export default createStore({
   state: {
+    isSignIn: false,
     shoppingCart: [] as ShoppingCartItem[],
     countOfItemsInShoppingCart: 0
   },
   getters: {
   },
   mutations: {
+    CHANGE_IS_SIGN_IN(state) {
+      state.isSignIn = !state.isSignIn;
+    },
     ADD_ITEM_TO_SHOPPING_CART(state, payload:ShoppingCartItem) {
       state.shoppingCart.push(payload);
       state.countOfItemsInShoppingCart++;
@@ -34,6 +38,9 @@ export default createStore({
     }
   },
   actions: {
+    changeIsSignIn({commit}) {
+      commit('CHANGE_IS_SIGN_IN');
+    },
     addItemToShoppingCart({commit}, payload:ShoppingCartItem) {
       commit('ADD_ITEM_TO_SHOPPING_CART', payload);
     },

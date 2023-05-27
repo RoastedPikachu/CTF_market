@@ -17,15 +17,15 @@
                   <p>Категория</p>
 
                   <span>
-                  <p
-                      v-for="category of categories"
-                      :key="category.id"
-                      :class="{ categoryActive: category.isActive }"
-                      @click="category.isActive = !category.isActive"
-                  >
-                      {{ category.title }}
-                  </p>
-              </span>
+                      <p
+                          v-for="category of categories"
+                          :key="category.id"
+                          :class="{ categoryActive: category.isActive }"
+                          @click="category.isActive = !category.isActive"
+                      >
+                          {{ category.title }}
+                      </p>
+                  </span>
               </div>
 
               <div id="ModalFilterWindow_Sizes" v-if="categories[1].isActive || categories[2].isActive">
@@ -61,11 +61,17 @@
 
       <section id="ShopItemsContainer">
           <div class="shopItem" v-for="shopItem of shopItems" :key="shopItem.id">
-              <img :src="shopItem.images[0]" :alt="shopItem.title" class="shopItemImage">
+              <div class="shopItem_ImgContainer">
+                  <img :src="shopItem.images[0]" :alt="shopItem.title">
+              </div>
 
               <div>
                   <span>
-                      <p>От {{ shopItem.price }}&#8381;</p>
+                      <span>
+                          <p>От {{ shopItem.price }}</p>
+                          <img src="@/assets/ctfCoinIcon.svg" alt="CTFCoin">
+                      </span>
+
                       <p>{{ shopItem.description.slice(0, 21) + '&#8230;' }}</p>
                   </span>
 
@@ -413,12 +419,24 @@
           background: linear-gradient(168.64deg, #313134 9.31%, #292929 61.88%, #282828 111.76%);
           border: 2px solid rgba(255, 255, 255, 0.2);
           border-radius: 35px;
-          .shopItemImage {
+          .shopItem_ImgContainer {
+              margin-top: 0;
               width: 100%;
               height: 340px;
-              background-color: #ffffff;
               border-radius: 30px;
-              background-size: cover;
+              img {
+                  width: 100%;
+                  height: 100%;
+                  background-color: #ffffff;
+                  background-size: cover;
+                  transition: 400ms ease;
+              }
+              overflow: hidden;
+          }
+          .shopItem_ImgContainer:hover {
+              img {
+                  transform: scale(1.1);
+              }
           }
           div {
               display: flex;
@@ -432,14 +450,28 @@
                   flex-wrap: wrap;
                   width: 45%;
                   height: 55px;
+                  span {
+                      display: flex;
+                      align-items: center;
+                      flex-wrap: nowrap;
+                      width: 90%;
+                      height: 30px;
+                      p {
+                          width: auto;
+                          color: #ffffff;
+                          font-size: 22px;
+                      }
+                      img {
+                          margin-top: -7.5px;
+                          margin-left: 5px;
+                          width: 25px;
+                          height: 25px;
+                      }
+                  }
                   p {
                       width: 100%;
                       font-weight: 500;
                       font-family: 'Ruberoid', sans-serif;
-                  }
-                  p:first-child {
-                      color: #ffffff;
-                      font-size: 22px;
                   }
                   p:last-child {
                       color: rgba(255, 255, 255, 0.4);
