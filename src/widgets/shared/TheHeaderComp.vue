@@ -35,7 +35,7 @@
       </div>
 
       <nav>
-          <router-link to="/home" class="route">Главная</router-link>
+          <router-link to="/" class="route">Главная</router-link>
           <router-link to="/shopItems" class="route">Товары</router-link>
           <router-link to="/signIn" class="route">Вход</router-link>
           <router-link to="/registration" class="route">Регистрация</router-link>
