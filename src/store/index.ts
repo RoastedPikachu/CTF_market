@@ -12,6 +12,7 @@ interface ShoppingCartItem {
 export default createStore({
   state: {
     isSignIn: false,
+    isCookieOpen: true,
     shoppingCart: [] as ShoppingCartItem[],
     countOfItemsInShoppingCart: 0
   },
@@ -20,6 +21,9 @@ export default createStore({
   mutations: {
     CHANGE_IS_SIGN_IN(state) {
       state.isSignIn = !state.isSignIn;
+    },
+    CHANGE_IS_COOKIE_OPEN(state) {
+      state.isCookieOpen = !state.isCookieOpen;
     },
     ADD_ITEM_TO_SHOPPING_CART(state, payload:ShoppingCartItem) {
       state.shoppingCart.push(payload);
@@ -40,6 +44,9 @@ export default createStore({
   actions: {
     changeIsSignIn({commit}) {
       commit('CHANGE_IS_SIGN_IN');
+    },
+    changeIsCookieOpen({commit}) {
+      commit('CHANGE_IS_COOKIE_OPEN');
     },
     addItemToShoppingCart({commit}, payload:ShoppingCartItem) {
       commit('ADD_ITEM_TO_SHOPPING_CART', payload);

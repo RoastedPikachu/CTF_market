@@ -39,7 +39,7 @@
     const errorMess = ref('');
 
     const setSignInData = () => {
-        const url = new URL('http://79.174.12.75:2323/account/auth/login/');
+        const url = new URL('http://79.174.12.75:3134/api/v1/auth/login/');
 
         axios.post(url.toString(), {
             password: password.value,

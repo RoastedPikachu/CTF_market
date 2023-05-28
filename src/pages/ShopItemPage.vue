@@ -24,7 +24,7 @@
                 <div>
                     <p>Размеры</p>
 
-                    <button v-for="size of sizes" :key="size.id" :class="{ active: size.isActive }" @click="size.isActive = !size.isActive">{{ size.prop }}</button>
+                    <button v-for="size of sizes" :key="size.id" :class="{ active: size.isActive }" @click="changeSizeIsActive(size)">{{ size.prop }}</button>
                 </div>
 
                 <button id="AddToShoppingCart" @click="addItemToShoppingCart(item)">В корзину</button>
@@ -58,7 +58,7 @@
       title: '',
       price: '',
       description: '',
-      images: ['']
+      images: [] as string[]
   } as ShopItem);
   const sizes = ref([
       {
@@ -93,6 +93,11 @@
       }
   ]);
 
+  const changeSizeIsActive = (size:any) => {
+      sizes.value.forEach(item => item.isActive = false);
+      size.isActive = true;
+  }
+
   const addItemToShoppingCart = (item:ShopItem) => {
       store.dispatch('addItemToShoppingCart', {
           id: Math.random() * 1000000,
@@ -104,9 +109,9 @@
   }
 
   const getInfoAboutShopItem = () => {
-      const url = new URL('http://79.174.12.75:2323/product/get/one/');
+      const url = new URL(`http://79.174.12.75:3134/api/v1/product/${route.params.id}`);
 
-      axios.post(url.toString(), { product_id: route.params.id }, {
+      axios.get(url.toString(), {
           headers: { 'Content-Type': 'application/json;charset=utf-8' }
       })
           .then((res:any) => {

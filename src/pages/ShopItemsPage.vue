@@ -158,12 +158,9 @@
     };
 
     const getShopItems = (start:number, stop:number) => {
-        const url = new URL('http://79.174.12.75:2323/product/get/many/');
+        const url = new URL(`http://79.174.12.75:3134/api/v1/product/${start}/${stop}`);
 
-        axios.post(url.toString(), {
-            start: start,
-            stop: stop
-        }, {
+        axios.get(url.toString(),  {
             headers: { 'Content-Type': 'application/json;charset=utf-8' }
         })
             .then((res) => {
@@ -177,7 +174,7 @@
     }
 
     onMounted(() => {
-        getShopItems(0, 8);
+        getShopItems(0, 9);
     });
 </script>
 

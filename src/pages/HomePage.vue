@@ -30,14 +30,17 @@
     </main>
 
     <TheFooterComp/>
+
+    <TheCookieComp/>
 </template>
 
 <script setup lang="ts">
     import { ref, onMounted } from 'vue';
+    import axios from "axios";
     import TheHeaderComp from '@/widgets/shared/TheHeaderComp.vue';
     import ShopItemCard from '@/widgets/shared/ShopItemCard.vue';
     import TheFooterComp from '@/widgets/shared/TheFooterComp.vue';
-    import axios from "axios";
+    import TheCookieComp from '@/widgets/shared/TheCookieComp.vue';
 
     interface Category {
         id: number,
@@ -104,19 +107,10 @@
 
     const shopItems = ref([] as ShopItem[]);
 
-    onMounted(() => {
-        getShopItems(0, 2);
-
-        setInterval(() => getNextPhoto(), 5000);
-    })
-
     const getShopItems = (start:number, stop:number) => {
-        const url = new URL('http://79.174.12.75:2323/product/get/many/');
+        const url = new URL(`http://79.174.12.75:3134/api/v1/product/${start}/${stop}`);
 
-        axios.post(url.toString(), {
-            start: start,
-            stop: stop
-        }, {
+        axios.get(url.toString(), {
             headers: { 'Content-Type': 'application/json;charset=utf-8' }
         })
             .then((res) => {
@@ -140,6 +134,12 @@
         categories.value[targetId.value].isActive = true;
         banners.value[targetId.value].isActive = true;
     }
+
+    onMounted(() => {
+        getShopItems(0, 3);
+
+        setInterval(() => getNextPhoto(), 5000);
+    })
 </script>
 
 <style lang="scss" scoped>
@@ -246,21 +246,7 @@
       }
   }
 
-  @keyframes slide{
-    from {
-        margin-left: -50vw;
-    }
-    to {
-        margin-left: -150vw;
-    }
-  }
+  @media(max-width: 480px) {
 
-  @keyframes slideBack{
-      from {
-          margin-left: 0;
-      }
-      to {
-          margin-left: 100vw;
-      }
   }
 </style>

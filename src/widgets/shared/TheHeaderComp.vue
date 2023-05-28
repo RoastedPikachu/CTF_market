@@ -204,7 +204,7 @@
   }
 
   const getInfoAboutUserByToken = () => {
-      const url = new URL('http://79.174.12.75:2323/account/data/');
+      const url = new URL('http://79.174.12.75:3134/api/v1/user/get/');
 
       const token = getCookie('token');
 
@@ -212,6 +212,7 @@
           headers: { 'Content-Type': 'application/json;charset=utf-8' }
       })
           .then((res) => {
+              console.log(res);
               balance.value = res.data.score;
 
               email.value = res.data.email;

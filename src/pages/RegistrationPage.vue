@@ -54,7 +54,7 @@
     const errorMess = ref('');
 
     const setDataAboutUser = () => {
-        const url = new URL('http://79.174.12.75:2323/account/auth/register/');
+        const url = new URL('http://79.174.12.75:3134/api/v1/auth/register/');
 
         axios.post(url.toString(), {
             secret_key: token.value,
