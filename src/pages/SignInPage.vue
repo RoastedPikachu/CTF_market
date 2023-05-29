@@ -41,39 +41,42 @@
     const setSignInData = () => {
         const url = new URL('http://79.174.12.75:3134/api/v1/auth/login/');
 
-        axios.post(url.toString(), {
-            password: password.value,
-            email: email.value
-        }, {
-            headers: { 'Content-Type': 'application/json;charset=utf-8' }
-        })
-            .then((res:any) => {
-                if(res.data.error) {
-                    throw res.data.error;
-                } else {
-                    document.cookie =`token=${res.data.token}; path=/; max-age=2592000; secure=true`;
-                    store.dispatch('changeIsSignIn');
-                    router.push(`/`);
-                }
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+        if(emailRegex.test(email.value)) {
+            axios.post(url.toString(), {
+                password: password.value,
+                email: email.value
+            }, {
+                headers: { 'Content-Type': 'application/json;charset=utf-8' }
             })
-            .catch((error:any) => {
-                switch(error) {
-                    case 5: errorMess.value = 'Заполните поле "пароль"';
-                        break;
+                .then((res:any) => {
+                    if(res.data.error) {
+                        throw res.data.error;
+                    } else {
+                        document.cookie =`token=${res.data.token}; path=/; max-age=2592000; secure=true`;
+                        store.dispatch('changeIsSignIn');
+                        router.push(`/`);
+                    }
+                })
+                .catch((error:any) => {
+                    switch(error) {
+                        case 5: errorMess.value = 'Заполните поле "пароль"';
+                            break;
 
-                    case 6: errorMess.value = 'Заполните поле "почта"';
-                        break;
+                        case 8: errorMess.value = 'Пользователь с такой почтой не найден';
+                            break;
 
-                    case 8: errorMess.value = 'Пользователь с такой почтой не найден';
-                        break;
+                        case 9: errorMess.value = 'Неверный пароль';
+                            break;
 
-                    case 9: errorMess.value = 'Неверный пароль';
-                        break;
-
-                    case 0: errorMess.value = 'Неизвестная ошибка';
-                        break;
-                }
-            })
+                        case 0: errorMess.value = 'Неизвестная ошибка';
+                            break;
+                    }
+                });
+        } else {
+            errorMess.value = 'Почта введена в неправильном формате';
+        }
     }
 </script>
 
@@ -188,16 +191,17 @@
     @media(max-width: 480px) {
         main {
             #SignIn {
+                margin-top: -40px;
                 width: 85%;
                 height: 460px;
                 #SignIn_Logo {
-                    margin-top: 0px;
+                    margin-top: 0;
                     margin-left: 10px;
                     width: 77.5%;
                     height: 70px;
                 }
                 form {
-                    margin-top: -40px;
+                    margin-top: -50px;
                     height: 260px;
                     div {
                         width: 75%;

@@ -247,6 +247,82 @@
   }
 
   @media(max-width: 480px) {
+      main {
+          padding: 0 0 50px 0;
+          #MovingImgWrapper {
+              padding-top: 50px;
+              #TopLogoText {
+                  height: 50px;
+                  transform: scale(4);
+              }
+              #BottomLogoText {
+                  height: 30px;
+                  transform: scale(4);
+              }
+          }
+          #BgImage {
+            top: 110px;
+          }
+          #Categories {
+              padding: 0 2.5%;
+              margin: 20px 5% 0 5%;
+              width: 85%;
+              height: 40px;
+              p {
+                  font-size: 14px;
+              }
+              .active {
+                  padding: 5px 20px;
+              }
+          }
+          .banner {
+              margin: 0 5%;
+              width: 90%;
+              height: 260px;
+          }
+          #PopularShopItem_Text {
+              margin: 10px 5%;
+              width: 90%;
+              height: 20px;
+              p {
+                  font-size: 20px;
+              }
+              .seeMoreItemsRoute {
+                  margin-top: 2px;
+                  font-size: 16px;
+              }
+          }
+          #PopularShopItemsWrapper {
+              margin: -15px 5% 0 5%;
+              width: 90%;
+          }
+      }
+  }
 
+  @media(max-width: 360px) {
+      main {
+          padding: 0 0 30px 0;
+          #Categories {
+              height: 30px;
+              p {
+                  margin-top: 2px;
+                  font-size: 10px;
+              }
+              .active {
+                  padding: 4.5px 15px 3.5px 15px;
+              }
+          }
+          .banner {
+              height: 210px;
+          }
+          #PopularShopItem_Text {
+              p {
+                  font-size: 16px;
+              }
+              .seeMoreItemsRoute {
+                  font-size: 12px;
+              }
+          }
+      }
   }
 </style>

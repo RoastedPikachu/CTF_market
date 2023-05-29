@@ -56,45 +56,50 @@
     const setDataAboutUser = () => {
         const url = new URL('http://79.174.12.75:3134/api/v1/auth/register/');
 
-        axios.post(url.toString(), {
-            secret_key: token.value,
-            password: password.value,
-            email: email.value,
-            phone: phone.value
-        }, {
-            headers: { 'Content-Type': 'application/json;charset=utf-8' }
-        })
-            .then((res:any) => {
-                if(res.data.error) {
-                    throw res.data.error;
-                } else {
-                    router.push(`/signIn`);
-                }
+        const phoneRegex = /^((\+7|7|8)+([0-9]){10})$/;
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+        if(phoneRegex.test(phone.value) && emailRegex.test(email.value)) {
+            axios.post(url.toString(), {
+                secret_key: token.value,
+                password: password.value,
+                email: email.value,
+                phone: phone.value
+            }, {
+                headers: { 'Content-Type': 'application/json;charset=utf-8' }
             })
-            .catch((error:any) => {
-                switch(error) {
-                    case 2: errorMess.value = 'Пользователь по такому токену не найден';
-                        break;
+                .then((res:any) => {
+                    if(res.data.error) {
+                        throw res.data.error;
+                    } else {
+                        router.push(`/signIn`);
+                    }
+                })
+                .catch((error:any) => {
+                    switch(error) {
+                        case 2: errorMess.value = 'Пользователь по такому токену не найден';
+                            break;
 
-                    case 3: errorMess.value = 'Пользователь с таким токеном уже существует';
-                        break;
+                        case 3: errorMess.value = 'Пользователь с таким токеном уже существует';
+                            break;
 
-                    case 4: errorMess.value = 'Заполните поле "токен"';
-                        break;
+                        case 4: errorMess.value = 'Заполните поле "токен"';
+                            break;
 
-                    case 5: errorMess.value = 'Заполните поле "пароль"';
-                        break;
+                        case 5: errorMess.value = 'Заполните поле "пароль"';
+                            break;
 
-                    case 6: errorMess.value = 'Заполните поле "почта"';
-                        break;
-
-                    case 7: errorMess.value = 'Заполните поле "телефон"';
-                        break;
-
-                    case 0: errorMess.value = 'Неизвестная ошибка';
-                        break;
-                }
-            })
+                        case 0: errorMess.value = 'Неизвестная ошибка';
+                            break;
+                    }
+                });
+        } else if(!phoneRegex.test(phone.value)) {
+            errorMess.value = 'Телефон введён в неправильном формате';
+        } else if(!emailRegex.test(email.value)) {
+            errorMess.value = 'Почта введена в неправильном формате';
+        } else {
+            errorMess.value = 'Телефон и почта введены в неправильном формате';
+        }
     }
 </script>
 
@@ -203,16 +208,17 @@
     @media(max-width: 480px) {
         main {
             #Register {
+                margin-top: -50px;
                 width: 85%;
                 height: 600px;
                 #Register_Logo {
-                    margin-top: 0px;
-                    margin-left: 10px;
+                    margin-top: 20px;
+                    margin-left: calc(10% + 10px);
                     width: 77.5%;
-                    height: 70px;
+                    height: auto;
                 }
                 form {
-                    margin-top: -40px;
+                    margin-top: 10px;
                     height: 440px;
                     div {
                         width: 75%;
@@ -227,7 +233,8 @@
                     }
                 }
                 #Register_SignIn {
-                    width: 75%;
+                    margin-top: 10px;
+                    width: 100%;
                     line-height: 22px;
                 }
             }

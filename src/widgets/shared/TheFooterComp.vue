@@ -28,7 +28,7 @@
         position: absolute;
         width: 100%;
         color: #9afbe7;;
-        font-size: 48px;
+        font-size: 3em;
         font-weight: 700;
         font-family: 'DM Sans', sans-serif;
         text-align: center;
@@ -38,10 +38,40 @@
         width: 100%;
         filter: blur(8px);
         color: rgba(154, 251, 231, 0.5);
-        font-size: 48px;
+        font-size: 3em;
         font-weight: 700;
         font-family: 'DM Sans', sans-serif;
         text-align: center;
+      }
+    }
+  }
+
+  @media(max-width: 480px) {
+    footer {
+      height: 200px;
+      #BlurContacts {
+        width: 100%;
+        height: 35px;
+        h2 {
+          font-size: 2em;
+        }
+        p {
+          font-size: 2em;
+        }
+      }
+    }
+  }
+
+  @media(max-width: 360px) {
+    footer {
+      #BlurContacts {
+        height: 30px;
+        h2 {
+          font-size: 1.75em;
+        }
+        p {
+          font-size: 1.75em;
+        }
       }
     }
   }

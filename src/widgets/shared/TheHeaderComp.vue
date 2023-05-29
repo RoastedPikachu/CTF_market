@@ -2,6 +2,8 @@
   <header>
       <img src="@/assets/userAvatar.svg" alt="Профиль" id="ProfileImg" @click="isModalProfileActive = !isModalProfileActive">
 
+      <img src="@/assets/hamburgerIcon.svg" alt="Меню" id="HamburgerMenu" @click="isModalProfileActive = !isModalProfileActive">
+
       <div id="ModalProfileWindow" v-if="isModalProfileActive && isSignIn">
           <img src="@/assets/x-markIcon.png" alt="Закрыть" id="ModalProfileWindow_Close" @click="isModalProfileActive = !isModalProfileActive">
 
@@ -37,8 +39,10 @@
       <nav>
           <router-link to="/" class="route">Главная</router-link>
           <router-link to="/shopItems" class="route">Товары</router-link>
-          <router-link to="/signIn" class="route">Вход</router-link>
-          <router-link to="/registration" class="route">Регистрация</router-link>
+          <span>
+              <router-link to="/signIn" class="route">Вход/</router-link>
+              <router-link to="/registration" class="route">Регистрация</router-link>
+          </span>
       </nav>
 
       <span>
@@ -243,6 +247,9 @@
       border-radius: 50%;
       cursor: pointer;
     }
+    #HamburgerMenu {
+        display: none;
+    }
     #ModalProfileWindow {
         position: absolute;
         top: 25px;
@@ -366,7 +373,8 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      width: 40%;
+      margin-left: -10%;
+      width: 35%;
       .route {
         color: #ffffff;
         font-size: 20px;
@@ -374,6 +382,9 @@
         font-family: 'DM Sans', sans-serif;
         text-decoration: none;
         outline: none;
+      }
+      span {
+          display: flex;
       }
     }
     span {
@@ -572,5 +583,57 @@
             }
         }
     }
+  }
+
+  @media(max-width: 480px) {
+    header {
+        height: 50px;
+        #ProfileImg {
+            display: none;
+        }
+        #HamburgerMenu {
+            display: block;
+            width: 25px;
+            cursor: pointer;
+        }
+        nav {
+            margin-left: 0;
+            width: 75%;
+            .route {
+                font-size: 12px;
+            }
+            span {
+                width: 40%;
+            }
+        }
+        span {
+            width: 25px;
+            img {
+                width: 25px;
+            }
+            p {
+                display: none;
+            }
+        }
+    }
+  }
+
+  @media(max-width: 360px) {
+      header {
+          #HamburgerMenu {
+              width: 22.5px;
+          }
+          nav {
+              .route {
+                  font-size: 10px;
+              }
+          }
+          span {
+              width: 22.5px;
+              img {
+                  width: 22.5px;
+              }
+          }
+      }
   }
 </style>

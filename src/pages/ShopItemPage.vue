@@ -245,4 +245,8 @@
       }
     }
   }
+
+  @media(max-width: 480px) {
+
+  }
 </style>

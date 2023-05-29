@@ -26,7 +26,7 @@
     bottom: 20px;
     left: 10%;
     padding: 5px 10px 5px 30px;
-    width: 80%;
+    width: calc(80% - 40px);
     height: 60px;
     background-color: #2c2d2d;
     border-radius: 35px;
