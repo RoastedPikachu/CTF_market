@@ -113,7 +113,7 @@
         width: 100%;
         height: 100vh;
         background-image: url('@/assets/SignInBackground.svg');
-        background-size: cover;
+        background-size: contain;
         background-repeat: no-repeat;
         #Register {
           width: 480px;
@@ -153,7 +153,7 @@
                 }
                 ::placeholder {
                     color: #bababa;
-                    font-size: 14px;
+                    font-size: 0.875em;
                     font-weight: 400;
                     font-family: 'DM Sans', sans-serif;
                 }
@@ -174,16 +174,22 @@
                 border-radius: 40px;
                 box-shadow: 0 0 38px rgba(46, 236, 197, 0.1);
                 color: #42d4ba;
-                font-size: 20px;
+                font-size: 1.25em;
                 font-weight: 700;
                 font-family: 'DM Sans', sans-serif;
                 cursor: pointer;
                 outline: none;
+                transition: 250ms ease;
+            }
+            button:hover {
+                background-color: #42d4ba;
+                border: none;
+                color: #ffffff;
             }
             #Register_Error {
                 width: 100%;
                 color: #fa3e3e;
-                font-size: 14px;
+                font-size: 0.875em;
                 font-weight: 500;
                 font-family: 'DM Sans', sans-serif;
                 text-align: center;
@@ -192,7 +198,7 @@
           #Register_SignIn {
             margin-top: 20px;
             color: #ffffff;
-            font-size: 14px;
+            font-size: 0.875em;
             font-weight: 400;
             font-family: 'DM Sans', sans-serif;
             text-align: center;
@@ -229,7 +235,7 @@
                     button {
                         width: 220px;
                         height: 50px;
-                        font-size: 16px;
+                        font-size: 1em;
                     }
                 }
                 #Register_SignIn {

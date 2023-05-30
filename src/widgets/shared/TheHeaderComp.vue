@@ -430,7 +430,7 @@
             }
             p {
                 color: #ffffff;
-                font-size: 18px;
+                font-size: 1.125em;
                 font-weight: 700;
                 font-family: 'Montserrat', 'sans-serif';
             }
@@ -466,12 +466,12 @@
                             margin-left: 0;
                             width: 100%;
                             color: #ffffff;
-                            font-size: 16px;
+                            font-size: 0.875em;
                             font-weight: 500;
                             font-family: 'DM Sans', sans-serif;
                         }
                         p:last-child {
-                            font-size: 14px;
+                            font-size: 0.875em;
                             font-weight: 700;
                         }
                     }
@@ -498,11 +498,11 @@
                                 background-color: #ffffff;
                                 border: none;
                                 border-radius: 10px;
-                                font-size: 18px;
+                                font-size: 1.125em;
                                 cursor: pointer;
                             }
                             button:last-child {
-                                font-size: 22px;
+                                font-size: 1.375em;
                             }
                             p {
                                 text-align: center;
@@ -527,18 +527,18 @@
                 p {
                     margin-left: 0;
                     color: rgba(255, 255, 255, 0.6);
-                    font-size: 24px;
+                    font-size: 1.5em;
                     font-weight: 700;
                     font-family: 'DM Sans', sans-serif;
                 }
                 p:last-child {
                     color: #ffffff;
-                    font-size: 16px;
+                    font-size: 1em;
                 }
             }
             #ShoppingCart_BottomBalance {
                 p {
-                    font-size: 16px;
+                    font-size: 1em;
                 }
             }
             input {
@@ -550,14 +550,14 @@
                 border: 1px solid rgba(255, 255, 255, 0.6);
                 border-radius: 10px;
                 color: #bababa;
-                font-size: 14px;
+                font-size: 0.875em;
                 font-weight: 700;
                 font-family: 'DM Sans', sans-serif;
                 outline: none;
             }
             ::placeholder {
                 color: #bababa;
-                font-size: 14px;
+                font-size: 0.875em;
                 font-weight: 700;
                 font-family: 'DM Sans', sans-serif;
             }
@@ -573,7 +573,7 @@
                 border: none;
                 border-radius: 10px;
                 color: #ffffff;
-                font-size: 16px;
+                font-size: 1em;
                 font-weight: 700;
                 font-family: 'DM Sans', sans-serif;
                 cursor: pointer;
@@ -600,7 +600,7 @@
             margin-left: 0;
             width: 75%;
             .route {
-                font-size: 12px;
+                font-size: 0.75em;
             }
             span {
                 width: 40%;
@@ -618,20 +618,47 @@
     }
   }
 
-  @media(max-width: 360px) {
+  @media(max-width: 380px) {
       header {
           #HamburgerMenu {
               width: 22.5px;
           }
           nav {
               .route {
-                  font-size: 10px;
+                  font-size: 0.625em;
               }
           }
           span {
               width: 22.5px;
               img {
                   width: 22.5px;
+              }
+          }
+      }
+  }
+  @media(max-width: 360px) {
+      header {
+          #HamburgerMenu {
+              width: 20px;
+          }
+          span {
+              width: 20px;
+              img {
+                  width: 20px;
+              }
+          }
+      }
+  }
+
+  @media(max-width: 330px) {
+      header {
+          #HamburgerMenu {
+              width: 17.5px;
+          }
+          span {
+              width: 17.5px;
+              img {
+                  width: 17.5px;
               }
           }
       }

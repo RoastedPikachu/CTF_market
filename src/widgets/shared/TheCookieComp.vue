@@ -25,11 +25,12 @@
     align-items: center;
     bottom: 20px;
     left: 10%;
-    padding: 5px 10px 5px 30px;
-    width: calc(80% - 40px);
-    height: 60px;
+    padding: 5px 17.5px 5px 30px;
+    width: calc(80% - 47.5px);
+    height: calc(70px - 3px);
     background-color: #2c2d2d;
-    border-radius: 35px;
+    border: 1.5px solid #707070;
+    border-radius: 45px;
     p {
       color: #ffffff;
       font-size: 24px;
@@ -37,7 +38,7 @@
       font-family: 'DM Sans', sans-serif;
     }
     button {
-      width: 180px;
+      width: 170px;
       height: 50px;
       background-color: #42d4ba;
       border: none;
@@ -48,6 +49,12 @@
       font-family: 'DM Sans', sans-serif;
       outline: none;
       cursor: pointer;
+      transition: 250ms ease;
+    }
+    button:hover {
+      background-color: rgba(46, 236, 197, 0.1);
+      border: 1.5px solid #2eecc5;
+      color: #42d4ba;
     }
   }
 </style>

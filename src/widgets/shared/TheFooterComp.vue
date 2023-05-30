@@ -62,7 +62,7 @@
     }
   }
 
-  @media(max-width: 360px) {
+  @media(max-width: 380px) {
     footer {
       #BlurContacts {
         height: 30px;
@@ -71,6 +71,21 @@
         }
         p {
           font-size: 1.75em;
+        }
+      }
+    }
+  }
+
+  @media(max-width: 360px) {
+    footer {
+      height: 150px;
+      #BlurContacts {
+        margin-top: 20px;
+        h2 {
+          font-size: 1.625em;
+        }
+        p {
+          font-size: 1.625em;
         }
       }
     }

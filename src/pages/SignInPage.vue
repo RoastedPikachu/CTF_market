@@ -56,6 +56,7 @@
                     } else {
                         document.cookie =`token=${res.data.token}; path=/; max-age=2592000; secure=true`;
                         store.dispatch('changeIsSignIn');
+                        store.dispatch('changeIsCookieOpen');
                         router.push(`/`);
                     }
                 })
@@ -90,7 +91,7 @@
         width: 100%;
         height: 100vh;
         background-image: url('@/assets/SignInBackground.svg');
-        background-size: cover;
+        background-size: contain;
         background-repeat: no-repeat;
         #SignIn {
             display: flex;
@@ -134,7 +135,7 @@
                     }
                     ::placeholder {
                         color: #bababa;
-                        font-size: 14px;
+                        font-size: 0.875em;
                         font-weight: 400;
                         font-family: 'DM Sans', sans-serif;
                     }
@@ -142,7 +143,7 @@
                 p {
                     width: 100%;
                     color: #ffffff;
-                    font-size: 14px;
+                    font-size: 0.875em;
                     font-weight: 700;
                     font-family: 'DM Sans', sans-serif;
                     text-align: center;
@@ -159,15 +160,21 @@
                     border-radius: 40px;
                     box-shadow: 0 0 38px rgba(46, 236, 197, 0.1);
                     color: #42d4ba;
-                    font-size: 20px;
+                    font-size: 1.25em;
                     font-weight: 700;
                     font-family: 'DM Sans', sans-serif;
                     cursor: pointer;
+                    transition: 250ms ease;
+                }
+                button:hover {
+                    background-color: #42d4ba;
+                    border: none;
+                    color: #ffffff;
                 }
                 #SignIn_Error {
                     width: 100%;
                     color: #fa3e3e;
-                    font-size: 14px;
+                    font-size: 0.875em;
                     font-weight: 500;
                     font-family: 'DM Sans', sans-serif;
                     text-align: center;
@@ -176,7 +183,7 @@
             #SignIn_Register {
                 margin-top: -40px;
                 color: #ffffff;
-                font-size: 14px;
+                font-size: 0.875em;
                 font-weight: 400;
                 font-family: 'DM Sans', sans-serif;
                 text-align: center;
@@ -212,7 +219,7 @@
                     button {
                         width: 200px;
                         height: 50px;
-                        font-size: 18px;
+                        font-size: 1.125em;
                     }
                 }
                 #SignIn_Register {

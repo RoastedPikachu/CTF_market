@@ -12,7 +12,7 @@ interface ShoppingCartItem {
 export default createStore({
   state: {
     isSignIn: false,
-    isCookieOpen: true,
+    isCookieOpen: false,
     shoppingCart: [] as ShoppingCartItem[],
     countOfItemsInShoppingCart: 0
   },

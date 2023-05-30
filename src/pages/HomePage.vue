@@ -21,7 +21,7 @@
         <span id="PopularShopItem_Text">
             <p>Популярные товары</p>
 
-            <router-link to="/shopItems" class="seeMoreItemsRoute">Смотреть всё</router-link>
+            <router-link to="/shopItems" class="seeMoreItemsRoute">Смотреть всe</router-link>
         </span>
 
         <div id="PopularShopItemsWrapper">
@@ -181,9 +181,9 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: 0 2.5%;
-        margin: 20px 45% 0 10%;
-        width: 40%;
+        padding: 0 25px;
+        margin: 450px 45% 0 10%;
+        width: 42.5%;
         height: 65px;
         background-color: #2c2d2d;
         border-radius: 40px;
@@ -219,8 +219,9 @@
           display: flex;
           justify-content: space-between;
           align-items: center;
-          margin: 40px 10%;
+          margin: 60px 10%;
           width: 80%;
+          height: 20px;
           p {
               color: #ffffff;
               font-size: 36px;
@@ -240,7 +241,7 @@
           display: flex;
           justify-content: space-between;
           align-items: center;
-          margin: -20px 10% 0 10%;
+          margin: -40px 10% 0 10%;
           width: 80%;
           height: auto;
       }

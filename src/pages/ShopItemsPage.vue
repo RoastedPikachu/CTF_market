@@ -204,12 +204,13 @@
         height: 60px;
         background-color: #42d4ba;
         border: none;
-        border-radius: 25px;
+        border-radius: 30px;
         color: #ffffff;
         font-size: 24px;
         font-weight: 500;
         font-family: 'DM Sans', sans-serif;
         cursor: pointer;
+        outline: none;
         img {
           margin-right: 10px;
         }
@@ -315,6 +316,7 @@
             }
         }
         #ModalFilterWindow_Price {
+            margin-top: 10px;
             height: 110px;
             p {
                 color: #ffffff;
@@ -338,13 +340,13 @@
                     border-radius: 15px;
                     color: #bababa;
                     font-size: 20px;
-                    font-weight: 700;
+                    font-weight: 500;
                     outline: none;
                 }
                 ::placeholder {
                     color: #bababa;
                     font-size: 20px;
-                    font-weight: 700;
+                    font-weight: 500;
                 }
             }
         }
@@ -352,7 +354,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            margin-top: 15px;
+            margin-top: 25px;
             width: 32.5%;
             height: 60px;
             background-color: #42d4ba;
