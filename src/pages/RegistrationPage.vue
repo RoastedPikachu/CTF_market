@@ -26,7 +26,7 @@
 
               <div>
                   <img src="@/assets/passwordIcon.svg" alt="Пароль">
-                  <input type="text" placeholder="Пароль" v-model="password">
+                  <input type="password" placeholder="Пароль" v-model="password">
               </div>
 
               <p id="Register_Error" v-if="errorMess">{{ errorMess }}</p>

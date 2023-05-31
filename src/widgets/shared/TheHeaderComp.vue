@@ -588,29 +588,36 @@
   @media(max-width: 480px) {
     header {
         height: 50px;
+
         #ProfileImg {
             display: none;
         }
+
         #HamburgerMenu {
             display: block;
             width: 25px;
             cursor: pointer;
         }
+
         nav {
             margin-left: 0;
             width: 75%;
+
             .route {
                 font-size: 0.75em;
             }
+
             span {
                 width: 40%;
             }
         }
+
         span {
             width: 25px;
             img {
                 width: 25px;
             }
+
             p {
                 display: none;
             }
@@ -623,13 +630,16 @@
           #HamburgerMenu {
               width: 22.5px;
           }
+
           nav {
               .route {
                   font-size: 0.625em;
               }
           }
+
           span {
               width: 22.5px;
+
               img {
                   width: 22.5px;
               }
@@ -641,8 +651,10 @@
           #HamburgerMenu {
               width: 20px;
           }
+
           span {
               width: 20px;
+
               img {
                   width: 20px;
               }
@@ -655,10 +667,43 @@
           #HamburgerMenu {
               width: 17.5px;
           }
+
           span {
               width: 17.5px;
+
               img {
                   width: 17.5px;
+              }
+          }
+      }
+  }
+
+  @media(min-width: 2560px) and (min-height: 1440px) {
+      header {
+          height: 130px;
+
+          #ProfileImg {
+              width: 50px;
+              height: 50px;
+          }
+
+          nav {
+              .route {
+                  font-size: 26px;
+              }
+          }
+
+          span {
+              width: 50px;
+              height: 50px;
+
+              img {
+                  width: 42.5px;
+                  height: 42.5px;
+              }
+
+              p {
+                  font-size: 28px;
               }
           }
       }

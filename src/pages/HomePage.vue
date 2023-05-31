@@ -15,7 +15,11 @@
         </div>
 
         <div v-for="banner of banners" :key="banner.id" class="banner" v-show="banner.isActive">
-            <img src="@/assets/mugBanner.svg">
+            <img src="@/assets/mugBanner.svg" alt="Баннер кружек" v-if="banner.id == 1">
+
+            <img src="@/assets/tshirtBanner.svg" alt="Баннер футболок" v-if="banner.id == 2">
+
+            <img src="@/assets/sweatshirtBanner.svg" alt="Баннер толстовок" v-if="banner.id == 3">
         </div>
 
         <span id="PopularShopItem_Text">
@@ -395,20 +399,62 @@
       main {
           #MovingImgWrapper {
               padding-top: 120px;
+
               #TopLogoText {
                   height: 70px;
               }
+
               #BottomLogoText {
-                  margin-top: 0;
-                  height: 50px;
+                  margin-top: 5px;
+                  height: 60px;
               }
           }
+
           #BgImage {
-              top: 270px;
+              top: 290px;
           }
+
           .banner {
               margin: 40px 10% 0 10%;
               height: 800px;
+          }
+      }
+  }
+
+  @media(min-width: 2560px) and (min-height: 1440px) {
+      main {
+          #MovingImgWrapper {
+              padding-top: 120px;
+
+              #TopLogoText {
+                  height: 70px;
+              }
+
+              #BottomLogoText {
+                  margin-top: 15px;
+                  height: 60px;
+              }
+          }
+
+          #BgImage {
+              top: 310px;
+          }
+
+          #Categories {
+              padding: 0 35px;
+              height: 75px;
+
+              p {
+                  font-size: 28px;
+              }
+              .active {
+                  padding: 10px 30px;
+              }
+          }
+
+          .banner {
+              margin: 60px 10% 0 10%;
+              height: 1000px;
           }
       }
   }

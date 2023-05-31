@@ -395,4 +395,154 @@
     }
   }
 
+  @media(max-width: 480px) {
+      main {
+          margin: 0;
+          padding: 0 5%;
+          width: 90%;
+          min-height: 800px;
+          #ShopItemsLogo {
+              padding-top: 50px;
+              width: 60%;
+              height: 50px;
+          }
+
+          #ShopItemsNav {
+              height: 80px;
+
+              button {
+                  margin-top: -10px;
+                  width: 120px;
+                  height: 40px;
+                  font-size: 16px;
+
+                  img {
+                      margin-right: 7.5px;
+                      width: 20px;
+                  }
+              }
+          }
+
+          #ShopItemsContainer {
+              margin-top: -50px;
+          }
+      }
+  }
+
+  @media(max-width: 380px) {
+      main {
+          #ShopItemsLogo {
+              padding-top: 50px;
+              width: 70%;
+              height: 55px;
+          }
+      }
+  }
+
+  @media(min-width: 1920px) and (min-height: 1080px) {
+      main {
+          #ShopItemsLogo {
+              width: 44%;
+          }
+      }
+  }
+
+  @media(min-width: 2560px) and (min-height: 1440px) {
+      main {
+          #ShopItemsLogo {
+              padding-top: 130px;
+              width: 45%;
+              height: 290px;
+          }
+
+          #ShopItemsNav {
+              height: 80px;
+
+              button {
+                  margin-top: -20px;
+                  width: 230px;
+                  height: 70px;
+                  font-size: 26px;
+              }
+          }
+
+          #ModalFilterWindow {
+              margin-top: 20px;
+
+              #ModalFilterWindow_Categories {
+                  height: 100px;
+
+                  p {
+                      font-size: 32px;
+                  }
+
+                  span {
+                      margin-top: 10px;
+                      width: 45%;
+
+                      p {
+                          font-size: 28px;
+                      }
+
+                      .categoryActive {
+                          padding: 7.5px 30px;
+                      }
+                  }
+              }
+
+              #ModalFilterWindow_Sizes {
+                  p {
+                      font-size: 32px;
+                  }
+
+                  div {
+                      margin-top: 20px;
+                      width: 22.5%;
+
+                      button {
+                          padding: 2px 20px 0;
+                          height: 65px;
+                          font-size: 28px;
+                      }
+                  }
+              }
+
+              #ModalFilterWindow_Price {
+                  margin-top: 15px;
+
+                  p {
+                      font-size: 32px;
+                  }
+
+                  div {
+                      margin-top: 20px;
+
+                      input {
+                          width: 40%;
+                          height: 55px;
+                          font-size: 22px;
+                      }
+
+                      ::placeholder {
+                          font-size: 22px;
+                      }
+                  }
+              }
+
+              #ModalFilterWindow_Accept {
+                  margin-top: 35px;
+                  width: 25%;
+                  height: 70px;
+                  font-size: 26px;
+              }
+
+              #ModalFilterWindow_Reset {
+                  margin-top: 25px;
+                  width: 25%;
+                  height: 70px;
+                  font-size: 26px;
+              }
+          }
+      }
+  }
 </style>
