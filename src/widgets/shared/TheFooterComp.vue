@@ -64,6 +64,7 @@
 
   @media(max-width: 380px) {
     footer {
+      height: 170px;
       #BlurContacts {
         height: 30px;
         h2 {

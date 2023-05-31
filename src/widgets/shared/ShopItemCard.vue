@@ -1,5 +1,5 @@
 <template>
-    <div class="shopItem"
+    <router-link class="shopItem"
          v-for="shopItem of shopItems"
          :key="shopItem.id"
          :to="{ name: 'shopItem', params: { id: shopItem.id } }"
@@ -21,7 +21,7 @@
                 </button>
             </div>
         </div>
-    </div>
+    </router-link>
 </template>
 
 <script lang="ts" setup>
@@ -52,6 +52,7 @@
         background: linear-gradient(168.64deg, #313134 9.31%, #292929 61.88%, #282828 111.76%);
         border: 2px solid rgba(255, 255, 255, 0.2);
         border-radius: 35px;
+        text-decoration: none;
         .shopItem_ImgContainer {
             margin-top: 0;
             width: 100%;

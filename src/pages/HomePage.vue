@@ -15,7 +15,7 @@
         </div>
 
         <div v-for="banner of banners" :key="banner.id" class="banner" v-show="banner.isActive">
-            <img src="@/assets/mugBanner.svg" alt="Баннер для кружек" v-if="banner.id === 1">
+            <img src="@/assets/mugBanner.svg">
         </div>
 
         <span id="PopularShopItem_Text">
@@ -205,14 +205,12 @@
           margin: 40px 10% 0 10%;
           width: 80%;
           height: 640px;
-          border-radius: 35px 35px 0;
-          overflow: hidden;
           img {
-              position: absolute;
               width: 100%;
               height: 100%;
-              background-size: cover;
+              border-radius: 35px 35px 0;
               background-repeat: no-repeat;
+              object-fit: cover;
           }
       }
       #PopularShopItem_Text {
@@ -300,9 +298,78 @@
       }
   }
 
-  @media(max-width: 360px) {
+  @media(max-width: 480px) {
       main {
-          padding: 0 0 30px 0;
+          #MovingImgWrapper {
+              #TopLogoText {
+                  height: 40px;
+              }
+              #BottomLogoText {
+                  height: 35px;
+              }
+          }
+          .banner {
+              margin-top: 20px;
+              height: 40%;
+              border-radius: 20px 20px 0;
+              img {
+                  border-radius: 20px 20px 0;
+                  object-fit: fill;
+              }
+          }
+          #PopularShopItem_Text {
+              margin-top: 20px;
+          }
+      }
+  }
+
+  @media(max-width: 420px) {
+      main {
+          #Categories {
+              height: 35px;
+              p {
+                  margin-top: 2px;
+                  font-size: 12px;
+              }
+              .active {
+                  padding: 4.5px 15px 3.5px 15px;
+              }
+          }
+          #PopularShopItem_Text {
+              p {
+                  font-size: 18px;
+              }
+              .seeMoreItemsRoute {
+                  font-size: 14px;
+              }
+          }
+      }
+  }
+
+  @media(max-width: 400px) {
+      main {
+          #MovingImgWrapper {
+              #TopLogoText {
+                  height: 40px;
+              }
+              #BottomLogoText {
+                  height: 20px;
+              }
+          }
+      }
+  }
+
+  @media(max-width: 370px) {
+      main {
+          padding: 0 0 20px 0;
+          #MovingImgWrapper {
+              #TopLogoText {
+                  height: 35px;
+              }
+              #BottomLogoText {
+                  height: 20px;
+              }
+          }
           #Categories {
               height: 30px;
               p {
@@ -313,9 +380,6 @@
                   padding: 4.5px 15px 3.5px 15px;
               }
           }
-          .banner {
-              height: 210px;
-          }
           #PopularShopItem_Text {
               p {
                   font-size: 16px;
@@ -323,6 +387,28 @@
               .seeMoreItemsRoute {
                   font-size: 12px;
               }
+          }
+      }
+  }
+
+  @media(min-width: 1920px) and (min-height: 1080px) {
+      main {
+          #MovingImgWrapper {
+              padding-top: 120px;
+              #TopLogoText {
+                  height: 70px;
+              }
+              #BottomLogoText {
+                  margin-top: 0;
+                  height: 50px;
+              }
+          }
+          #BgImage {
+              top: 270px;
+          }
+          .banner {
+              margin: 40px 10% 0 10%;
+              height: 800px;
           }
       }
   }

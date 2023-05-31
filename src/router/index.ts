@@ -15,7 +15,7 @@ const routes: Array<RouteRecordRaw> = [
     component: HomePage
   },
   {
-    path: '/admin/createShopItem/',
+    path: '/admin/createShopItem',
     name: 'adminCreate',
     component: AdminCreateItemPage
   },
@@ -25,7 +25,7 @@ const routes: Array<RouteRecordRaw> = [
     component: AdminWatchForOrdersPage
   },
   {
-    path: '/shopItems/',
+    path: '/shopItems',
     name: 'shopItems',
     component: ShopItemsPage
   },

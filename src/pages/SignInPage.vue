@@ -229,4 +229,107 @@
             }
         }
     }
+
+    @media(min-width: 1800px) {
+        main {
+            #SignIn {
+                width: 37.5%;
+                height: 47.5%;
+                #SignIn_Logo {
+                    margin-top: 20px;
+                    margin-left: 20px;
+                    width: 82.5%;
+                    height: 120px;
+                }
+                form {
+                    margin-top: -70px;
+                    height: 500px;
+                    div {
+                        width: 85%;
+                        height: 100px;
+                        border-radius: 30px;
+                        img {
+                            width: 50px;
+                        }
+                        input {
+                            @include input(15px, 30px);
+                            padding-left: 20px;
+                            font-size: 2em;
+                        }
+                    }
+                    #SignIn_Error {
+                        font-size: 2em;
+                    }
+                    p {
+                        font-size: 1.75em;
+                    }
+                    button {
+                        width: 50%;
+                        height: 80px;
+                        font-size: 2em;
+                    }
+                }
+                #SignIn_Register {
+                    margin-top: -60px;
+                    width: 75%;
+                    font-size: 1.75em;
+                    line-height: 40px;
+                }
+            }
+        }
+    }
+
+    @media(min-width: 2000px) {
+        main {
+            #SignIn {
+                width: 35%;
+                height: 47.5%;
+                border-radius: 30px;
+            }
+        }
+    }
+
+    @media(min-width: 2200px) {
+        main {
+            #SignIn {
+                height: 50%;
+                form {
+                    div {
+                        width: 80%;
+                    }
+                }
+            }
+        }
+    }
+
+    @media(min-width: 2400px) {
+        main {
+            #SignIn {
+                height: 55%;
+                #SignIn_Logo {
+                    height: 130px;
+                }
+                form {
+                    margin-top: -80px;
+                    div {
+                        width: 75%;
+                    }
+                    p {
+                        font-size: 2.125em;
+                    }
+                    button {
+                        margin-top: 10px;
+                        width: 45%;
+                        height: 100px;
+                        border-radius: 45px;
+                        font-size: 2.375em;
+                    }
+                }
+                #SignIn_Register {
+                    margin-top: -80px;
+                    font-size: 2.125em;
+                }
+            }
+        }
+    }
 </style>
