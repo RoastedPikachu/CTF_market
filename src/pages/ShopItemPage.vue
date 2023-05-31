@@ -247,6 +247,176 @@
   }
 
   @media(max-width: 480px) {
+      main {
+          margin: 0 5%;
+          width: 90%;
+          height: 850px;
 
+          #ShopItemsLogo {
+              margin-top: 50px;
+              width: 60%;
+              height: 50px;
+          }
+
+          #MainShopItemInfo {
+              display: block;
+              margin-top: 20px;
+
+              #MainShopItemInfo_Images {
+                  width: 100%;
+                  height: 50%;
+
+                  img {
+                      height: 100%;
+                  }
+
+                  span {
+                      display: none;
+                  }
+              }
+
+              aside {
+                  margin-top: 20px;
+                  padding-bottom: 20px;
+                  width: 100%;
+                  height: auto;
+
+                  h2 {
+                      font-size: 26px;
+                  }
+
+                  p {
+                      margin-top: 20px;
+                      font-size: 22px;
+                  }
+
+                  p:nth-child(2) {
+                      margin-top: 10px;
+                  }
+
+                  div {
+                      margin-top: 10px;
+                      width: 55%;
+                  }
+
+                  #AddToShoppingCart {
+                      width: 65%;
+                      height: 50px;
+                  }
+              }
+          }
+      }
+  }
+
+  @media(max-width: 380px) {
+      main {
+          #ShopItemsLogo {
+              margin-top: 50px;
+              width: 65%;
+              height: 55px;
+          }
+
+          #MainShopItemInfo {
+              display: block;
+              margin-top: 10px;
+
+              aside {
+                  h2 {
+                      font-size: 24px;
+                  }
+
+                  p {
+                      margin-top: 20px;
+                      font-size: 20px;
+                  }
+
+                  div {
+                      margin-top: 10px;
+                      width: 62.5%;
+                  }
+
+                  #AddToShoppingCart {
+                      width: 70%;
+                      height: 50px;
+                  }
+              }
+          }
+      }
+  }
+
+  @media(min-width: 1920px) and (min-height: 1080px) {
+      main {
+          margin: 0;
+          padding: 0 12.5% 0 17.5%;
+          width: 70%;
+
+          #ShopItemsLogo {
+              width: 37.5%;
+          }
+
+          #MainShopItemInfo {
+              aside {
+                  div {
+                      width: 32.5%;
+                  }
+              }
+          }
+      }
+  }
+
+  @media(min-width: 2560px) and (min-height: 1440px) {
+      main {
+          padding: 0 12.5% 0 22.5%;
+          width: 65%;
+          height: 1200px;
+          #ShopItemsLogo {
+              margin-top: 130px;
+              width: 32.5%;
+              height: 130px;
+          }
+
+          #MainShopItemInfo {
+              margin-top: 40px;
+              height: 850px;
+
+              aside {
+                  h2 {
+                      font-size: 42px;
+                  }
+
+                  p {
+                      margin-top: 40px;
+                      font-size: 32px;
+                  }
+
+                  p:nth-child(2) {
+                      margin-top: 30px;
+                  }
+
+                  div {
+                      width: 30%;
+                      height: 220px;
+
+                      p {
+                          font-size: 32px;
+                          height: 40px;
+                      }
+
+                      button {
+                          padding: 2px 22.5px 0;
+                          height: 65px;
+                          font-size: 28px;
+                      }
+                  }
+
+                  #AddToShoppingCart {
+                      margin-top: 30px;
+                      width: 45%;
+                      height: 70px;
+                      font-size: 24px;
+                  }
+              }
+          }
+      }
   }
 </style>
