@@ -201,27 +201,33 @@
                 margin-top: -40px;
                 width: 85%;
                 height: 460px;
+
                 #SignIn_Logo {
                     margin-top: 0;
                     margin-left: 10px;
                     width: 77.5%;
                     height: 70px;
                 }
+
                 form {
                     margin-top: -50px;
                     height: 260px;
+
                     div {
                         width: 75%;
+
                         img {
                             width: 20px;
                         }
                     }
+
                     button {
                         width: 200px;
                         height: 50px;
                         font-size: 1.125em;
                     }
                 }
+
                 #SignIn_Register {
                     width: 75%;
                     line-height: 22px;
@@ -230,104 +236,99 @@
         }
     }
 
-    @media(min-width: 1800px) {
+    @media(min-width: 1920px) and (min-height: 1080px) {
         main {
             #SignIn {
-                width: 37.5%;
-                height: 47.5%;
+                width: 500px;
+                height: 530px;
+
                 #SignIn_Logo {
-                    margin-top: 20px;
-                    margin-left: 20px;
-                    width: 82.5%;
-                    height: 120px;
+                    width: 85%;
+                    height: 72.5px;
                 }
+
                 form {
-                    margin-top: -70px;
-                    height: 500px;
+                    height: 350px;
+
                     div {
-                        width: 85%;
-                        height: 100px;
-                        border-radius: 30px;
+                        width: 350px;
+                        height: 60px;
+
                         img {
-                            width: 50px;
+                            width: 25px;
                         }
+
                         input {
-                            @include input(15px, 30px);
-                            padding-left: 20px;
-                            font-size: 2em;
+                            @include input(4px, 10px);
+                            font-size: 18px;
+                        }
+                        ::placeholder {
+                            font-size: 18px;
                         }
                     }
-                    #SignIn_Error {
-                        font-size: 2em;
-                    }
+
                     p {
-                        font-size: 1.75em;
+                        font-size: 16px;
                     }
+
                     button {
-                        width: 50%;
-                        height: 80px;
-                        font-size: 2em;
+                        margin-top: -10px;
                     }
                 }
+
                 #SignIn_Register {
-                    margin-top: -60px;
-                    width: 75%;
-                    font-size: 1.75em;
-                    line-height: 40px;
+                    font-size: 16px;
                 }
             }
         }
     }
 
-    @media(min-width: 2000px) {
+    @media(min-width: 2560px) and (min-height: 1440px) {
         main {
             #SignIn {
-                width: 35%;
-                height: 47.5%;
-                border-radius: 30px;
-            }
-        }
-    }
+                width: 550px;
+                height: 600px;
 
-    @media(min-width: 2200px) {
-        main {
-            #SignIn {
-                height: 50%;
-                form {
-                    div {
-                        width: 80%;
-                    }
-                }
-            }
-        }
-    }
-
-    @media(min-width: 2400px) {
-        main {
-            #SignIn {
-                height: 55%;
                 #SignIn_Logo {
-                    height: 130px;
+                    width: 90%;
+                    height: 80px;
                 }
+
                 form {
-                    margin-top: -80px;
+                    margin-top: -40px;
+                    height: 370px;
+
                     div {
-                        width: 75%;
+                        width: 400px;
+                        height: 65px;
+
+                        img {
+                            width: 27.5px;
+                        }
+
+                        input {
+                            @include input(4px, 10px);
+                            font-size: 20px;
+                        }
+                        ::placeholder {
+                            font-size: 20px;
+                        }
                     }
+
                     p {
-                        font-size: 2.125em;
+                        font-size: 18px;
                     }
+
                     button {
-                        margin-top: 10px;
-                        width: 45%;
-                        height: 100px;
-                        border-radius: 45px;
-                        font-size: 2.375em;
+                        margin-top: -10px;
+                        width: 260px;
+                        height: 65px;
+                        font-size: 22px;
                     }
                 }
+
                 #SignIn_Register {
-                    margin-top: -80px;
-                    font-size: 2.125em;
+                    font-size: 18px;
                 }
             }
         }

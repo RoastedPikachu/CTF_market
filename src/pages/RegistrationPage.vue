@@ -246,4 +246,97 @@
             }
         }
     }
+
+    @media(min-width: 1920px) and (min-height: 1080px) {
+        main {
+            #Register {
+                width: 530px;
+                height: 750px;
+
+                #Register_Logo {
+                    margin-left: calc(12.5% + 10px);
+                    width: 75%;
+                    height: 75px;
+                }
+
+                form {
+                    height: 530px;
+
+                    div {
+                        width: 380px;
+                        height: 60px;
+
+                        img {
+                            width: 25px;
+                        }
+
+                        input {
+                            @include input(4px, 10px);
+                            font-size: 18px;
+                        }
+                        ::placeholder {
+                            font-size: 18px;
+                        }
+                    }
+
+                    button {
+                        margin-top: 10px;
+                    }
+                }
+
+                #Register_SignIn {
+                    margin-top: 30px;
+                    font-size: 16px;
+                }
+            }
+        }
+    }
+
+    @media(min-width: 2560px) and (min-height: 1440px) {
+        main {
+            #Register {
+                width: 560px;
+                height: 800px;
+
+                #Register_Logo {
+                    margin-top: 40px;
+                    margin-left: calc(10% + 10px);
+                    width: 80%;
+                    height: 80px;
+                }
+
+                form {
+                    height: 570px;
+
+                    div {
+                        width: 380px;
+                        height: 65px;
+
+                        img {
+                            width: 27.5px;
+                        }
+
+                        input {
+                            @include input(4px, 10px);
+                            font-size: 20px;
+                        }
+                        ::placeholder {
+                            font-size: 20px;
+                        }
+                    }
+
+                    button {
+                        margin-top: 15px;
+                        width: 300px;
+                        height: 65px;
+                        font-size: 20px;
+                    }
+                }
+
+                #Register_SignIn {
+                    font-size: 20px;
+                }
+            }
+        }
+    }
 </style>
