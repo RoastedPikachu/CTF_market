@@ -134,6 +134,7 @@
           align-items: center;
           margin-top: 20px;
           height: 40px;
+          cursor: pointer;
 
           p {
             color: #ffffff;

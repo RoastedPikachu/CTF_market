@@ -148,6 +148,11 @@
           prop: 'XL',
           isActive: false,
       },
+      {
+          id: 6,
+          prop: 'XXL',
+          isActive: false
+      }
     ] as Size[]);
 
     const minPrice = ref('');
@@ -292,8 +297,8 @@
                 justify-content: space-between;
                 flex-wrap: wrap;
                 margin-top: 15px;
-                width: 27.5%;
-                height: 80px;
+                width: 35%;
+                height: 70px;
                 button {
                     display: flex;
                     align-items: center;
@@ -425,40 +430,68 @@
           #ModalFilterWindow {
               width: 100%;
               min-height: 290px;
+
               #ModalFilterWindow_Categories {
                   height: 70px;
+
                   p {
                       font-size: 20px;
                   }
+
                   span {
                       width: 90%;
+
                       p {
                           font-size: 16px;
                       }
                   }
               }
-              #ModalFilterWindow_Price {
-                  height: 70px;
+
+              #ModalFilterWindow_Sizes {
                   p {
                       font-size: 20px;
                   }
+
+                  div {
+                      width: 42%;
+                      height: 100px;
+
+                      button {
+                          padding: 2px 12.5px 0px 12.5px;
+                          height: 40px;
+                          font-size: 16px;
+                      }
+                  }
+              }
+
+              #ModalFilterWindow_Price {
+                  height: 70px;
+
+                  p {
+                      font-size: 20px;
+                  }
+
                   div {
                       width: 100%;
                       height: 35px;
+
                       input {
                           padding: 0 10px;
                           font-size: 16px;
                       }
+
                       ::placeholder {
                           font-size: 16px;
                       }
                   }
               }
+
               #ModalFilterWindow_Accept {
                   width: 50%;
                   height: 50px;
                   font-size: 16px;
               }
+
               #ModalFilterWindow_Reset {
                   width: 50%;
                   height: 50px;
@@ -479,6 +512,14 @@
               width: 70%;
               height: 55px;
           }
+
+          #ModalFilterWindow {
+              #ModalFilterWindow_Sizes {
+                  div {
+                      width: 47.5%;
+                  }
+              }
+          }
       }
   }
 
@@ -486,6 +527,20 @@
       main {
           #ShopItemsLogo {
               width: 44%;
+          }
+
+          #ModalFilterWindow {
+              #ModalFilterWindow_Categories {
+                  span {
+                      width: 45%;
+                  }
+              }
+
+              #ModalFilterWindow_Sizes {
+                  div {
+                      width: 25%;
+                  }
+              }
           }
       }
   }
@@ -540,7 +595,7 @@
 
                   div {
                       margin-top: 20px;
-                      width: 22.5%;
+                      width: 27.5%;
 
                       button {
                           padding: 2px 20px 0;

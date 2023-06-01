@@ -43,6 +43,8 @@
         <div id="PopularShopItemsWrapper">
             <ShopItemCard :shopItems="shopItems"/>
         </div>
+
+        <img src="@/assets/bugBountyBanner.svg" alt="BugBounty" id="BugBounty">
     </main>
 
     <TheFooterComp/>
@@ -271,6 +273,12 @@
           width: 80%;
           height: auto;
       }
+
+      #BugBounty {
+          margin: 60px 10% 0 10%;
+          width: 80%;
+          height: 450px;
+      }
   }
 
   @media(max-width: 480px) {
@@ -332,6 +340,7 @@
 
   @media(max-width: 480px) {
       main {
+          padding: 0 0 20px 0;
           #MovingImgWrapper {
               #TopLogoText {
                   height: 40px;
@@ -343,14 +352,22 @@
           .banner {
               margin-top: 20px;
               height: 40%;
-              border-radius: 20px 20px 0;
-              img {
-                  border-radius: 20px 20px 0;
-                  object-fit: fill;
+              border-radius: 10px 10px 0;
+              .bannerImgRoute {
+                  img {
+                      border-radius: 10px 10px 0;
+                      object-fit: fill;
+                  }
               }
           }
           #PopularShopItem_Text {
               margin-top: 20px;
+          }
+
+          #BugBounty {
+              margin: 20px 5% 0 5%;
+              width: 90%;
+              height: 170px;
           }
       }
   }
@@ -446,13 +463,17 @@
               margin: 40px 10% 0 10%;
               height: 825px;
           }
+
+          #BugBounty {
+              height: 600px;
+          }
       }
   }
 
   @media(min-width: 2560px) and (min-height: 1440px) {
       main {
           #MovingImgWrapper {
-              padding-top: 120px;
+              padding-top: 150px;
 
               #TopLogoText {
                   height: 70px;
@@ -483,6 +504,10 @@
           .banner {
               margin: 60px 10% 0 10%;
               height: 1000px;
+          }
+
+          #BugBounty {
+              height: 800px;
           }
       }
   }
