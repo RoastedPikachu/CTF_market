@@ -10,6 +10,8 @@
 
         <img src="@/assets/SignInBackground.svg" alt="Задний фон" id="BgImage">
 
+        <img src="@/assets/tagline.svg" alt="Привет! Мы - движение CTF, покупай фирменный мерч - оплачивай CTF-койнами" id="Tagline">
+
         <div id="Categories">
             <p v-for="category of categories" :key="category.id" :class="{ active: category.isActive }">{{ category.title }}</p>
         </div>
@@ -183,12 +185,16 @@
         transform: scale(1.1);
         z-index: -1;
       }
+      #Tagline {
+          margin: 80px 10% 0 10%;
+          width: 80%;
+      }
       #Categories {
         display: flex;
         justify-content: space-between;
         align-items: center;
         padding: 0 25px;
-        margin: 450px 45% 0 10%;
+        margin: 80px 45% 0 10%;
         width: 42.5%;
         height: 65px;
         background-color: #2c2d2d;
@@ -268,9 +274,13 @@
           #BgImage {
             top: 110px;
           }
+          #Tagline {
+              margin: 30px 5% 0 5%;
+              width: 90%;
+          }
           #Categories {
               padding: 0 2.5%;
-              margin: 20px 5% 0 5%;
+              margin: 35px 5% 0 5%;
               width: 85%;
               height: 40px;
               p {

@@ -55,6 +55,7 @@
         text-decoration: none;
         .shopItem_ImgContainer {
             margin-top: 0;
+            padding-bottom: 0;
             width: 100%;
             height: 80%;
             border-radius: 30px;
@@ -73,7 +74,7 @@
             }
         }
         div {
-            margin-top: -10px;
+            margin-top: 10px;
             padding-bottom: 20px;
             width: 100%;
             height: auto;
