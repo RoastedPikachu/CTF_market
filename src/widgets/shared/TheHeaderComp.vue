@@ -96,7 +96,7 @@
               <span>
                   <p>К ОПЛАТЕ</p>
 
-                  <p>{{ totalCost }}</p>
+                  <p>{{ totalCost }} баллов</p>
               </span>
 
               <input type="text" placeholder="Введите адрес" v-model="address">
@@ -166,7 +166,7 @@
   }, {deep: true});
 
   const makeAnOrder = () => {
-      if(shoppingCartItems.value.length) {
+      if(shoppingCartItems.value.length && address.value) {
           const url = new URL('http://5.188.178.143:8080/api/v1/product/buy');
 
           const token = getCookie('token');
@@ -465,8 +465,9 @@
         #shoppingCartItemsWrapper {
             margin-top: 20px;
             width: 100%;
-            height: auto;
-            min-height: 350px;
+            height: 350px;
+            overflow: scroll;
+            overflow-x: hidden;
             .shoppingCartItem {
                 display: flex;
                 justify-content: space-between;
@@ -544,6 +545,19 @@
             .shoppingCartItem:first-child {
                 margin-top: 0;
             }
+        }
+        #OrdersWrapper::-webkit-scrollbar {
+            width: 15px;
+        }
+
+        #OrdersWrapper::-webkit-scrollbar-track {
+            -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+            border-radius: 10px;
+        }
+
+        #OrdersWrapper::-webkit-scrollbar-thumb {
+            border-radius: 10px;
+            -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5);
         }
         #ShoppingCart_Bottom {
             margin-top: 10px;

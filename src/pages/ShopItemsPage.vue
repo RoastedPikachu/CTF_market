@@ -55,7 +55,7 @@
 
               <button id="ModalFilterWindow_Accept" @click="filterShopItems()">Применить</button>
 
-              <button id="ModalFilterWindow_Reset" @click="shopItems = initialShopItems">Сбросить фильтры</button>
+              <button id="ModalFilterWindow_Reset" @click="shopItems = initialShopItems; minPrice = ''; maxPrice = ''">Сбросить фильтры</button>
           </div>
       </Transition>
 

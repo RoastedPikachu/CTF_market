@@ -132,7 +132,7 @@
           .then((res:any) => {
               item.value = res.data;
 
-              switch(res.data.active) {
+              switch(res.data.category) {
                   case 'Футболки': isSizesActive.value = true;
                     break;
 

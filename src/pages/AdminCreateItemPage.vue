@@ -174,6 +174,14 @@
         }
     ]);
 
+    const getCookie = (name:string) => {
+        let matches = document.cookie.match(new RegExp(
+            //eslint-disable-next-line
+            "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
+        ));
+        return matches ? decodeURIComponent(matches[1]) : undefined;
+    }
+
     const sendPhoto = (id:number) => {
         const url = new URL('http://5.188.178.143:8080/api/v1/create');
 
@@ -224,8 +232,17 @@
     };
 
     const addProductCard = () => {
-        console.log(title.value);
-        console.log(description.value);
+        const url = new URL('http://5.188.178.143:8080/api/v1/create');
+
+        const token = getCookie('token');
+
+        axios.post(url.toString(), {
+            token: token,
+            title: title.value,
+            description: description.value,
+            category: category.value,
+            price: price.value
+        })
         console.log(category.value);
         console.log(price.value);
         console.log(sizes.value.map(item => item));
