@@ -20,6 +20,8 @@
             <img src="@/assets/tshirtBanner.svg" alt="Баннер футболок" v-if="banner.id == 2">
 
             <img src="@/assets/sweatshirtBanner.svg" alt="Баннер толстовок" v-if="banner.id == 3">
+
+            <img src="@/assets/bookBanner.svg" alt="Баннер книги" v-if="banner.id == 4">
         </div>
 
         <span id="PopularShopItem_Text">
@@ -85,7 +87,7 @@
         },
         {
             id: 4,
-            title: 'Браслеты',
+            title: 'Книги',
             isActive: false
         }
     ] as Category[]);
@@ -112,7 +114,7 @@
     const shopItems = ref([] as ShopItem[]);
 
     const getShopItems = (start:number, stop:number) => {
-        const url = new URL(`http://79.174.12.75:3134/api/v1/product/${start}/${stop}`);
+        const url = new URL(`http://5.188.178.143:8080/api/v1/product/${start}/${stop}`);
 
         axios.get(url.toString(), {
             headers: { 'Content-Type': 'application/json;charset=utf-8' }

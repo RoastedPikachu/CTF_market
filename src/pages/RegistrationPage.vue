@@ -54,7 +54,7 @@
     const errorMess = ref('');
 
     const setDataAboutUser = () => {
-        const url = new URL('http://79.174.12.75:3134/api/v1/auth/register/');
+        const url = new URL('http://5.188.178.143:8080/api/v1/auth/register/');
 
         const phoneRegex = /^((\+7|7|8)+([0-9]){10})$/;
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -66,39 +66,44 @@
                 email: email.value,
                 phone: phone.value
             }, {
-                headers: { 'Content-Type': 'application/json;charset=utf-8' }
+                headers: {'Content-Type': 'application/json;charset=utf-8'}
             })
-                .then((res:any) => {
-                    if(res.data.error) {
+                .then((res: any) => {
+                    if (res.data.error) {
                         throw res.data.error;
                     } else {
                         router.push(`/signIn`);
                     }
                 })
-                .catch((error:any) => {
-                    switch(error) {
-                        case 2: errorMess.value = 'Пользователь по такому токену не найден';
+                .catch((error: any) => {
+                    switch (error) {
+                        case 2:
+                            errorMess.value = 'Пользователь по такому токену не найден';
                             break;
 
-                        case 3: errorMess.value = 'Пользователь с таким токеном уже существует';
+                        case 3:
+                            errorMess.value = 'Пользователь с таким токеном уже существует';
                             break;
 
-                        case 4: errorMess.value = 'Заполните поле "токен"';
+                        case 4:
+                            errorMess.value = 'Заполните поле "токен"';
                             break;
 
-                        case 5: errorMess.value = 'Заполните поле "пароль"';
+                        case 5:
+                            errorMess.value = 'Заполните поле "пароль"';
                             break;
 
-                        case 0: errorMess.value = 'Неизвестная ошибка';
+                        case 0:
+                            errorMess.value = 'Неизвестная ошибка';
                             break;
                     }
                 });
+        } else if(!phoneRegex.test(phone.value) && !emailRegex.test(email.value)) {
+                errorMess.value = 'Телефон и почта введены в неправильном формате';
         } else if(!phoneRegex.test(phone.value)) {
             errorMess.value = 'Телефон введён в неправильном формате';
         } else if(!emailRegex.test(email.value)) {
             errorMess.value = 'Почта введена в неправильном формате';
-        } else {
-            errorMess.value = 'Телефон и почта введены в неправильном формате';
         }
     }
 </script>

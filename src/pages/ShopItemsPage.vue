@@ -117,7 +117,7 @@
       },
       {
           id: 4,
-          title: 'Браслеты',
+          title: 'Книги',
           isActive: false,
       },
     ] as Category[]);
@@ -158,13 +158,12 @@
     };
 
     const getShopItems = (start:number, stop:number) => {
-        const url = new URL(`http://79.174.12.75:3134/api/v1/product/${start}/${stop}`);
+        const url = new URL(`http://5.188.178.143:8080/api/v1/product/${start}/${stop}`);
 
         axios.get(url.toString(),  {
             headers: { 'Content-Type': 'application/json;charset=utf-8' }
         })
             .then((res) => {
-                console.log(res.data)
                 shopItems.value = Object.values(res.data);
                 initialShopItems.value = Object.values(res.data);
             })
@@ -420,6 +419,50 @@
                       margin-right: 7.5px;
                       width: 20px;
                   }
+              }
+          }
+
+          #ModalFilterWindow {
+              width: 100%;
+              min-height: 290px;
+              #ModalFilterWindow_Categories {
+                  height: 70px;
+                  p {
+                      font-size: 20px;
+                  }
+                  span {
+                      width: 90%;
+                      p {
+                          font-size: 16px;
+                      }
+                  }
+              }
+              #ModalFilterWindow_Price {
+                  height: 70px;
+                  p {
+                      font-size: 20px;
+                  }
+                  div {
+                      width: 100%;
+                      height: 35px;
+                      input {
+                          padding: 0 10px;
+                          font-size: 16px;
+                      }
+                      ::placeholder {
+                          font-size: 16px;
+                      }
+                  }
+              }
+              #ModalFilterWindow_Accept {
+                  width: 50%;
+                  height: 50px;
+                  font-size: 16px;
+              }
+              #ModalFilterWindow_Reset {
+                  width: 50%;
+                  height: 50px;
+                  font-size: 16px;
               }
           }
 

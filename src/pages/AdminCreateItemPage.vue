@@ -175,7 +175,7 @@
     ]);
 
     const sendPhoto = (id:number) => {
-        const url = new URL('http://79.174.12.75:8000/api/v1/test/');
+        const url = new URL('http://5.188.178.143:8080/api/v1/create');
 
         // const formData = new FormData();
         // formData.append('shopItemImg', this.image, 'item.png');

@@ -46,10 +46,10 @@
     .shopItem {
         position: relative;
         margin-top: 20px;
-        padding: 20px 20px 10px 20px;
+        padding: 20px;
         width: 320px;
         height: 460px;
-        background: linear-gradient(168.64deg, #313134 9.31%, #292929 61.88%, #282828 111.76%);
+        background-color: #313134;
         border: 2px solid rgba(255, 255, 255, 0.2);
         border-radius: 35px;
         text-decoration: none;
@@ -62,7 +62,7 @@
                 width: 100%;
                 height: 100%;
                 background-color: #ffffff;
-                background-size: cover;
+                object-fit: cover;
                 transition: 400ms ease;
             }
             overflow: hidden;
@@ -73,8 +73,11 @@
             }
         }
         div {
-            margin-top: 15px;
+            margin-top: -10px;
+            padding-bottom: 20px;
             width: 100%;
+            height: auto;
+            min-height: 90px;
             .shopItemTitle {
                 color: #ffffff;
                 font-size: 1.375em;
@@ -82,10 +85,12 @@
                 font-family: 'Montserrat', sans-serif;
             }
             div {
-                margin-top: 7.5px;
                 display: flex;
                 justify-content: space-between;
+                margin-top: 7.5px;
+                padding-bottom: 0;
                 width: 100%;
+                min-height: 50px;
                 .shopItemDescription {
                     width: 60%;
                     color: rgba(255, 255, 255, 0.4);
@@ -129,13 +134,14 @@
             margin-top: 20px;
             padding: 10px 2.5% 15px 2.5%;
             width: calc(46% - 3%);
-            height: 240px;
+            height: 260px;
             border-radius: 20px;
             .shopItem_ImgContainer {
-                border-radius: 15px;
+                padding-bottom: 0;
+                border-radius: 20px;
             }
             div {
-                margin-top: 5px;
+                margin-top: 10px;
                 .shopItemTitle {
                     font-size: 0.75em;
                 }

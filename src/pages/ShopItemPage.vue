@@ -6,11 +6,11 @@
 
         <div id="MainShopItemInfo">
             <div id="MainShopItemInfo_Images">
-                <img :src="item.images[0]" :alt="item.description">
+                <img :src="item.images[targetImageIndex]" :alt="item.description" class="mainShopItemInfo_Images_Photo">
 
                 <span>
-                    <img src="@/assets/arrowRightIcon.svg" alt="Вперёд">
-                    <img src="@/assets/arrowRightIcon.svg" alt="Назад">
+                    <img src="@/assets/arrowRightIcon.svg" alt="Назад" @click="getPreviousPhoto()">
+                    <img src="@/assets/arrowRightIcon.svg" alt="Вперёд" @click="getNextPhoto()">
                 </span>
             </div>
 
@@ -93,6 +93,8 @@
       }
   ]);
 
+  const targetImageIndex = ref(0);
+
   const changeSizeIsActive = (size:any) => {
       sizes.value.forEach(item => item.isActive = false);
       size.isActive = true;
@@ -109,19 +111,34 @@
   }
 
   const getInfoAboutShopItem = () => {
-      const url = new URL(`http://79.174.12.75:3134/api/v1/product/${route.params.id}`);
+      const url = new URL(`http://5.188.178.143:8080/api/v1/product/${route.params.id}`);
 
       axios.get(url.toString(), {
           headers: { 'Content-Type': 'application/json;charset=utf-8' }
       })
           .then((res:any) => {
-              console.log(res);
               item.value = res.data;
           })
           .catch((error:any) => {
               console.log(error);
           })
   }
+
+  const getPreviousPhoto = () => {
+      if(targetImageIndex.value === 0) {
+          targetImageIndex.value = item.value.images.length;
+      }
+
+      targetImageIndex.value--;
+  };
+
+  const getNextPhoto = () => {
+      if(targetImageIndex.value === item.value.images.length - 1) {
+          targetImageIndex.value = -1;
+      }
+
+      targetImageIndex.value++;
+  };
 
   onMounted(() => {
       getInfoAboutShopItem();
@@ -149,11 +166,12 @@
       #MainShopItemInfo_Images {
         width: 42.5%;
         height: 100%;
-        img {
+        .mainShopItemInfo_Images_Photo {
           width: 100%;
           height: 85%;
           background-color: #ffffff;
           border-radius: 40px;
+          object-fit: cover;
         }
         span {
           display: flex;

@@ -14,7 +14,8 @@ export default createStore({
     isSignIn: false,
     isCookieOpen: false,
     shoppingCart: [] as ShoppingCartItem[],
-    countOfItemsInShoppingCart: 0
+    countOfItemsInShoppingCart: 0,
+    fullName: ''
   },
   getters: {
   },
@@ -24,6 +25,12 @@ export default createStore({
     },
     CHANGE_IS_COOKIE_OPEN(state) {
       state.isCookieOpen = !state.isCookieOpen;
+    },
+    CHANGE_ITEM_FROM_SHOPPING_CART(state, payload:ShoppingCartItem) {
+      state.shoppingCart.splice(payload.id, 1, payload);
+    },
+    ADD_USER_FULL_NAME(state, payload) {
+      state.fullName = payload;
     },
     ADD_ITEM_TO_SHOPPING_CART(state, payload:ShoppingCartItem) {
       state.shoppingCart.push(payload);
@@ -37,9 +44,6 @@ export default createStore({
       state.shoppingCart = [];
       state.countOfItemsInShoppingCart = 0;
     },
-    CHANGE_ITEM_FROM_SHOPPING_CART(state, payload:ShoppingCartItem) {
-      state.shoppingCart.splice(payload.id, 1, payload);
-    }
   },
   actions: {
     changeIsSignIn({commit}) {
@@ -47,6 +51,12 @@ export default createStore({
     },
     changeIsCookieOpen({commit}) {
       commit('CHANGE_IS_COOKIE_OPEN');
+    },
+    changeItemFromShoppingCart({commit}, payload:ShoppingCartItem) {
+      commit('CHANGE_ITEM_FROM_SHOPPING_CART', payload);
+    },
+    addUserFullName({commit}, payload:string) {
+      commit('ADD_USER_FULL_NAME', payload);
     },
     addItemToShoppingCart({commit}, payload:ShoppingCartItem) {
       commit('ADD_ITEM_TO_SHOPPING_CART', payload);
@@ -57,9 +67,6 @@ export default createStore({
     clearShoppingCart({commit}) {
       commit('CLEAR_SHOPPING_CART');
     },
-    changeItemFromShoppingCart({commit}, payload:ShoppingCartItem) {
-      commit('CHANGE_ITEM_FROM_SHOPPING_CART', payload);
-    }
   },
   modules: {
   },

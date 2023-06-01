@@ -208,7 +208,7 @@
   }
 
   const getInfoAboutUserByToken = () => {
-      const url = new URL('http://79.174.12.75:3134/api/v1/user/get/');
+      const url = new URL('http://5.188.178.143:8080/api/v1/user/get');
 
       const token = getCookie('token');
 
