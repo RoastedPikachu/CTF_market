@@ -184,7 +184,7 @@
 
   @media(max-width: 480px) {
     footer {
-      height: 200px;
+      height: 250px;
 
       #BlurContacts {
         padding: 20px 0 0 0;
@@ -203,7 +203,7 @@
       }
 
       nav {
-          margin: 15px 7.5% 0 7.5%;
+          margin: 25px 7.5% 0 7.5%;
           width: 85%;
           .footerRoute {
               font-size: 16px;
@@ -211,32 +211,33 @@
       }
 
       #BottomInfo {
-          margin: 20px 7.5% 0 7.5%;
+          margin: 30px 7.5% 0 7.5%;
           width: 85%;
           #BottomInfo_Contacts {
+              width: 42.5%;
               h3 {
                   font-size: 16px;
               }
               span {
                   p {
-                      font-size: 14px;
+                      font-size: 12px;
                   }
               }
               span {
-                   margin-top: 10px;
+                   margin-top: 15px;
               }
           }
           #BottomInfo_SocialNetworks {
-              width: 47.5%;
+              width: 50%;
               h3 {
                   font-size: 16px;
               }
               span {
-                  margin-top: 10px;
+                  margin-top: 15px;
                   width: 65%;
                   height: 15px;
                   p {
-                      font-size: 14px;
+                      font-size: 12px;
                   }
                   a {
                       width: 15px;

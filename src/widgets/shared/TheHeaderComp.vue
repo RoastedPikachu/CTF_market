@@ -62,13 +62,13 @@
 
           <div id="shoppingCartItemsWrapper">
               <div class="shoppingCartItem" v-for="shoppingCartItem of shoppingCartItems" :key="shoppingCartItem.id">
-                  <img :src="shoppingCartItem.image" :alt="shoppingCartItem.title" class="shoppingCartItemImage">
+                  <img :src="shoppingCartItem.photo" :alt="shoppingCartItem.title" class="shoppingCartItemImage">
 
                   <div class="shoppingCartItem_Right">
                   <span>
                       <p>{{ shoppingCartItem.title }}</p>
 
-                      <p>{{ shoppingCartItem.cost }} баллов</p>
+                      <p>{{ shoppingCartItem.price }} баллов</p>
                   </span>
 
                       <div>
@@ -90,7 +90,7 @@
               <span id="ShoppingCart_BottomBalance">
                   <p>Баланс</p>
 
-                  <p>{{ balance }} баллов</p>
+                  <p>{{ balance || 0 }} баллов</p>
               </span>
 
               <span>
@@ -101,7 +101,7 @@
 
               <input type="text" placeholder="Введите адрес" v-model="address">
 
-              <button :class="{ active: isPointsEnough }">
+              <button :class="{ active: isPointsEnough }" @click="makeAnOrder()">
                   Оплатить
                   <img src="@/assets/arrowRightIcon.svg" alt="Оплатить">
               </button>
@@ -133,13 +133,11 @@
 
   onMounted(() => {
       if(shoppingCartItems.value.length) {
-          const accumArr = shoppingCartItems.value.map(item => +item.cost);
+          const accumArr = shoppingCartItems.value.map(item => +item.price);
           totalCost.value = accumArr.reduce((accum, item) => accum += item);
       } else {
           totalCost.value = 0;
       }
-
-      isPointsEnough.value = totalCost.value < balance.value;
 
       if(isSignIn.value) {
           getInfoAboutUserByToken();
@@ -158,14 +156,40 @@
       shoppingCartItems.value = store.state.shoppingCart;
 
       if(shoppingCartItems.value.length) {
-          const accumArr = shoppingCartItems.value.map(item => +item.cost);
+          const accumArr = shoppingCartItems.value.map(item => +item.price);
           totalCost.value = accumArr.reduce((accum, item) => accum += item);
       } else {
           totalCost.value = 0;
       }
 
-      isPointsEnough.value = totalCost.value < balance.value;
+      isPointsEnough.value = totalCost.value <= balance.value;
   }, {deep: true});
+
+  const makeAnOrder = () => {
+      if(shoppingCartItems.value.length) {
+          const url = new URL('http://5.188.178.143:8080/api/v1/product/buy');
+
+          const token = getCookie('token');
+
+          console.log(shoppingCartItems.value);
+
+          axios.post(url.toString(), {
+              token: token,
+              products: shoppingCartItems.value
+          }, {
+              headers: { 'Content-Type': 'application/json;charset=utf-8' }
+          })
+              .then(res => {
+                  console.log(res);
+                  store.dispatch('clearShoppingCart');
+              })
+              .catch(error => {
+                  console.log(error);
+              })
+      } else {
+          console.log('Нельзя сделать заказ с пустой корзиной');
+      }
+  }
 
   const removeShoppingCartItem = (id:number) => {
       store.dispatch('removeItemFromShoppingCart', id);
@@ -216,12 +240,13 @@
           headers: { 'Content-Type': 'application/json;charset=utf-8' }
       })
           .then((res) => {
-              console.log(res);
               balance.value = res.data.score;
 
               email.value = res.data.email;
               fullName.value = `${res.data.first_name} ${res.data.last_name}`;
               phone.value = `+${res.data.phone.slice(0, 1)}(${res.data.phone.slice(1, 4)})${res.data.phone.slice(4, 7)}-${res.data.phone.slice(7, 9)}-${res.data.phone.slice(9, 11)}`;
+
+              isPointsEnough.value = totalCost.value <= balance.value;
           })
           .catch((error) => {
               console.log(error);

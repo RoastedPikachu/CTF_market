@@ -2,11 +2,12 @@ import { createStore } from 'vuex';
 import createPersistedState from "vuex-persistedstate";
 
 interface ShoppingCartItem {
-  id: number;
-  image: string;
-  title: string;
-  cost: number;
-  count: number;
+  id: number,
+  title: string,
+  price: number,
+  size: string,
+  count: number,
+  photo: string
 }
 
 export default createStore({

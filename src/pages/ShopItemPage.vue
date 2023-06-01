@@ -93,19 +93,33 @@
       }
   ]);
 
+  const isSizesActive = ref(false);
+
+  const targetSize = ref('');
   const targetImageIndex = ref(0);
 
   const changeSizeIsActive = (size:any) => {
       sizes.value.forEach(item => item.isActive = false);
+      targetSize.value = size.prop;
       size.isActive = true;
   }
 
   const addItemToShoppingCart = (item:ShopItem) => {
+      const targetItem = sizes.value.find(item => item.isActive === true);
+      let size = '';
+
+      if(isSizesActive.value) {
+          size = targetSize.value;
+      } else {
+          size = 'all';
+      }
+
       store.dispatch('addItemToShoppingCart', {
           id: Math.random() * 1000000,
-          image: item.images[0],
+          photo: item.images[0],
           title: item.title,
-          cost: item.price,
+          price: item.price,
+          size: size,
           count: 1
       });
   }

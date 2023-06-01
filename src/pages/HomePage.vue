@@ -17,13 +17,21 @@
         </div>
 
         <div v-for="banner of banners" :key="banner.id" class="banner" v-show="banner.isActive">
-            <img src="@/assets/mugBanner.svg" alt="Баннер кружек" v-if="banner.id == 1">
+            <router-link to="/shopItems" class="bannerImgRoute" v-if="banner.id == 1">
+                <img src="@/assets/mugBanner.svg" alt="Баннер кружек">
+            </router-link>
 
-            <img src="@/assets/tshirtBanner.svg" alt="Баннер футболок" v-if="banner.id == 2">
+            <router-link to="/shopItems" class="bannerImgRoute" v-if="banner.id == 2">
+                <img src="@/assets/tshirtBanner.svg" alt="Баннер футболок">
+            </router-link>
 
-            <img src="@/assets/sweatshirtBanner.svg" alt="Баннер толстовок" v-if="banner.id == 3">
+            <router-link to="/shopItems" class="bannerImgRoute" v-if="banner.id == 3">
+                <img src="@/assets/sweatshirtBanner.svg" alt="Баннер толстовок">
+            </router-link>
 
-            <img src="@/assets/bookBanner.svg" alt="Баннер книги" v-if="banner.id == 4">
+            <router-link to="/shopItems" class="bannerImgRoute" v-if="banner.id == 4">
+                <img src="@/assets/bookBanner.svg" alt="Баннер книжек">
+            </router-link>
         </div>
 
         <span id="PopularShopItem_Text">
@@ -144,7 +152,11 @@
     }
 
     onMounted(() => {
-        getShopItems(0, 3);
+        if(window.innerWidth < 480) {
+            getShopItems(0, 1);
+        } else {
+            getShopItems(0, 2);
+        }
 
         setInterval(() => getNextPhoto(), 5000);
     })
@@ -153,7 +165,7 @@
 <style lang="scss" scoped>
   main {
       position: relative;
-      padding: 0 0 100px 0;
+      padding: 0 0 80px 0;
       width: 100%;
       height: auto;
       overflow: hidden;
@@ -217,12 +229,16 @@
           margin: 40px 10% 0 10%;
           width: 80%;
           height: 640px;
-          img {
+          .bannerImgRoute {
               width: 100%;
               height: 100%;
-              border-radius: 35px 35px 0;
-              background-repeat: no-repeat;
-              object-fit: cover;
+              img {
+                  width: 100%;
+                  height: 100%;
+                  border-radius: 35px 35px 0;
+                  background-repeat: no-repeat;
+                  object-fit: cover;
+              }
           }
       }
       #PopularShopItem_Text {
@@ -428,7 +444,7 @@
 
           .banner {
               margin: 40px 10% 0 10%;
-              height: 800px;
+              height: 825px;
           }
       }
   }
