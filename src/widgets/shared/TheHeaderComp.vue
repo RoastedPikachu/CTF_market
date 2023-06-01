@@ -171,17 +171,19 @@
 
           const token = getCookie('token');
 
-          console.log(shoppingCartItems.value);
+          console.log(token);
+          console.log(address.value);
 
           axios.post(url.toString(), {
               token: token,
+              address: address.value,
               products: shoppingCartItems.value
           }, {
               headers: { 'Content-Type': 'application/json;charset=utf-8' }
           })
               .then(res => {
-                  console.log(res);
                   store.dispatch('clearShoppingCart');
+                  address.value = '';
               })
               .catch(error => {
                   console.log(error);

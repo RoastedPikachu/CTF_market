@@ -7,7 +7,7 @@
             <h2>ЗАКАЗЫ</h2>
 
             <div v-for="order of orders" :key="order.id" @click="targetOrder = order">
-              <p>{{ order.fullName }}/ {{ order.phoneNumber.slice(0, 6)}}&#8230;</p>
+                <p>{{`${order.user?.first_name} ${order.user?.last_name}`}}/ {{ order.user?.phone.slice(0, 9)}}&#8230;</p>
             </div>
         </div>
 
@@ -15,11 +15,11 @@
              <div id="MoreInfoAboutOrder">
                  <h2>Подробная информация о заказе</h2>
 
-                 <p>{{ targetOrder.fullName }}</p>
-                 <p>{{ targetOrder.phoneNumber }}</p>
-                 <p>{{ targetOrder.email }}</p>
-                 <p>{{ targetOrder.address }}</p>
-                 <p v-for="orderedPosition of targetOrder.orderedPositions" :key="orderedPosition.id">{{ targetOrder.orderedPositions }}</p>
+                 <p>{{ `${targetOrder.user?.first_name} ${targetOrder.user?.last_name}` }}</p>
+                 <p>{{ `+${targetOrder.user?.phone.slice(0, 1)}(${targetOrder.user?.phone.slice(1, 4)})${targetOrder.user?.phone.slice(4, 7)}-${targetOrder.user?.phone.slice(7, 9)}-${targetOrder.user?.phone.slice(9, 11)}` }}</p>
+                 <p>{{ targetOrder.user?.email }}</p>
+                 <p>{{ targetOrder?.address }}</p>
+                 <p v-for="orderedPosition of targetOrder.products" :key="orderedPosition.id">{{ orderedPosition.title }} размер: {{ orderedPosition.size }}</p>
              </div>
 
              <button id="Accept">Подтвердить</button>
@@ -36,16 +36,22 @@
 
   interface OrderedPosition {
       id: number,
-      title: string
+      title: string,
+      size: string
+  }
+
+  interface UserInfo {
+      id: number,
+      email: string,
+      first_name: string,
+      last_name: string,
+      phone: 'string',
   }
 
   interface Order {
       id: number,
-      fullName: string,
-      phoneNumber: string,
-      email: string,
-      address: string,
-      orderedPositions: OrderedPosition[]
+      user: UserInfo[],
+      products: OrderedPosition[]
   }
 
   const targetOrder = ref({} as Order);
@@ -68,7 +74,8 @@
           headers: { 'Content-Type': 'application/json;charset=utf-8' }
       })
           .then(res => {
-              console.log(res);
+              orders.value = Object.values(res.data);
+              targetOrder.value = orders.value[0];
           })
           .catch(error => {
               console.log(error);
@@ -174,7 +181,8 @@
             display: flex;
             align-items: center;
             margin-top: 10px;
-            height: 20px;
+            height: auto;
+            min-height: 20px;
             color: #ffffff;
             font-size: 18px;
             font-weight: 400;

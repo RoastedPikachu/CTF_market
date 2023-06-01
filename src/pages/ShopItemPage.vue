@@ -21,7 +21,7 @@
 
                 <p>Цена: {{ item.price }} баллов</p>
 
-                <div>
+                <div v-if="isSizesActive">
                     <p>Размеры</p>
 
                     <button v-for="size of sizes" :key="size.id" :class="{ active: size.isActive }" @click="changeSizeIsActive(size)">{{ size.prop }}</button>
@@ -105,7 +105,6 @@
   }
 
   const addItemToShoppingCart = (item:ShopItem) => {
-      const targetItem = sizes.value.find(item => item.isActive === true);
       let size = '';
 
       if(isSizesActive.value) {
@@ -132,6 +131,14 @@
       })
           .then((res:any) => {
               item.value = res.data;
+
+              switch(res.data.active) {
+                  case 'Футболки': isSizesActive.value = true;
+                    break;
+
+                  case 'Толстовки': isSizesActive.value = true;
+                    break;
+              }
           })
           .catch((error:any) => {
               console.log(error);
