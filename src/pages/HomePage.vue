@@ -126,7 +126,7 @@
     const shopItems = ref([] as ShopItem[]);
 
     const getShopItems = (start:number, stop:number) => {
-        const url = new URL(`http://5.188.178.143:8080/api/v1/product/${start}/${stop}`);
+        const url = new URL(`https://ctfmarket.ru:8080/api/v1/product/${start}/${stop}`);
 
         axios.get(url.toString(), {
             headers: { 'Content-Type': 'application/json;charset=utf-8' }

@@ -66,7 +66,7 @@
   }
 
   const getAllOrders = () => {
-      const url = new URL('http://5.188.178.143:8080/api/v1/order');
+      const url = new URL('https://ctfmarket.ru:8080/api/v1/order');
 
       const token = getCookie('token');
 

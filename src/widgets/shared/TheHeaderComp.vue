@@ -40,8 +40,8 @@
           <router-link to="/" class="route">Главная</router-link>
           <router-link to="/shopItems" class="route">Товары</router-link>
           <span>
-              <router-link to="/signIn" class="route">Вход/</router-link>
-              <router-link to="/registration" class="route">Регистрация</router-link>
+              <router-link to="/signIn" class="route" :disabled="!isSignIn">Вход/</router-link>
+              <router-link to="/registration" class="route" :disabled="!isSignIn">Регистрация</router-link>
           </span>
       </nav>
 
@@ -167,7 +167,7 @@
 
   const makeAnOrder = () => {
       if(shoppingCartItems.value.length && address.value) {
-          const url = new URL('http://5.188.178.143:8080/api/v1/product/buy');
+          const url = new URL('https://ctfmarket.ru:8080/api/v1/product/buy');
 
           const token = getCookie('token');
 
@@ -234,7 +234,7 @@
   }
 
   const getInfoAboutUserByToken = () => {
-      const url = new URL('http://5.188.178.143:8080/api/v1/user/get');
+      const url = new URL('https://ctfmarket.ru:8080/api/v1/user/get');
 
       const token = getCookie('token');
 
@@ -546,16 +546,16 @@
                 margin-top: 0;
             }
         }
-        #OrdersWrapper::-webkit-scrollbar {
-            width: 15px;
+        #shoppingCartItemsWrapper::-webkit-scrollbar {
+            width: 10px;
         }
 
-        #OrdersWrapper::-webkit-scrollbar-track {
+        #shoppingCartItemsWrapper::-webkit-scrollbar-track {
             -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
             border-radius: 10px;
         }
 
-        #OrdersWrapper::-webkit-scrollbar-thumb {
+        #shoppingCartItemsWrapper::-webkit-scrollbar-thumb {
             border-radius: 10px;
             -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5);
         }
@@ -613,7 +613,7 @@
                 background-color: #434343;
                 border: none;
                 border-radius: 10px;
-                color: #ffffff;
+                color: #9a9a9a;
                 font-size: 1em;
                 font-weight: 700;
                 font-family: 'DM Sans', sans-serif;
@@ -621,6 +621,7 @@
             }
             .active {
                 background-color: #42d4ba;
+                color: #ffffff;
             }
         }
     }

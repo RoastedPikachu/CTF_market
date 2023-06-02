@@ -39,9 +39,9 @@
     const errorMess = ref('');
 
     const setSignInData = () => {
-        const url = new URL('http://5.188.178.143:8080/api/v1/auth/login/');
+        const url = new URL('https://ctfmarket.ru:8080/api/v1/auth/login/');
 
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        const emailRegex = /^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/iu;
 
         if(emailRegex.test(email.value)) {
             axios.post(url.toString(), {

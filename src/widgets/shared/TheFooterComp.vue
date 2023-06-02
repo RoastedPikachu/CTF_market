@@ -12,9 +12,9 @@
           <router-link to="/shopItems" class="footerRoute">Товары</router-link>
 
           <span>
-              <router-link to="/registration" class="footerRoute">Регистрация/</router-link>
+              <router-link to="/registration" :disabled="isSignIn" class="footerRoute">Вход/</router-link>
 
-              <router-link to="/signIn" class="footerRoute">Вход</router-link>
+              <router-link to="/signIn" :disabled="isSignIn" class="footerRoute">Регистрация</router-link>
           </span>
       </nav>
 
@@ -54,8 +54,19 @@
   </footer>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
+    import { ref, watch, onMounted } from 'vue';
+    import store from '@/store';
 
+    const isSignIn = ref(store.state.isSignIn);
+
+    watch(() => store.state.isSignIn, () => {
+        isSignIn.value = store.state.isSignIn;
+    });
+
+    onMounted(() => {
+        console.log(store.state.isSignIn);
+    })
 </script>
 
 <style lang="scss" scoped>

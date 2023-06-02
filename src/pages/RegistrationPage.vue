@@ -54,10 +54,10 @@
     const errorMess = ref('');
 
     const setDataAboutUser = () => {
-        const url = new URL('http://5.188.178.143:8080/api/v1/auth/register/');
+        const url = new URL('https://ctfmarket.ru:8080/api/v1/auth/register/');
 
-        const phoneRegex = /^((\+7|7|8)+([0-9]){10})$/;
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        const phoneRegex = /^(\s*)?(\+)?([- _():=+]?\d[- _():=+]?){10,14}(\s*)?$/;
+        const emailRegex = /^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/iu;
 
         if(phoneRegex.test(phone.value) && emailRegex.test(email.value)) {
             axios.post(url.toString(), {

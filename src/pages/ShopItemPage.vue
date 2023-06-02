@@ -27,7 +27,13 @@
                     <button v-for="size of sizes" :key="size.id" :class="{ active: size.isActive }" @click="changeSizeIsActive(size)">{{ size.prop }}</button>
                 </div>
 
-                <button id="AddToShoppingCart" @click="addItemToShoppingCart(item)">В корзину</button>
+                <div id="AlertAboutNotSignIn" v-if="isAlertActive">
+                    <p>Невозможно добавить товар, войдите в аккаунт</p>
+
+                    <img src="@/assets/greyXMarkIcon.svg" alt="Закрыть" @click="isAlertActive = !isAlertActive">
+                </div>
+
+                <button class="addToShoppingCart" :class="{ activeAdding: !isSignIn }" @click="addItemToShoppingCart(item)">В корзину</button>
             </aside>
         </div>
     </main>
@@ -60,6 +66,7 @@
       description: '',
       images: [] as string[]
   } as ShopItem);
+
   const sizes = ref([
       {
           id: 1,
@@ -93,6 +100,8 @@
       }
   ]);
 
+  const isSignIn = ref(store.state.isSignIn);
+  const isAlertActive = ref(!store.state.isSignIn);
   const isSizesActive = ref(false);
 
   const targetSize = ref('');
@@ -105,31 +114,34 @@
   }
 
   const addItemToShoppingCart = (item:ShopItem) => {
-      let size = '';
+      if(isSignIn.value) {
+          let size = '';
 
-      if(isSizesActive.value) {
-          size = targetSize.value;
-      } else {
-          size = 'all';
+          if(isSizesActive.value) {
+              size = targetSize.value;
+          } else {
+              size = 'all';
+          }
+
+          store.dispatch('addItemToShoppingCart', {
+              id: Math.random() * 1000000,
+              photo: item.images[0],
+              title: item.title,
+              price: item.price,
+              size: size,
+              count: 1
+          });
       }
-
-      store.dispatch('addItemToShoppingCart', {
-          id: Math.random() * 1000000,
-          photo: item.images[0],
-          title: item.title,
-          price: item.price,
-          size: size,
-          count: 1
-      });
   }
 
   const getInfoAboutShopItem = () => {
-      const url = new URL(`http://5.188.178.143:8080/api/v1/product/${route.params.id}`);
+      const url = new URL(`https://ctfmarket.ru:8080/api/v1/product/${route.params.id}`);
 
       axios.get(url.toString(), {
           headers: { 'Content-Type': 'application/json;charset=utf-8' }
       })
           .then((res:any) => {
+              console.log('Это что товар, а думал сова!')
               item.value = res.data;
 
               switch(res.data.category) {
@@ -264,7 +276,35 @@
             border: 1px solid #42d4ba;
           }
         }
-        #AddToShoppingCart {
+        #AlertAboutNotSignIn {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 20px;
+            padding: 10px 20px;
+            width: 62.5%;
+            height: 80px;
+            background-color: #1e1e1e;
+            border: 2px solid #4b4b4b;
+            border-radius: 20px;
+            p {
+                color: #fa3e3e;
+                font-size: 20px;
+                font-weight: 700;
+                font-family: 'DM Sans', sans-serif;
+                line-height: 35px;
+            }
+            img {
+                position: absolute;
+                width: 17.5px;
+                height: 17.5px;
+                top: 20px;
+                right: 20px;
+                cursor: pointer;
+            }
+        }
+        .addToShoppingCart {
             display: flex;
             justify-content: center;
             align-items: center;
@@ -280,6 +320,10 @@
             font-family: 'DM Sans', sans-serif;
             cursor: pointer;
             outline: none;
+        }
+        .activeAdding {
+            background-color: #434343;
+            color: #9a9a9a;
         }
       }
     }
@@ -338,7 +382,25 @@
                       width: 55%;
                   }
 
-                  #AddToShoppingCart {
+                  #AlertAboutNotSignIn {
+                      padding: 7.5px 15px;
+                      width: calc(65% - 30px);
+                      height: 70px;
+
+                      p {
+                          font-size: 16px;
+                          line-height: 30px;
+                      }
+
+                      img {
+                          top: 17.5px;
+                          right: 15px;
+                          width: 15px;
+                          height: 15px;
+                      }
+                  }
+
+                  .addToShoppingCart {
                       width: 65%;
                       height: 50px;
                   }
@@ -374,7 +436,24 @@
                       width: 62.5%;
                   }
 
-                  #AddToShoppingCart {
+                  #AlertAboutNotSignIn {
+                      width: calc(70% - 30px);
+                      height: 60px;
+
+                      p {
+                          padding: 0 10% 0 0;
+                          font-size: 14px;
+                          line-height: 30px;
+                      }
+
+                      img {
+                          top: 15px;
+                          width: 15px;
+                          height: 15px;
+                      }
+                  }
+
+                  .addToShoppingCart {
                       width: 70%;
                       height: 50px;
                   }
@@ -397,6 +476,19 @@
               aside {
                   div {
                       width: 32.5%;
+                  }
+
+                  #AlertAboutNotSignIn {
+                      width: 55%;
+
+                      p {
+                          font-size: 22px;
+                      }
+
+                      img {
+                          width: 20px;
+                          height: 20px;
+                      }
                   }
               }
           }
@@ -448,10 +540,27 @@
                       }
                   }
 
-                  #AddToShoppingCart {
+                  #AlertAboutNotSignIn {
                       margin-top: 30px;
-                      width: 45%;
-                      height: 70px;
+                      width: calc(60% - 40px);
+                      height: 90px;
+
+                      p {
+                          font-size: 26px;
+                          height: auto;
+                      }
+
+                      img {
+                          top: 25px;
+                          width: 22.5px;
+                          height: 22.5px;
+                      }
+                  }
+
+                  .addToShoppingCart {
+                      margin-top: 30px;
+                      width: 60%;
+                      height: 80px;
                       font-size: 24px;
                   }
               }

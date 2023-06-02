@@ -79,6 +79,7 @@
       title: string,
       price: number,
       description: string,
+      category: string,
       images: string[]
     }
 
@@ -159,16 +160,36 @@
     const maxPrice = ref('');
 
     const filterShopItems = () => {
-      shopItems.value = shopItems.value.filter(item => item.price >= +minPrice.value && item.price <= +maxPrice.value);
+      if(minPrice.value && maxPrice.value) {
+          shopItems.value = shopItems.value.filter(item => item.price >= +minPrice.value && item.price <= +maxPrice.value);
+      } else if(maxPrice.value) {
+          shopItems.value = shopItems.value.filter(item => item.price <= +maxPrice.value);
+      } else if(minPrice.value) {
+          shopItems.value = shopItems.value.filter(item => item.price >= +minPrice.value);
+      }
+
+      const targetCategories = [] as string[];
+
+      categories.value.forEach(item => {
+          if(item.isActive) {
+              targetCategories.push(item.title);
+          }
+      })
+
+      if(targetCategories.length) {
+          console.log(shopItems.value.map(item => item));
+          shopItems.value = shopItems.value.filter(item => targetCategories.includes(item.category));
+      }
     };
 
     const getShopItems = (start:number, stop:number) => {
-        const url = new URL(`http://5.188.178.143:8080/api/v1/product/${start}/${stop}`);
+        const url = new URL(`https://ctfmarket.ru:8080/api/v1/product/${start}/${stop}`);
 
         axios.get(url.toString(),  {
             headers: { 'Content-Type': 'application/json;charset=utf-8' }
         })
             .then((res) => {
+                console.log(res);
                 shopItems.value = Object.values(res.data);
                 initialShopItems.value = Object.values(res.data);
             })
