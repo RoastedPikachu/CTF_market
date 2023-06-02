@@ -124,7 +124,7 @@
   const shoppingCartItems = ref(store.state.shoppingCart);
 
   const balance = ref(0);
-  const totalCost = ref(0);
+  const totalCost = ref(store.state.totalCost);
 
   const phone = ref('');
   const email = ref('');
@@ -134,9 +134,9 @@
   onMounted(() => {
       if(shoppingCartItems.value.length) {
           const accumArr = shoppingCartItems.value.map(item => +item.price);
-          totalCost.value = accumArr.reduce((accum, item) => accum += item);
+          store.dispatch('changeTotalCostValue', accumArr.reduce((accum, item) => accum += item));
       } else {
-          totalCost.value = 0;
+          store.dispatch('changeTotalCostValue', 0);
       }
 
       if(isSignIn.value) {
@@ -157,9 +157,9 @@
 
       if(shoppingCartItems.value.length) {
           const accumArr = shoppingCartItems.value.map(item => +item.price);
-          totalCost.value = accumArr.reduce((accum, item) => accum += item);
+          store.dispatch('changeTotalCostValue', accumArr.reduce((accum, item) => accum += item));
       } else {
-          totalCost.value = 0;
+          store.dispatch('changeTotalCostValue', 0);
       }
 
       isPointsEnough.value = totalCost.value <= balance.value;
@@ -181,6 +181,8 @@
               .then(res => {
                   store.dispatch('clearShoppingCart');
                   address.value = '';
+
+                  getInfoAboutUserByToken();
               })
               .catch(error => {
                   console.log(error);
@@ -200,13 +202,17 @@
 
   const increaseShoppingCartItemCount = (item:any) => {
       item.count++;
+
       store.dispatch('changeItemFromShoppingCart', item);
+      store.dispatch('changeTotalCostValue', totalCost.value + item.price);
   }
 
   const decreaseShoppingCartItemCount = (item:any) => {
       if(item.count > 1) {
           item.count--;
+
           store.dispatch('changeItemFromShoppingCart', item);
+          store.dispatch('changeTotalCostValue', totalCost.value - item.price);
       } else {
           store.dispatch('removeItemFromShoppingCart', item.id);
       }

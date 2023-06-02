@@ -16,6 +16,7 @@ export default createStore({
     isCookieOpen: false,
     shoppingCart: [] as ShoppingCartItem[],
     countOfItemsInShoppingCart: 0,
+    totalCost: 0,
     fullName: ''
   },
   getters: {
@@ -26,6 +27,9 @@ export default createStore({
     },
     CHANGE_IS_COOKIE_OPEN(state) {
       state.isCookieOpen = !state.isCookieOpen;
+    },
+    CHANGE_TOTAL_COST_VALUE(state, payload) {
+      state.totalCost = payload;
     },
     CHANGE_ITEM_FROM_SHOPPING_CART(state, payload:ShoppingCartItem) {
       state.shoppingCart.forEach(item => {
@@ -68,6 +72,9 @@ export default createStore({
     },
     changeIsCookieOpen({commit}) {
       commit('CHANGE_IS_COOKIE_OPEN');
+    },
+    changeTotalCostValue({commit}, payload:number) {
+      commit('CHANGE_TOTAL_COST_VALUE', payload);
     },
     changeItemFromShoppingCart({commit}, payload:ShoppingCartItem) {
       commit('CHANGE_ITEM_FROM_SHOPPING_CART', payload);
