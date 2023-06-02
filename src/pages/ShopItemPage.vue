@@ -71,7 +71,7 @@
       {
           id: 1,
           prop: 'XS',
-          isActive: false,
+          isActive: true,
       },
       {
           id: 2,

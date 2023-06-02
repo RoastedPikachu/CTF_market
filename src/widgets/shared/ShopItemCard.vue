@@ -1,8 +1,8 @@
 <template>
-    <router-link class="shopItem"
+    <div class="shopItem"
          v-for="shopItem of shopItems"
          :key="shopItem.id"
-         :to="{ name: 'shopItem', params: { id: shopItem.id } }"
+         @click="goToShopItemPage(shopItem.id)"
     >
         <div class="shopItem_ImgContainer">
             <img :src="shopItem.images[0]" :alt="shopItem.title">
@@ -21,11 +21,14 @@
                 </button>
             </div>
         </div>
-    </router-link>
+    </div>
 </template>
 
 <script lang="ts" setup>
     import { defineProps } from 'vue';
+    import { useRouter } from 'vue-router';
+
+    const router = useRouter();
 
     interface ShopItem {
         id: number,
@@ -40,6 +43,14 @@
     }
 
     const props = defineProps<Props>();
+
+    const goToShopItemPage = (id:number | string) => {
+        if(id > props.shopItems.length || typeof id === 'string') {
+            router.push('/404');
+        } else {
+            router.push(`/shopItem/${id}`);
+        }
+    }
 </script>
 
 <style lang="scss" scoped>
@@ -53,6 +64,7 @@
         border: 2px solid rgba(255, 255, 255, 0.2);
         border-radius: 35px;
         text-decoration: none;
+        cursor: pointer;
         .shopItem_ImgContainer {
             margin-top: 0;
             padding-bottom: 0;

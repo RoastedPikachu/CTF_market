@@ -68,7 +68,7 @@
                   <span>
                       <p>{{ shoppingCartItem.title }}</p>
 
-                      <p>{{ shoppingCartItem.price }} баллов</p>
+                      <p>{{ shoppingCartItem.price * shoppingCartItem.count }} баллов</p>
                   </span>
 
                       <div>
@@ -133,7 +133,8 @@
 
   onMounted(() => {
       if(shoppingCartItems.value.length) {
-          const accumArr = shoppingCartItems.value.map(item => +item.price);
+          const accumArr = shoppingCartItems.value.map(item => item.count > 1 ? +item.price * item.count : +item.price);
+
           store.dispatch('changeTotalCostValue', accumArr.reduce((accum, item) => accum += item));
       } else {
           store.dispatch('changeTotalCostValue', 0);
@@ -148,6 +149,10 @@
       isSignIn.value = store.state.isSignIn;
   });
 
+  watch(() => store.state.totalCost, () => {
+      totalCost.value = store.state.totalCost;
+  });
+
   watch(() => store.state.countOfItemsInShoppingCart, () => {
       countOfItemsInShoppingCart.value = store.state.countOfItemsInShoppingCart;
   });
@@ -156,7 +161,8 @@
       shoppingCartItems.value = store.state.shoppingCart;
 
       if(shoppingCartItems.value.length) {
-          const accumArr = shoppingCartItems.value.map(item => +item.price);
+          const accumArr = shoppingCartItems.value.map(item => item.count > 1 ? +item.price * item.count : +item.price);
+
           store.dispatch('changeTotalCostValue', accumArr.reduce((accum, item) => accum += item));
       } else {
           store.dispatch('changeTotalCostValue', 0);

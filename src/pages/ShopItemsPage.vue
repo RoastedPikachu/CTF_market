@@ -161,10 +161,16 @@
 
     const filterShopItems = () => {
       if(minPrice.value && maxPrice.value) {
+          shopItems.value = initialShopItems.value;
+
           shopItems.value = shopItems.value.filter(item => item.price >= +minPrice.value && item.price <= +maxPrice.value);
       } else if(maxPrice.value) {
+          shopItems.value = initialShopItems.value;
+
           shopItems.value = shopItems.value.filter(item => item.price <= +maxPrice.value);
       } else if(minPrice.value) {
+          shopItems.value = initialShopItems.value;
+
           shopItems.value = shopItems.value.filter(item => item.price >= +minPrice.value);
       }
 
@@ -177,7 +183,8 @@
       })
 
       if(targetCategories.length) {
-          console.log(shopItems.value.map(item => item));
+          shopItems.value = initialShopItems.value;
+
           shopItems.value = shopItems.value.filter(item => targetCategories.includes(item.category));
       }
     };
