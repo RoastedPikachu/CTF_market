@@ -124,7 +124,7 @@
           }
 
           store.dispatch('addItemToShoppingCart', {
-              id: Math.random() * 1000000,
+              id: item.id,
               photo: item.images[0],
               title: item.title,
               price: item.price,

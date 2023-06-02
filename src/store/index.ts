@@ -28,14 +28,30 @@ export default createStore({
       state.isCookieOpen = !state.isCookieOpen;
     },
     CHANGE_ITEM_FROM_SHOPPING_CART(state, payload:ShoppingCartItem) {
-      state.shoppingCart.splice(payload.id, 1, payload);
+      state.shoppingCart.forEach(item => {
+        if(item.id === payload.id) {
+          item.count = payload.count;
+        }
+      });
     },
     ADD_USER_FULL_NAME(state, payload) {
       state.fullName = payload;
     },
     ADD_ITEM_TO_SHOPPING_CART(state, payload:ShoppingCartItem) {
-      state.shoppingCart.push(payload);
-      state.countOfItemsInShoppingCart++;
+      let duplicateItemId = 0;
+
+      state.shoppingCart.forEach(item => {
+        if(item.id == payload.id) {
+          duplicateItemId = item.id;
+
+          item.count++;
+        }
+      });
+
+      if(!duplicateItemId) {
+        state.shoppingCart.push(payload);
+        state.countOfItemsInShoppingCart++;
+      }
     },
     REMOVE_ITEM_FROM_SHOPPING_CART(state, id:number) {
       state.shoppingCart = state.shoppingCart.filter(item => item.id != id);

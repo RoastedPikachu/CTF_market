@@ -77,6 +77,8 @@
                 });
         } else {
             errorMess.value = 'Почта введена в неправильном формате';
+
+            setTimeout(() => errorMess.value = '', 5000);
         }
     }
 </script>

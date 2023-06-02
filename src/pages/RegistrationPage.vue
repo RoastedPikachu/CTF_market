@@ -99,11 +99,17 @@
                     }
                 });
         } else if(!phoneRegex.test(phone.value) && !emailRegex.test(email.value)) {
-                errorMess.value = 'Телефон и почта введены в неправильном формате';
+            errorMess.value = 'Телефон и почта введены в неправильном формате';
+
+            setTimeout(() => errorMess.value = '', 5000);
         } else if(!phoneRegex.test(phone.value)) {
             errorMess.value = 'Телефон введён в неправильном формате';
+
+            setTimeout(() => errorMess.value = '', 5000);
         } else if(!emailRegex.test(email.value)) {
             errorMess.value = 'Почта введена в неправильном формате';
+
+            setTimeout(() => errorMess.value = '', 5000);
         }
     }
 </script>

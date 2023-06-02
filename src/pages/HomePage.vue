@@ -13,7 +13,7 @@
         <img src="@/assets/tagline.svg" alt="Привет! Мы - движение CTF, покупай фирменный мерч - оплачивай CTF-койнами" id="Tagline">
 
         <div id="Categories">
-            <p v-for="category of categories" :key="category.id" :class="{ active: category.isActive }">{{ category.title }}</p>
+            <p v-for="category of categories" :key="category.id" :class="{ active: category.isActive }" @click="targetCategory = category.title">{{ category.title }}</p>
         </div>
 
         <div v-for="banner of banners" :key="banner.id" class="banner" v-show="banner.isActive">
@@ -68,6 +68,7 @@
 
     interface Banner {
         id: number,
+        title: string,
         isActive: boolean
     }
 
@@ -107,23 +108,29 @@
     const banners = ref([
         {
             id: 1,
+            title: 'Кружки',
             isActive: true,
         },
         {
             id: 2,
+            title: 'Футболки',
             isActive: false,
         },
         {
             id: 3,
+            title: 'Толстовки',
             isActive: false,
         },
         {
             id: 4,
+            title: 'Книги',
             isActive: false,
         },
     ] as Banner[]);
 
     const shopItems = ref([] as ShopItem[]);
+
+    const targetCategory = ref('');
 
     const getShopItems = (start:number, stop:number) => {
         const url = new URL(`https://ctfmarket.ru:8080/api/v1/product/${start}/${stop}`);
