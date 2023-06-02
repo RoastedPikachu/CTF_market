@@ -99,7 +99,7 @@
                   <p>{{ totalCost }} баллов</p>
               </span>
 
-              <input type="text" placeholder="Введите адрес" v-model="address">
+              <input type="text" placeholder="г. Москва, ул. Моросейка, д. 10, кв. 40" v-model="address">
 
               <button :class="{ active: isPointsEnough }" @click="makeAnOrder()">
                   Оплатить
@@ -170,9 +170,6 @@
           const url = new URL('https://ctfmarket.ru:8080/api/v1/product/buy');
 
           const token = getCookie('token');
-
-          console.log(token);
-          console.log(address.value);
 
           axios.post(url.toString(), {
               token: token,

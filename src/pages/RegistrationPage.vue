@@ -1,7 +1,9 @@
 <template>
   <main>
       <div id="Register">
-          <img id="Register_Logo" src="@/assets/Logo.svg" alt="CTFmarket">
+          <router-link to="/" class="registerLogoRoute">
+              <img src="@/assets/Logo.svg" alt="CTFmarket">
+          </router-link>
 
           <form>
               <div>
@@ -133,11 +135,13 @@
           backdrop-filter: blur(6px);
           border: 0.5px solid rgba(255, 255, 255, 0.4);
           border-radius: 30px;
-          #Register_Logo {
-            margin-top: 30px;
-            margin-left: 7.5px;
-            width: 100%;
-            height: 75px;
+          .registerLogoRoute {
+              img {
+                  margin-top: 30px;
+                  margin-left: 7.5px;
+                  width: 100%;
+                  height: 75px;
+              }
           }
           form {
             display: flex;
@@ -228,27 +232,35 @@
                 margin-top: -50px;
                 width: 85%;
                 height: 600px;
-                #Register_Logo {
-                    margin-top: 20px;
-                    margin-left: calc(10% + 10px);
-                    width: 77.5%;
-                    height: auto;
+
+                .registerLogoRoute {
+                    img {
+                        margin-top: 20px;
+                        margin-left: calc(10% + 10px);
+                        width: 77.5%;
+                        height: auto;
+                    }
                 }
+
                 form {
                     margin-top: 10px;
                     height: 440px;
+
                     div {
                         width: 75%;
+
                         img {
                             width: 20px;
                         }
                     }
+
                     button {
                         width: 220px;
                         height: 50px;
                         font-size: 1em;
                     }
                 }
+
                 #Register_SignIn {
                     margin-top: 10px;
                     width: 100%;
@@ -264,10 +276,13 @@
                 width: 530px;
                 height: 750px;
 
-                #Register_Logo {
-                    margin-left: calc(12.5% + 10px);
-                    width: 75%;
-                    height: 75px;
+                .registerLogoRoute {
+                    img {
+                        margin-top: 20px;
+                        margin-left: calc(12.5% + 10px);
+                        width: 75%;
+                        height: 75px;
+                    }
                 }
 
                 form {
@@ -309,11 +324,13 @@
                 width: 560px;
                 height: 800px;
 
-                #Register_Logo {
-                    margin-top: 40px;
-                    margin-left: calc(10% + 10px);
-                    width: 80%;
-                    height: 80px;
+                .registerLogoRoute {
+                    img {
+                        margin-top: 40px;
+                        margin-left: calc(10% + 10px);
+                        width: 80%;
+                        height: 80px;
+                    }
                 }
 
                 form {

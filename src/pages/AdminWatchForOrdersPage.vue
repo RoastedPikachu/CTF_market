@@ -16,7 +16,7 @@
                  <h2>Подробная информация о заказе</h2>
 
                  <p>{{ `${targetOrder.user?.first_name || 'IT'} ${targetOrder.user?.last_name || 'Уточка'}` }}</p>
-                 <p>{{ `+${targetOrder.user?.phone.slice(0, 1)}(${targetOrder.user?.phone.slice(1, 4)})${targetOrder.user?.phone.slice(4, 7)}-${targetOrder.user?.phone.slice(7, 9)}-${targetOrder.user?.phone.slice(9, 11)}` || 'У уточки нет телефона'}}</p>
+                 <p>{{ `+${targetOrder.user?.phone.slice(0, 1)}(${targetOrder.user?.phone.slice(1, 4)})${targetOrder.user?.phone.slice(4, 7)}-${targetOrder.user?.phone.slice(7, 9)}-${targetOrder.user?.phone.slice(9, 11)}`}}</p>
                  <p>{{ targetOrder.user?.email || 'крякря@duck.ru'}}</p>
                  <p>{{ targetOrder?.address || 'пруд около горы Маттерхорн' }}</p>
                  <p v-for="orderedPosition of targetOrder.products" :key="orderedPosition.id">{{ orderedPosition.title }} размер: {{ orderedPosition.size }}</p>

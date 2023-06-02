@@ -12,9 +12,9 @@
           <router-link to="/shopItems" class="footerRoute">Товары</router-link>
 
           <span>
-              <router-link to="/registration" :disabled="isSignIn" class="footerRoute">Вход/</router-link>
+              <router-link to="/signIn" :disabled="isSignIn" class="footerRoute">Вход/</router-link>
 
-              <router-link to="/signIn" :disabled="isSignIn" class="footerRoute">Регистрация</router-link>
+              <router-link to="/registration" :disabled="isSignIn" class="footerRoute">Регистрация</router-link>
           </span>
       </nav>
 
@@ -65,7 +65,7 @@
     });
 
     onMounted(() => {
-        console.log(store.state.isSignIn);
+        console.log('А в подвале дети сидят(((');
     })
 </script>
 
@@ -266,26 +266,74 @@
 
   @media(max-width: 380px) {
     footer {
-      height: 170px;
+        height: 200px;
 
-      #BlurContacts {
-        height: 30px;
+        #BlurContacts {
+            height: 30px;
 
-        h2 {
-          font-size: 1.75em;
+            h2 {
+              font-size: 1.625em;
+            }
+
+            p {
+              font-size: 1.625em;
+            }
         }
 
-        p {
-          font-size: 1.75em;
+        nav {
+            margin: 15px 7.5% 0 7.5%;
+
+            .footerRoute {
+                font-size: 14px;
+            }
         }
-      }
+
+        #BottomInfo {
+            margin: 20px 10% 0 7.5%;
+            width: 85%;
+            #BottomInfo_Contacts {
+                width: 45%;
+                h3 {
+                    font-size: 14px;
+                }
+                span {
+                    width: 85%;
+                    p {
+                        font-size: 10px;
+                    }
+                }
+                span {
+                    margin-top: 12.5px;
+                }
+            }
+            #BottomInfo_SocialNetworks {
+                width: 42.5%;
+                h3 {
+                    font-size: 14px;
+                }
+                span {
+                    margin-top: 5px;
+                    width: 70%;
+                    height: 15px;
+                    p {
+                        font-size: 10px;
+                    }
+                    a {
+                        width: 12.5px;
+                        height: 12.5px;
+                        img {
+                            width: 12.5px;
+                            height: 12.5px;
+                        }
+                    }
+                }
+            }
+        }
     }
   }
 
   @media(max-width: 360px) {
     footer {
-      height: 150px;
-
       #BlurContacts {
         margin-top: 20px;
 

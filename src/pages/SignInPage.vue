@@ -1,7 +1,9 @@
 <template>
   <main>
       <div id="SignIn">
-          <img id="SignIn_Logo" src="@/assets/Logo.svg" alt="CTFMarket">
+          <router-link to="/" class="signInLogoRoute">
+              <img src="@/assets/Logo.svg" alt="CTFMarket">
+          </router-link>
 
           <form>
               <div>
@@ -106,11 +108,13 @@
             backdrop-filter: blur(6px);
             border: 0.5px solid rgba(255, 255, 255, 0.4);
             border-radius: 30px;
-            #SignIn_Logo {
-                margin-top: 20px;
-                margin-left: 15px;
-                width: 75%;
-                height: 65px;
+            .signInLogoRoute {
+                img {
+                    margin-top: 20px;
+                    margin-left: 7.5px;
+                    width: 100%;
+                    height: 65px;
+                }
             }
             form {
                 display: flex;
@@ -204,11 +208,13 @@
                 width: 85%;
                 height: 460px;
 
-                #SignIn_Logo {
-                    margin-top: 0;
-                    margin-left: 10px;
-                    width: 77.5%;
-                    height: 70px;
+                .signInLogoRoute {
+                    img {
+                        margin-top: 0;
+                        margin-left: calc(11.75% + 5px);
+                        width: 77.5%;
+                        height: 70px;
+                    }
                 }
 
                 form {
@@ -244,9 +250,12 @@
                 width: 500px;
                 height: 530px;
 
-                #SignIn_Logo {
-                    width: 85%;
-                    height: 72.5px;
+                .signInLogoRoute {
+                    img {
+                        margin-left: calc(5% + 7.5px);
+                        width: 90%;
+                        height: 77.5px;
+                    }
                 }
 
                 form {
@@ -291,9 +300,11 @@
                 width: 550px;
                 height: 600px;
 
-                #SignIn_Logo {
-                    width: 90%;
-                    height: 80px;
+                .signInLogoRoute {
+                    img {
+                        width: 90%;
+                        height: 90px;
+                    }
                 }
 
                 form {
