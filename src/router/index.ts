@@ -25,7 +25,7 @@ const routes: Array<RouteRecordRaw> = [
     component: AdminWatchForOrdersPage
   },
   {
-    path: '/shopItems',
+    path: '/shopItems/:category?',
     name: 'shopItems',
     component: ShopItemsPage
   },

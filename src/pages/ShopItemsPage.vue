@@ -69,6 +69,7 @@
 
 <script lang="ts" setup>
     import { ref, onMounted } from 'vue';
+    import { useRoute } from 'vue-router';
     import axios from "axios";
     import TheHeaderComp from '@/widgets/shared/TheHeaderComp.vue';
     import ShopItemCard from '@/widgets/shared/ShopItemCard.vue';
@@ -94,6 +95,8 @@
       prop: string,
       isActive: boolean,
     }
+
+    const route = useRoute();
 
     const isModalFilterActive = ref(false);
 
@@ -159,7 +162,7 @@
     const minPrice = ref('');
     const maxPrice = ref('');
 
-    const filterShopItems = () => {
+    const filterShopItems = (category?:string) => {
       if(minPrice.value && maxPrice.value) {
           shopItems.value = initialShopItems.value;
 
@@ -176,11 +179,15 @@
 
       const targetCategories = [] as string[];
 
-      categories.value.forEach(item => {
-          if(item.isActive) {
-              targetCategories.push(item.title);
-          }
-      })
+      if(category) {
+          targetCategories.push(category);
+      } else {
+          categories.value.forEach(item => {
+              if(item.isActive) {
+                  targetCategories.push(item.title);
+              }
+          })
+      }
 
       if(targetCategories.length) {
           shopItems.value = initialShopItems.value;
@@ -196,9 +203,14 @@
             headers: { 'Content-Type': 'application/json;charset=utf-8' }
         })
             .then((res) => {
-                console.log(res);
                 shopItems.value = Object.values(res.data);
                 initialShopItems.value = Object.values(res.data);
+
+                if(route.params.category) {
+                    const category:string = route.params.category as string;
+
+                    filterShopItems(category);
+                }
             })
             .catch((err) => {
                 console.log(err);

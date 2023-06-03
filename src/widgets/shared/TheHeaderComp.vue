@@ -38,10 +38,21 @@
 
       <nav>
           <router-link to="/" class="route">Главная</router-link>
+
           <router-link to="/shopItems" class="route">Товары</router-link>
+
           <span>
-              <router-link to="/signIn" class="route" :disabled="!isSignIn">Вход/</router-link>
-              <router-link to="/registration" class="route" :disabled="!isSignIn">Регистрация</router-link>
+              <router-link
+                  to="/signIn"
+                  :class="{ disabledRoute: isSignIn }"
+                  class="route"
+              >Вход/</router-link>
+
+              <router-link
+                  to="/registration"
+                  :class="{ disabledRoute: isSignIn }"
+                  class="route"
+              >Регистрация</router-link>
           </span>
       </nav>
 
@@ -397,6 +408,9 @@
         font-family: 'DM Sans', sans-serif;
         text-decoration: none;
         outline: none;
+      }
+      .disabledRoute {
+          pointer-events: none;
       }
       span {
           display: flex;

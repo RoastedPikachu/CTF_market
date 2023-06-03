@@ -12,9 +12,17 @@
           <router-link to="/shopItems" class="footerRoute">Товары</router-link>
 
           <span>
-              <router-link to="/signIn" :disabled="isSignIn" class="footerRoute">Вход/</router-link>
+              <router-link
+                  to="/signIn"
+                  :class="{ disabledRoute: isSignIn }"
+                  class="footerRoute"
+              >Вход/</router-link>
 
-              <router-link to="/registration" :disabled="isSignIn" class="footerRoute">Регистрация</router-link>
+              <router-link
+                  to="/registration"
+                  :class="{ disabledRoute: isSignIn }"
+                  class="footerRoute"
+              >Регистрация</router-link>
           </span>
       </nav>
 
@@ -115,6 +123,9 @@
             font-family: 'DM Sans', sans-serif;
             text-decoration: none;
             outline: none;
+        }
+        .disabledRoute {
+            pointer-events: none;
         }
     }
 

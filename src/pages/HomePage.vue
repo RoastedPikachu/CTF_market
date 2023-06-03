@@ -17,19 +17,19 @@
         </div>
 
         <div v-for="banner of banners" :key="banner.id" class="banner" v-show="banner.isActive">
-            <router-link to="/shopItems" class="bannerImgRoute" v-if="banner.id == 1">
+            <router-link :to="{ name: 'shopItems', params: { category: banner.title }}" class="bannerImgRoute" v-if="banner.id == 1">
                 <img src="@/assets/mugBanner.svg" alt="Баннер кружек">
             </router-link>
 
-            <router-link to="/shopItems" class="bannerImgRoute" v-if="banner.id == 2">
+            <router-link :to="{ name: 'shopItems', params: { category: banner.title }}" class="bannerImgRoute" v-if="banner.id == 2">
                 <img src="@/assets/tshirtBanner.svg" alt="Баннер футболок">
             </router-link>
 
-            <router-link to="/shopItems" class="bannerImgRoute" v-if="banner.id == 3">
+            <router-link :to="{ name: 'shopItems', params: { category: banner.title }}" class="bannerImgRoute" v-if="banner.id == 3">
                 <img src="@/assets/sweatshirtBanner.svg" alt="Баннер толстовок">
             </router-link>
 
-            <router-link to="/shopItems" class="bannerImgRoute" v-if="banner.id == 4">
+            <router-link :to="{ name: 'shopItems', params: { category: banner.title }}" class="bannerImgRoute" v-if="banner.id == 4">
                 <img src="@/assets/bookBanner.svg" alt="Баннер книжек">
             </router-link>
         </div>
@@ -130,6 +130,8 @@
 
     const shopItems = ref([] as ShopItem[]);
 
+    const bannerInterval = setInterval(() => getNextPhoto(), 5000);
+
     const setBanner = (category:Category) => {
         banners.value.forEach(item => {
             if(item.title != category.title) {
@@ -143,6 +145,9 @@
         categories.value.forEach(item => item.isActive = false);
 
         category.isActive = true;
+
+        clearInterval(bannerInterval);
+        setInterval(() => getNextPhoto(), 5000);
     }
 
     const getShopItems = (start:number, stop:number) => {
@@ -179,8 +184,6 @@
         } else {
             getShopItems(0, 2);
         }
-
-        setInterval(() => getNextPhoto(), 5000);
     })
 </script>
 
@@ -225,11 +228,11 @@
       }
       #Categories {
         display: flex;
-        justify-content: space-between;
+        justify-content: space-around;
         align-items: center;
-        padding: 0 25px;
-        margin: 80px 45% 0 10%;
-        width: 42.5%;
+        padding: 0 15px;
+        margin: 80px 42.5% 0 10%;
+        width: 45%;
         height: 65px;
         background-color: #2c2d2d;
         border-radius: 40px;
