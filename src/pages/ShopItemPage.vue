@@ -332,8 +332,10 @@
   @media(max-width: 480px) {
       main {
           margin: 0 5%;
+          padding-bottom: 30px;
           width: 90%;
-          height: 850px;
+          height: auto;
+          min-height: 900px;
 
           #ShopItemsLogo {
               margin-top: 50px;
@@ -344,12 +346,14 @@
           #MainShopItemInfo {
               display: block;
               margin-top: 20px;
+              padding-bottom: 0;
+              height: auto;
 
               #MainShopItemInfo_Images {
                   width: 100%;
-                  height: 50%;
+                  height: 60%;
 
-                  img {
+                  .mainShopItemInfo_Images_Photo {
                       height: 100%;
                   }
 
@@ -360,7 +364,7 @@
 
               aside {
                   margin-top: 20px;
-                  padding-bottom: 20px;
+                  padding-bottom: 0;
                   width: 100%;
                   height: auto;
 

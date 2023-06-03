@@ -210,6 +210,7 @@
       phone.value = '';
 
       store.dispatch('changeIsSignIn');
+      store.dispatch('clearShoppingCart');
   }
 
   const getCookie = (name:string) => {
@@ -233,7 +234,7 @@
 
               email.value = res.data.email;
               fullName.value = `${res.data.first_name} ${res.data.last_name}`;
-              phone.value = `+${res.data.phone.slice(0, 1)}(${res.data.phone.slice(1, 4)})${res.data.phone.slice(4, 7)}-${res.data.phone.slice(7, 9)}-${res.data.phone.slice(9, 11)}`;
+              phone.value = res.data.phone;
 
               isPointsEnough.value = totalCost.value <= balance.value;
           })
