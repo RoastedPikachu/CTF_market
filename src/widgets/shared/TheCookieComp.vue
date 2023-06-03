@@ -7,14 +7,10 @@
 </template>
 
 <script lang="ts" setup>
-  import { ref, watch } from 'vue';
+  import { computed } from 'vue';
   import store from '@/store';
 
-  const isCookieOpen = ref(store.state.isCookieOpen);
-
-  watch(() => store.state.isCookieOpen, () => {
-      isCookieOpen.value = store.state.isCookieOpen;
-  })
+  const isCookieOpen = computed(() => store.state.isCookieOpen);
 </script>
 
 <style lang="scss" scoped>

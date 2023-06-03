@@ -111,20 +111,20 @@
 </template>
 
 <script lang="ts" setup>
-  import { ref, onMounted, watch } from 'vue';
+  import { ref, onMounted, watch, computed } from 'vue';
   import store from '@/store';
   import axios from 'axios';
 
-  const isSignIn = ref(store.state.isSignIn);
+  const isSignIn = computed(() => store.state.isSignIn);
   const isModalProfileActive = ref(false);
   const isModalShoppingCartActive = ref(false);
   const isPointsEnough = ref(false);
 
-  const countOfItemsInShoppingCart = ref(store.state.countOfItemsInShoppingCart);
-  const shoppingCartItems = ref(store.state.shoppingCart);
+  const countOfItemsInShoppingCart = computed(() => store.state.countOfItemsInShoppingCart);
+  const shoppingCartItems = computed(() => store.state.shoppingCart);
 
   const balance = ref(0);
-  const totalCost = ref(store.state.totalCost);
+  const totalCost = computed(() => store.state.totalCost);
 
   const phone = ref('');
   const email = ref('');
@@ -132,34 +132,12 @@
   const fullName = ref('');
 
   onMounted(() => {
-      if(shoppingCartItems.value.length) {
-          const accumArr = shoppingCartItems.value.map(item => item.count > 1 ? +item.price * item.count : +item.price);
-
-          store.dispatch('changeTotalCostValue', accumArr.reduce((accum, item) => accum += item));
-      } else {
-          store.dispatch('changeTotalCostValue', 0);
-      }
-
       if(isSignIn.value) {
           getInfoAboutUserByToken();
       }
   })
 
-  watch(() => store.state.isSignIn, () => {
-      isSignIn.value = store.state.isSignIn;
-  });
-
-  watch(() => store.state.totalCost, () => {
-      totalCost.value = store.state.totalCost;
-  });
-
-  watch(() => store.state.countOfItemsInShoppingCart, () => {
-      countOfItemsInShoppingCart.value = store.state.countOfItemsInShoppingCart;
-  });
-
   watch(() => store.state.shoppingCart, () => {
-      shoppingCartItems.value = store.state.shoppingCart;
-
       if(shoppingCartItems.value.length) {
           const accumArr = shoppingCartItems.value.map(item => item.count > 1 ? +item.price * item.count : +item.price);
 

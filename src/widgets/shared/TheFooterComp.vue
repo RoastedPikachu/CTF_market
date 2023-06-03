@@ -55,14 +55,10 @@
 </template>
 
 <script lang="ts" setup>
-    import { ref, watch, onMounted } from 'vue';
+    import { computed, onMounted } from 'vue';
     import store from '@/store';
 
-    const isSignIn = ref(store.state.isSignIn);
-
-    watch(() => store.state.isSignIn, () => {
-        isSignIn.value = store.state.isSignIn;
-    });
+    const isSignIn = computed(() => store.state.isSignIn);
 
     onMounted(() => {
         console.log('А в подвале дети сидят(((');
