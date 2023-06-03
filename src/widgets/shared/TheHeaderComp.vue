@@ -641,6 +641,25 @@
             }
         }
 
+        #ModalShoppingCart {
+            top: 0;
+            right: 0;
+            width: calc(100% - 74px);
+            height: calc(100vh - 44px);
+            border-radius: 0;
+            p {
+                display: block;
+            }
+
+            #shoppingCartItemsWrapper {
+                height: 370px;
+            }
+
+            #ShoppingCart_Bottom {
+                height: 100px;
+            }
+        }
+
         span {
             width: 25px;
             img {
