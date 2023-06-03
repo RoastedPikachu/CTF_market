@@ -5,7 +5,7 @@
       <img src="@/assets/hamburgerIcon.svg" alt="Меню" id="HamburgerMenu" @click="isModalProfileActive = !isModalProfileActive">
 
       <div id="ModalProfileWindow" v-if="isModalProfileActive && isSignIn">
-          <img src="@/assets/x-markIcon.png" alt="Закрыть" id="ModalProfileWindow_Close" @click="isModalProfileActive = !isModalProfileActive">
+          <img src="@/assets/x-markIcon.svg" alt="Закрыть" id="ModalProfileWindow_Close" @click="isModalProfileActive = !isModalProfileActive">
 
           <div id="ModalProfileWindow_UserBrieflyInfo">
               <img src="@/assets/userAvatar.svg" alt="Профиль">
@@ -64,7 +64,7 @@
 
       <div id="ModalShoppingCart" v-if="isModalShoppingCartActive">
           <span>
-              <img src="@/assets/x-markIcon.png" alt="Назад" @click="isModalShoppingCartActive = !isModalShoppingCartActive">
+              <img src="@/assets/x-markIcon.svg" alt="Назад" @click="isModalShoppingCartActive = !isModalShoppingCartActive">
 
               <p>Корзина</p>
 
@@ -141,12 +141,6 @@
   const email = ref('');
   const address = ref('');
   const fullName = ref('');
-
-  onMounted(() => {
-      if(isSignIn.value) {
-          getInfoAboutUserByToken();
-      }
-  })
 
   watch(() => store.state.shoppingCart, () => {
       if(shoppingCartItems.value.length) {
@@ -253,6 +247,26 @@
               console.log(error);
           })
   }
+
+  onMounted(() => {
+      if(isSignIn.value) {
+          getInfoAboutUserByToken();
+      }
+
+      window.addEventListener('click', event => {
+          if(event.target !== null) {
+              const target = event.target as HTMLElement;
+
+              if(!target.closest('header')) {
+                  if(isModalShoppingCartActive.value) {
+                      isModalShoppingCartActive.value = false;
+                  } else if(isModalProfileActive.value) {
+                      isModalProfileActive.value = false;
+                  }
+              }
+          }
+      });
+  })
 </script>
 
 <style lang="scss" scoped>

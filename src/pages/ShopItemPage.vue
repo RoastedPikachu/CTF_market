@@ -49,12 +49,18 @@
   import TheFooterComp from '@/widgets/shared/TheFooterComp.vue';
   import store from "@/store";
 
+  interface Size {
+      name: string,
+      count: number
+  }
+
   interface ShopItem {
       id: number,
       title: string,
       price: string,
       description: string,
-      images: string[]
+      images: string[],
+      sizes: Size[],
   }
 
   const route = useRoute();
@@ -71,32 +77,38 @@
       {
           id: 1,
           prop: 'XS',
-          isActive: true,
+          isActive: false,
+          count: 0,
       },
       {
           id: 2,
           prop: 'S',
-          isActive: false
+          isActive: false,
+          count: 0,
       },
       {
           id: 3,
           prop: 'M',
-          isActive: false
+          isActive: false,
+          count: 0,
       },
       {
           id: 4,
           prop: 'L',
-          isActive: false
+          isActive: false,
+          count: 0,
       },
       {
           id: 5,
           prop: 'XL',
-          isActive: false
+          isActive: false,
+          count: 0,
       },
       {
           id: 6,
           prop: 'XXL',
-          isActive: false
+          isActive: false,
+          count: 0,
       }
   ]);
 
@@ -108,9 +120,13 @@
   const targetImageIndex = ref(0);
 
   const changeSizeIsActive = (size:any) => {
-      sizes.value.forEach(item => item.isActive = false);
-      targetSize.value = size.prop;
-      size.isActive = true;
+      if(size.count) {
+          sizes.value.forEach(item => item.isActive = false);
+
+          targetSize.value = size.prop;
+
+          size.isActive = true;
+      }
   }
 
   const addItemToShoppingCart = (item:ShopItem) => {
@@ -143,6 +159,25 @@
           .then((res:any) => {
               console.log('Это что товар, а думал сова!')
               item.value = res.data;
+
+              item.value.sizes.forEach(itemSize => {
+                  sizes.value.forEach(item => {
+                      if(item.prop === itemSize.name) {
+                          item.count = itemSize.count;
+                      }
+                  });
+              });
+
+              let isSizeFinded = false;
+
+              sizes.value.forEach(item => {
+                  if(!isSizeFinded) {
+                      if(item.count) {
+                          item.isActive = true;
+                          isSizeFinded = true;
+                      }
+                  }
+              })
 
               switch(res.data.category) {
                   case 'Футболки': isSizesActive.value = true;
@@ -258,6 +293,7 @@
             font-size: 22px;
           }
           button {
+            position: relative;
             display: flex;
             align-items: center;
             padding: 2px 20px 0px;
@@ -355,6 +391,7 @@
 
                   .mainShopItemInfo_Images_Photo {
                       height: 100%;
+                      border-radius: 30px;
                   }
 
                   span {
