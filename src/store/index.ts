@@ -61,6 +61,9 @@ export default createStore({
       state.shoppingCart = state.shoppingCart.filter(item => item.id != id);
       state.countOfItemsInShoppingCart--;
     },
+    CLEAR_IS_COOKIE_OPEN(state) {
+      state.isCookieOpen = false;
+    },
     CLEAR_SHOPPING_CART(state) {
       state.shoppingCart = [];
       state.countOfItemsInShoppingCart = 0;
@@ -87,6 +90,9 @@ export default createStore({
     },
     removeItemFromShoppingCart({commit}, id:number) {
       commit('REMOVE_ITEM_FROM_SHOPPING_CART', id);
+    },
+    clearIsCookieOpen({commit}) {
+      commit('CLEAR_IS_COOKIE_OPEN');
     },
     clearShoppingCart({commit}) {
       commit('CLEAR_SHOPPING_CART');

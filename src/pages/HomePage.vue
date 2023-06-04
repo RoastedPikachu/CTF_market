@@ -3,9 +3,20 @@
 
     <main>
         <div id="MovingImgWrapper">
-            <img src="@/assets/topLogoText.svg" alt="CTFMarket" id="TopLogoText">
+            <div id="TopLogoText">
+                <span><p>CTF</p><img src="@/assets/marketNeonText.svg" alt="MARKET"><p>CTF</p><img src="@/assets/marketNeonText.svg" alt="MARKET"><p>CTF</p><img src="@/assets/marketNeonText.svg" alt="MARKET"><p>CTF</p><img src="@/assets/marketNeonText.svg" alt="MARKET"><p>CTF</p><img src="@/assets/marketNeonText.svg" alt="MARKET"></span>
+            </div>
 
-            <img src="@/assets/bottomLogoText.svg" alt="Летняя школа CTF 2023" id="BottomLogoText">
+            <div id="BottomLogoText">
+                <p>ЛЕТНЯЯ ШКОЛА CTF 2023 ЛЕТНЯЯ ШКОЛА CTF 2023 ЛЕТНЯЯ ШКОЛА CTF 2023 ЛЕТНЯЯ ШКОЛА CTF 2023 ЛЕТНЯЯ ШКОЛА CTF 2023 ЛЕТНЯЯ ШКОЛА CTF 2023 ЛЕТНЯЯ ШКОЛА CTF 2023</p>
+            </div>
+<!--            <marquee id="TopLogoText" direction="left" behavior="slide" loop="-1" scrollamount="5">-->
+<!--                <span><p>CTF</p><img src="@/assets/marketNeonText.svg" alt="MARKET"><p>CTF</p><img src="@/assets/marketNeonText.svg" alt="MARKET"><p>CTF</p><img src="@/assets/marketNeonText.svg" alt="MARKET"><p>CTF</p><img src="@/assets/marketNeonText.svg" alt="MARKET"><p>CTF</p><img src="@/assets/marketNeonText.svg" alt="MARKET"><p>CTF</p><img src="@/assets/marketNeonText.svg" alt="MARKET"></span>-->
+<!--            </marquee>-->
+
+<!--            <marquee id="BottomLogoText" direction="right" behavior="slide" loop="-1" scrollamount="5">-->
+<!--                <p>ЛЕТНЯЯ ШКОЛА CTF 2023 ЛЕТНЯЯ ШКОЛА CTF 2023 ЛЕТНЯЯ ШКОЛА CTF 2023 ЛЕТНЯЯ ШКОЛА CTF 2023 ЛЕТНЯЯ ШКОЛА CTF 2023 ЛЕТНЯЯ ШКОЛА CTF 2023 ЛЕТНЯЯ ШКОЛА CTF 2023</p>-->
+<!--            </marquee>-->
         </div>
 
         <img src="@/assets/SignInBackground.svg" alt="Задний фон" id="BgImage">
@@ -130,7 +141,7 @@
 
     const shopItems = ref([] as ShopItem[]);
 
-    const bannerInterval = setInterval(() => getNextPhoto(), 5000);
+    let bannerInterval:ReturnType<typeof setInterval> = setInterval(() => getNextPhoto(), 5000);
 
     const setBanner = (category:Category) => {
         banners.value.forEach(item => {
@@ -147,7 +158,7 @@
         category.isActive = true;
 
         clearInterval(bannerInterval);
-        setInterval(() => getNextPhoto(), 5000);
+        bannerInterval = setInterval(() => getNextPhoto(), 5000);
     }
 
     const getShopItems = (start:number, stop:number) => {
@@ -195,28 +206,51 @@
       height: auto;
       overflow: hidden;
       #MovingImgWrapper {
-        padding-top: 100px;
+        padding-top: 90px;
         width: 100%;
+        height: 135px;
         overflow: hidden;
+
         #TopLogoText {
-            margin-left: 1px;
-            width: 100%;
-            height: 70px;
-            transform: scale(2);
-            background-size: cover;
+            width: 100vw;
+            height: 87.5px;
+
+            span {
+                display: flex;
+                align-items: center;
+
+                p {
+                    color: #ffffff;
+                    font-size: 94px;
+                    font-weight: 900;
+                    font-family: 'DM Sans', sans-serif;
+                }
+
+                img {
+                    margin-top: -4px;
+                    width: auto;
+                    height: 100%;
+                }
+            }
         }
+
         #BottomLogoText {
-            margin-top: -10px;
-            margin-left: 1px;
-            width: 100%;
-            height: 40px;
-            background-size: cover;
-            transform: scale(2);
+            margin-top: 5px;
+            width: 100vw;
+            height: 60px;
+
+            p {
+                color: #ffffff;
+                font-size: 38px;
+                font-weight: 700;
+                font-family: 'DM Sans', sans-serif;
+            }
         }
       }
+
       #BgImage {
         position: absolute;
-        top: 230px;
+        top: 260px;
         width: 100%;
         background-size: cover;
         transform: scale(1.1);

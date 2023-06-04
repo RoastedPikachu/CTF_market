@@ -60,7 +60,10 @@
       </Transition>
 
       <section id="ShopItemsContainer">
-          <ShopItemCard :shopItems="shopItems"/>
+          <ShopItemCard
+              :shopItems="shopItems"
+              :initialShopItems="initialShopItems"
+          />
       </section>
   </main>
 
@@ -452,7 +455,7 @@
           }
 
           #ShopItemsNav {
-              height: 80px;
+              height: 90px;
 
               button {
                   margin-top: -10px;
@@ -479,10 +482,15 @@
                   }
 
                   span {
-                      width: 90%;
+                      width: 100%;
 
                       p {
                           font-size: 16px;
+                      }
+
+                      .categoryActive {
+                          padding: 5px 15px;
+                          font-size: 14px;
                       }
                   }
               }
@@ -505,6 +513,7 @@
               }
 
               #ModalFilterWindow_Price {
+                  width: 95%;
                   height: 70px;
 
                   p {
@@ -528,14 +537,14 @@
 
               #ModalFilterWindow_Accept {
                   width: 50%;
-                  height: 50px;
-                  font-size: 16px;
+                  height: 45px;
+                  font-size: 14px;
               }
 
               #ModalFilterWindow_Reset {
                   width: 50%;
-                  height: 50px;
-                  font-size: 16px;
+                  height: 45px;
+                  font-size: 14px;
               }
           }
 

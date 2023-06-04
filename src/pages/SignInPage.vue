@@ -18,7 +18,7 @@
 
               <p id="SignIn_Error" v-if="errorMess">{{ errorMess }}</p>
 
-              <p>Забыли пароль?</p>
+              <p @click="console.log('Больше не забывай, чмоки 𓂸');">Забыли пароль?</p>
 
               <button type="button" @click="setSignInData()">Войти</button>
           </form>

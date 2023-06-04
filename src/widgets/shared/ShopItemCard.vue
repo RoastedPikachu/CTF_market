@@ -9,7 +9,7 @@
         </div>
 
         <div>
-            <p class="shopItemTitle">{{ shopItem.title }}</p>
+            <p class="shopItemTitle">{{ shopItem.title.length < 20 ? shopItem.title : `${shopItem.title.slice(0, 20)}&#8230;` }}</p>
 
             <div>
                 <p class="shopItemDescription">{{ shopItem.description }}</p>
@@ -39,13 +39,14 @@
     }
 
     interface Props {
-        shopItems: ShopItem[]
+        shopItems: ShopItem[],
+        initialShopItems: ShopItem[]
     }
 
     const props = defineProps<Props>();
 
     const goToShopItemPage = (id:number | string) => {
-        if(id > props.shopItems.length || typeof id === 'string') {
+        if(id > props.initialShopItems.length || typeof id === 'string') {
             router.push('/404');
         } else {
             router.push(`/shopItem/${id}`);
@@ -144,26 +145,40 @@
 
     @media(max-width: 480px) {
         .shopItem {
-            margin-top: 20px;
+            margin-top: 15px;
             padding: 10px 2.5% 15px 2.5%;
             width: calc(46% - 3%);
             height: 260px;
             border-radius: 20px;
             .shopItem_ImgContainer {
                 padding-bottom: 0;
-                border-radius: 20px;
+                height: 80%;
+                border-radius: 15px;
+                img {
+                    border-radius: 15px;
+                }
             }
             div {
-                margin-top: 10px;
+                margin-top: 7.5px;
+                padding-bottom: 0;
+                min-height: 40px;
                 .shopItemTitle {
                     font-size: 0.75em;
                 }
                 div {
+                    align-items: center;
                     margin-top: 7.5px;
+                    height: auto;
+                    min-height: 0;
                     .shopItemDescription {
+                        height: auto;
                         font-size: 0.5em;
+                        line-height: 1.35;
+                        word-break: break-all;
+                        text-align: justify;
                     }
                     button {
+                        margin-top: 0;
                         padding-top: 5px;
                         height: 25px;
                         border-radius: 30px;
@@ -184,7 +199,17 @@
 
     @media(max-width: 400px) {
         .shopItem {
-            height: 220px;
+            height: 240px;
+
+            .shopItem_ImgContainer {
+                height: 77.5%;
+            }
+
+            div {
+                .shopItemTitle {
+                    font-size: 0.675em;
+                }
+            }
         }
     }
 
@@ -202,10 +227,11 @@
                         font-size: 0.425em;
                     }
                     button {
-                        padding-top: 3.5px;
+                        padding-top: 2px;
                         height: 22.5px;
                         p {
-                            font-size: 0.575em;
+                            height: auto;
+                            font-size: 0.525em;
                         }
                         img {
                             width: 12.5px;

@@ -5,7 +5,8 @@
       <img src="@/assets/hamburgerIcon.svg" alt="Меню" id="HamburgerMenu" @click="isModalProfileActive = !isModalProfileActive">
 
       <div id="ModalProfileWindow" v-if="isModalProfileActive && isSignIn">
-          <img src="@/assets/x-markIcon.svg" alt="Закрыть" id="ModalProfileWindow_Close" @click="isModalProfileActive = !isModalProfileActive">
+          <img src="@/assets/x-markIcon.svg" alt="Закрыть" id="ModalProfileWindow_Close" v-if="!isMobile" @click="isModalProfileActive = !isModalProfileActive">
+          <img src="@/assets/hamburgerIcon.svg" alt="Закрыть" id="ModalProfileWindow_HamburgerClose" v-if="isMobile" @click="isModalProfileActive = !isModalProfileActive">
 
           <div id="ModalProfileWindow_UserBrieflyInfo">
               <img src="@/assets/userAvatar.svg" alt="Профиль">
@@ -22,6 +23,22 @@
 
               <p>{{ email }}</p>
           </div>
+
+          <button class="hamburgerMenuRoute" v-if="isSignIn && isMobile">
+              <router-link to="/" class="hamburgerMenuRoute_Text">Главная</router-link>
+          </button>
+
+          <button class="hamburgerMenuRoute" v-if="isSignIn && isMobile">
+              <router-link to="/shopItems" class="hamburgerMenuRoute_Text">Товары</router-link>
+          </button>
+
+          <button class="hamburgerMenuRoute" v-if="isSignIn && isMobile">
+              <router-link to="/signIn" class="hamburgerMenuRoute_Text">Вход</router-link>
+          </button>
+
+          <button class="hamburgerMenuRoute" v-if="isSignIn && isMobile">
+              <router-link to="/registration" class="hamburgerMenuRoute_Text">Регистрация</router-link>
+          </button>
 
           <button @click="signOut()">Выйти из аккаунта</button>
 
@@ -127,6 +144,7 @@
   import axios from 'axios';
 
   const isSignIn = computed(() => store.state.isSignIn);
+  const isMobile = ref(false);
   const isModalProfileActive = ref(false);
   const isModalShoppingCartActive = ref(false);
   const isPointsEnough = ref(false);
@@ -216,6 +234,10 @@
 
       store.dispatch('changeIsSignIn');
       store.dispatch('clearShoppingCart');
+      store.dispatch('clearIsCookieOpen');
+
+
+      window.location.reload();
   }
 
   const getCookie = (name:string) => {
@@ -266,6 +288,8 @@
               }
           }
       });
+
+      isMobile.value = window.innerWidth < 480;
   })
 </script>
 
@@ -655,6 +679,77 @@
             display: block;
             width: 25px;
             cursor: pointer;
+        }
+
+        #ModalProfileWindow {
+            top: 0;
+            left: 0;
+            padding: 30px 40px;
+            width: calc(100% - 84px);
+            height: calc(100vh - 64px);
+            border-radius: 0;
+
+            #ModalProfileWindow_HamburgerClose {
+                width: 25px;
+                height: 25px;
+                cursor: pointer;
+            }
+
+            p {
+                display: block;
+            }
+
+            #ModalProfileWindow_UserBrieflyInfo {
+                padding: 10px 0 10px 0;
+                width: 100%;
+                border-width: 0 0 2px 0;
+
+                span {
+                    height: auto;
+                    p {
+                        font-size: 18px;
+                    }
+
+                    p:last-child {
+                        font-size: 16px;
+                    }
+                }
+            }
+
+            #ModalProfileWindow_Email {
+                padding: 10px 0 10px 0;
+                width: 100%;
+                border-width: 0 0 0.5px 0;
+            }
+
+            .hamburgerMenuRoute {
+                padding: 20px 0 20px 0;
+                width: 100%;
+                height: 60px;
+                border: 0.5px solid #4b4b4b;
+                border-width: 0.5px 0 0.5px 0;
+                outline: none;
+
+                .hamburgerMenuRoute_Text {
+                    color: #ffffff;
+                    font-size: 18px;
+                    font-weight: 700;
+                    font-family: 'DM Sans', sans-serif;
+                    text-decoration: none;
+                }
+            }
+
+            button {
+                width: 100%;
+                padding: 10px 0 10px 0;
+            }
+
+            #ModalProfileWindow_Balance {
+                padding: 0;
+                width: 100%;
+                border: 0.5px solid #4b4b4b;
+                border-width: 0.5px 0 0 0 ;
+            }
         }
 
         nav {
