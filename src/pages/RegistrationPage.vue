@@ -43,7 +43,7 @@
 
 <script setup lang="ts">
     import { useRouter } from 'vue-router';
-    import { ref } from 'vue';
+    import { ref, watch } from 'vue';
     import axios from 'axios';
 
     const router = useRouter();
@@ -55,63 +55,69 @@
     const password = ref('');
     const errorMess = ref('');
 
+    watch(errorMess, () => {
+        setTimeout(() => errorMess.value = '', 5000);
+    });
+
     const setDataAboutUser = () => {
         const url = new URL('https://ctfmarket.ru:8080/api/v1/auth/register/');
 
         const phoneRegex = /^(\s*)?(\+)?([- _():=+]?\d[- _():=+]?){10,14}(\s*)?$/;
         const emailRegex = /^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/iu;
 
-        if(phoneRegex.test(phone.value) && emailRegex.test(email.value)) {
-            axios.post(url.toString(), {
-                secret_key: token.value,
-                password: password.value,
-                email: email.value,
-                phone: phone.value
-            }, {
-                headers: {'Content-Type': 'application/json;charset=utf-8'}
-            })
-                .then((res: any) => {
-                    if (res.data.error) {
-                        throw res.data.error;
-                    } else {
-                        router.push(`/signIn`);
-                    }
+        if (phoneRegex.test(phone.value) && emailRegex.test(email.value)) {
+
+            if (password.value.length && token.value.length) {
+                axios.post(url.toString(), {
+                    secret_key: token.value,
+                    password: password.value,
+                    email: email.value,
+                    phone: phone.value
+                }, {
+                    headers: {'Content-Type': 'application/json;charset=utf-8'}
                 })
-                .catch((error: any) => {
-                    switch (error) {
-                        case 2:
-                            errorMess.value = 'Пользователь по такому токену не найден';
-                            break;
+                    .then((res:any) => {
+                        if (res.data.error) {
+                            throw res.data.error;
+                        } else {
+                            router.push(`/signIn`);
+                        }
+                    })
+                    .catch((error:any) => {
+                        const parseErrorNumberRegex = /\d+/g;
 
-                        case 3:
-                            errorMess.value = 'Пользователь с таким токеном уже существует';
-                            break;
+                        error = error.message.match(parseErrorNumberRegex);
 
-                        case 4:
-                            errorMess.value = 'Заполните поле "токен"';
-                            break;
+                        switch(+error[0]) {
+                            case 404:
+                                errorMess.value = 'Пользователь по такому токену не найден';
+                                break;
 
-                        case 5:
-                            errorMess.value = 'Заполните поле "пароль"';
-                            break;
+                            case 409:
+                                errorMess.value = 'Пользователь с таким токеном уже существует';
+                                break;
+                        }
+                    });
 
-                        case 0:
-                            errorMess.value = 'Неизвестная ошибка';
-                            break;
-                    }
-                });
-        } else if(!phoneRegex.test(phone.value) && !emailRegex.test(email.value)) {
-            errorMess.value = 'Телефон и почта введены в неправильном формате';
+            } else if (!password.value.length && token.value.length) {
+                errorMess.value = 'Введите пароль';
 
-            setTimeout(() => errorMess.value = '', 5000);
-        } else if(!phoneRegex.test(phone.value)) {
+            } else if (!token.value.length && password.value.length) {
+                errorMess.value = 'Введите токен';
+
+            } else {
+                errorMess.value = 'Введите токен и пароль';
+            }
+
+        } else if (!phoneRegex.test(phone.value)) {
             errorMess.value = 'Телефон введён в неправильном формате';
 
-            setTimeout(() => errorMess.value = '', 5000);
-        } else if(!emailRegex.test(email.value)) {
+        } else if (!emailRegex.test(email.value)) {
             errorMess.value = 'Почта введена в неправильном формате';
 
-            setTimeout(() => errorMess.value = '', 5000);
+        } else {
+            errorMess.value = 'Телефон и почта введены в неправильном формате';
+
         }
     }
 </script>

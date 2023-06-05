@@ -235,7 +235,7 @@
         }
 
         #BottomLogoText {
-            margin-top: 5px;
+            margin-top: 10px;
             width: 100vw;
             height: 60px;
 
@@ -244,6 +244,7 @@
                 font-size: 38px;
                 font-weight: 700;
                 font-family: 'DM Sans', sans-serif;
+                word-break: break-all;
             }
         }
       }
@@ -341,25 +342,45 @@
 
   @media(max-width: 480px) {
       main {
-          padding: 0 0 50px 0;
+          padding: 0 0 20px 0;
           #MovingImgWrapper {
               padding-top: 50px;
               #TopLogoText {
+                  position: relative;
                   height: 50px;
-                  transform: scale(4);
+                  span {
+                      p {
+                          font-size: 52px;
+                      }
+                      img {
+                          height: 50px;
+                      }
+                  }
               }
               #BottomLogoText {
+                  position: relative;
+                  margin-top: 5px;
                   height: 30px;
-                  transform: scale(4);
+                  p {
+                      margin-left: 2.5px;
+                      width: 100%;
+                      height: 30px;
+                      font-size: 24px;
+                      word-break: break-all;
+                      overflow: hidden;
+                  }
               }
           }
+
           #BgImage {
-            top: 110px;
+              top: 145px;
           }
+
           #Tagline {
-              margin: 30px 5% 0 5%;
+              margin: -5px 5% 0 5%;
               width: 90%;
           }
+
           #Categories {
               padding: 0 2.5%;
               margin: 35px 5% 0 5%;
@@ -372,43 +393,10 @@
                   padding: 5px 20px;
               }
           }
-          .banner {
-              margin: 0 5%;
-              width: 90%;
-              height: 260px;
-          }
-          #PopularShopItem_Text {
-              margin: 10px 5%;
-              width: 90%;
-              height: 20px;
-              p {
-                  font-size: 20px;
-              }
-              .seeMoreItemsRoute {
-                  margin-top: 2px;
-                  font-size: 16px;
-              }
-          }
-          #PopularShopItemsWrapper {
-              margin: -15px 5% 0 5%;
-              width: 90%;
-          }
-      }
-  }
 
-  @media(max-width: 480px) {
-      main {
-          padding: 0 0 20px 0;
-          #MovingImgWrapper {
-              #TopLogoText {
-                  height: 40px;
-              }
-              #BottomLogoText {
-                  height: 35px;
-              }
-          }
           .banner {
-              margin-top: 20px;
+              margin: 20px 5% 0 5%;
+              width: 90%;
               height: 40%;
               border-radius: 10px 10px 0;
               .bannerImgRoute {
@@ -419,7 +407,21 @@
               }
           }
           #PopularShopItem_Text {
-              margin-top: 20px;
+              margin: 20px 5% 10px 5%;
+              width: 90%;
+              height: 20px;
+              p {
+                  font-size: 20px;
+              }
+              .seeMoreItemsRoute {
+                  margin-top: 2px;
+                  font-size: 16px;
+              }
+          }
+
+          #PopularShopItemsWrapper {
+              margin: -15px 5% 0 5%;
+              width: 90%;
           }
 
           #BugBounty {
@@ -460,6 +462,7 @@
                   height: 40px;
               }
               #BottomLogoText {
+                  margin-top: 15px;
                   height: 20px;
               }
           }
@@ -474,6 +477,7 @@
                   height: 35px;
               }
               #BottomLogoText {
+                  margin-top: 20px;
                   height: 20px;
               }
           }
@@ -501,20 +505,30 @@
   @media(min-width: 1920px) and (min-height: 1080px) {
       main {
           #MovingImgWrapper {
-              padding-top: 120px;
+              padding-top: 100px;
+              height: 150px;
 
               #TopLogoText {
-                  height: 70px;
+                  height: 100px;
+                  span {
+                      p {
+                          font-size: 104px;
+                      }
+                  }
               }
 
               #BottomLogoText {
-                  margin-top: 5px;
+                  margin-top: 10px;
                   height: 60px;
+                  p {
+                      font-size: 44px;
+                      word-break: break-all;
+                  }
               }
           }
 
           #BgImage {
-              top: 290px;
+              top: 300px;
           }
 
           .banner {
@@ -531,20 +545,33 @@
   @media(min-width: 2560px) and (min-height: 1440px) {
       main {
           #MovingImgWrapper {
-              padding-top: 150px;
+              padding-top: 130px;
+              height: 170px;
 
               #TopLogoText {
-                  height: 70px;
+                  height: 100px;
+                  span {
+                      p {
+                          font-size: 112px;
+                      }
+                      img {
+                          height: 110px;
+                      }
+                  }
               }
 
               #BottomLogoText {
                   margin-top: 15px;
-                  height: 60px;
+                  height: 80px;
+                  p {
+                      font-size: 52px;
+                      word-break: break-all;
+                  }
               }
           }
 
           #BgImage {
-              top: 310px;
+              top: 355px;
           }
 
           #Categories {

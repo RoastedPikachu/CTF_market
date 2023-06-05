@@ -46,37 +46,42 @@
         const emailRegex = /^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/iu;
 
         if(emailRegex.test(email.value)) {
-            axios.post(url.toString(), {
-                email: email.value,
-                password: password.value
-            }, {
-                headers: { 'Content-Type': 'application/json;charset=utf-8' }
-            })
-                .then((res:any) => {
-                    if(res.data.error) {
-                        throw res.data.error;
-                    } else {
-                        document.cookie =`token=${res.data.token}; path=/; max-age=2592000; secure=true`;
-                        store.dispatch('changeIsSignIn');
-                        store.dispatch('changeIsCookieOpen');
-                        router.push(`/`);
-                    }
+            if(password.value.length) {
+                axios.post(url.toString(), {
+                    email: email.value,
+                    password: password.value
+                }, {
+                    headers: { 'Content-Type': 'application/json;charset=utf-8' }
                 })
-                .catch((error:any) => {
-                    switch(error) {
-                        case 5: errorMess.value = 'Заполните поле "пароль"';
-                            break;
+                    .then((res:any) => {
+                        if(res.data.error) {
+                            throw res.data.error;
+                        } else {
+                            document.cookie =`token=${res.data.token}; path=/; max-age=2592000; secure=true`;
+                            store.dispatch('changeIsSignIn');
+                            store.dispatch('changeIsCookieOpen');
+                            router.push(`/`);
+                        }
+                    })
+                    .catch((error:any) => {
+                        const parseErrorNumberRegex = /\d+/g;
 
-                        case 8: errorMess.value = 'Пользователь с такой почтой не найден';
-                            break;
+                        error = error.message.match(parseErrorNumberRegex);
 
-                        case 9: errorMess.value = 'Неверный пароль';
-                            break;
+                        switch(+error[0]) {
+                            case 404:
+                                errorMess.value = 'Пользователя с такой почтой несуществует';
+                                break;
 
-                        case 0: errorMess.value = 'Неизвестная ошибка';
-                            break;
-                    }
-                });
+                            case 412:
+                                errorMess.value = 'Неверный пароль';
+                                break;
+                        }
+                    });
+            } else {
+                errorMess.value = 'Введите пароль';
+            }
+
         } else {
             errorMess.value = 'Почта введена в неправильном формате';
 
