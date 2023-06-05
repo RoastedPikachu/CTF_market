@@ -232,10 +232,15 @@
       fullName.value = '';
       phone.value = '';
 
+      if(store.state.isAdmin) {
+          store.dispatch('changeIsAdmin');
+      }
+
       store.dispatch('changeIsSignIn');
       store.dispatch('clearShoppingCart');
       store.dispatch('clearIsCookieOpen');
 
+      document.cookie = 'NAME=token; path=/; expires=-1';
 
       window.location.reload();
   }
@@ -257,6 +262,7 @@
           headers: { 'Content-Type': 'application/json;charset=utf-8' }
       })
           .then((res) => {
+              console.log(res);
               balance.value = res.data.score;
 
               email.value = res.data.email;
@@ -264,6 +270,10 @@
               phone.value = res.data.phone;
 
               isPointsEnough.value = totalCost.value <= balance.value;
+
+              if(res.data.is_admin) {
+                  store.dispatch('changeIsAdmin');
+              }
           })
           .catch((error) => {
               console.log(error);

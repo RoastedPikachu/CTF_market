@@ -13,6 +13,7 @@ interface ShoppingCartItem {
 export default createStore({
   state: {
     isSignIn: false,
+    isAdmin: false,
     isCookieOpen: false,
     shoppingCart: [] as ShoppingCartItem[],
     countOfItemsInShoppingCart: 0,
@@ -24,6 +25,9 @@ export default createStore({
   mutations: {
     CHANGE_IS_SIGN_IN(state) {
       state.isSignIn = !state.isSignIn;
+    },
+    CHANGE_IS_ADMIN(state) {
+      state.isAdmin = !state.isAdmin;
     },
     CHANGE_IS_COOKIE_OPEN(state) {
       state.isCookieOpen = !state.isCookieOpen;
@@ -72,6 +76,9 @@ export default createStore({
   actions: {
     changeIsSignIn({commit}) {
       commit('CHANGE_IS_SIGN_IN');
+    },
+    changeIsAdmin({commit}) {
+      commit('CHANGE_IS_ADMIN');
     },
     changeIsCookieOpen({commit}) {
       commit('CHANGE_IS_COOKIE_OPEN');

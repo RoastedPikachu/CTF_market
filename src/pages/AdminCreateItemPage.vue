@@ -68,7 +68,9 @@
 </template>
 
 <script setup lang="ts">
-    import { ref } from 'vue';
+    import { useRouter } from 'vue-router';
+    import { ref, onMounted, computed } from 'vue';
+    import store from '@/store';
     import axios from 'axios';
 
     interface Photo {
@@ -78,6 +80,9 @@
         file: string
     }
 
+    const router = useRouter();
+
+    const isAdmin = computed(() => store.state.isAdmin);
 
     const targetId = ref(0);
     const photos = ref([
@@ -247,6 +252,12 @@
         console.log(price.value);
         console.log(sizes.value.map(item => item));
     };
+
+    onMounted(() => {
+        if(!isAdmin.value) {
+            router.push('/');
+        }
+    })
 </script>
 
 <style lang="scss" scoped>

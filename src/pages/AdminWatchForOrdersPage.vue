@@ -31,7 +31,9 @@
 </template>
 
 <script lang="ts" setup>
-  import { ref, onMounted } from 'vue';
+  import { useRouter } from 'vue-router';
+  import { ref, onMounted, computed } from 'vue';
+  import store from '@/store';
   import axios from 'axios';
 
   interface OrderedPosition {
@@ -53,6 +55,10 @@
       user: UserInfo[],
       products: OrderedPosition[]
   }
+
+  const router = useRouter();
+
+  const isAdmin = computed(() => store.state.isAdmin);
 
   const targetOrder = ref({} as Order);
   const orders = ref([] as Order[]);
@@ -83,7 +89,11 @@
   }
 
   onMounted(() => {
-      getAllOrders();
+      if(isAdmin.value) {
+          getAllOrders();
+      } else {
+          router.push('/');
+      }
   })
 
 </script>
