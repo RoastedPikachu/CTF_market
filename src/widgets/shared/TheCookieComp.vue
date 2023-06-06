@@ -53,4 +53,43 @@
       color: #42d4ba;
     }
   }
+
+  @media(max-width: 480px) {
+    #Cookie {
+      justify-content: center;
+      flex-wrap: wrap;
+      bottom: 0;
+      left: 0;
+      padding: 10px 0;
+      width: 100%;
+      height: 120px;
+      border-radius: 0;
+      p {
+        font-size: 20px;
+        font-weight: 500;
+        text-align: center;
+      }
+      button {
+        width: 65%;
+        height: 40px;
+        font-size: 20px;
+      }
+    }
+  }
+
+  @media(max-width: 400px) {
+    #Cookie {
+      p {
+        font-size: 18px;
+      }
+    }
+  }
+
+  @media(max-width: 360px) {
+    #Cookie {
+      p {
+        font-size: 16px;
+      }
+    }
+  }
 </style>
