@@ -27,6 +27,7 @@
     background-color: #2c2d2d;
     border: 1.5px solid #707070;
     border-radius: 45px;
+    z-index: 20;
     p {
       color: #ffffff;
       font-size: 24px;
@@ -60,9 +61,9 @@
       flex-wrap: wrap;
       bottom: 0;
       left: 0;
-      padding: 10px 0;
-      width: 100%;
-      height: 120px;
+      padding: 15px 0;
+      width: calc(100% - 3px);
+      height: 130px;
       border-radius: 0;
       p {
         font-size: 20px;

@@ -6,7 +6,7 @@
         <div id="OrdersWrapper">
             <h2>ЗАКАЗЫ</h2>
 
-            <div v-for="order of orders" :key="order.id" @click="targetOrder = order">
+            <div v-for="order of orders" :key="order.id" :class='{ targetOrder: order.is_active }' @click="setTargetOrder(order)">
                 <p>{{`${order.user?.first_name} ${order.user?.last_name}`}}/ {{ order.user?.phone.slice(0, 9)}}&#8230;</p>
             </div>
         </div>
@@ -24,7 +24,7 @@
 
              <button id="Accept">Подтвердить</button>
 
-             <button id="Decline">Отменить</button>
+             <button id="Decline" @click="declineOrder(targetOrder)">Отменить</button>
          </aside>
       </section>
   </main>
@@ -52,6 +52,7 @@
 
   interface Order {
       id: number,
+      is_active: boolean,
       user: UserInfo[],
       products: OrderedPosition[]
   }
@@ -81,11 +82,39 @@
       })
           .then(res => {
               orders.value = Object.values(res.data);
-              targetOrder.value = orders.value[0];
+
+              setTargetOrder(orders.value[0]);
           })
           .catch(error => {
               console.log(error);
           })
+  }
+
+  const setTargetOrder = (order:Order) => {
+      targetOrder.value = order;
+
+      orders.value.forEach(item => item.is_active = false);
+      order.is_active = true;
+  }
+
+  const declineOrder = (targetOrder:Order) => {
+      const url = new URL(`https://ctfmarket.ru:8080/api/v1/order/${targetOrder.id}/cancellation/`);
+
+      const token = getCookie('token');
+
+      let decision = confirm('Вы точно хотите удалить заказ');
+
+      if(decision) {
+          axios.post(url.toString(), { token: token }, {
+              headers: { 'Content-Type': 'application/json;charset=utf-8' }
+          })
+              .then(res => {
+                  getAllOrders();
+              })
+              .catch(error => {
+                  console.log(error);
+              })
+      }
   }
 
   onMounted(() => {
@@ -124,8 +153,8 @@
       border-radius: 10px;
 
       #OrdersWrapper {
-        padding: 30px 20px;
-        width: calc(45% - 40px);
+        padding: 30px 10px 30px 20px;
+        width: calc(45% - 30px);
         height: calc(100% - 60px);
         background-color: rgba(158, 158, 158, 0.25);
         border-radius: 10px;
@@ -152,6 +181,12 @@
             font-weight: 500;
             font-family: 'SF Pro Text', sans-serif;
           }
+        }
+
+        .targetOrder {
+          padding: 2.5px 0 2.5px 10px;
+          border: 1px solid #ffffff;
+          border-radius: 10px;
         }
       }
 

@@ -52,7 +52,10 @@
         </span>
 
         <div id="PopularShopItemsWrapper">
-            <ShopItemCard :shopItems="shopItems"/>
+            <ShopItemCard
+                :shopItems="shopItems"
+                :initialShopItems="shopItems"
+            />
         </div>
 
         <img src="@/assets/bugBountyBanner.svg" alt="BugBounty" id="BugBounty">
