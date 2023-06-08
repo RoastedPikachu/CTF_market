@@ -163,4 +163,42 @@
             }
         }
     }
+
+    @media(min-width: 1960px) and (min-height: 1080px) {
+        main {
+            padding: 130px 15% 20px 23.5%;
+            width: 60%;
+            min-height: 550px;
+        }
+    }
+
+    @media(min-width: 2560px) and (min-height: 1440px) {
+        main {
+            padding: 170px 7.5% 40px 17.5%;
+            width: 75%;
+            min-height: 810px;
+            h2 {
+                padding-bottom: 50px;
+                font-size: 72px;
+            }
+            .paragraph {
+                min-height: 100px;
+                height: auto;
+                span {
+                    .paragraphTitle {
+                        height: auto;
+                        font-size: 40px;
+                        line-height: 100px;
+                    }
+                    img {
+                        width: 35px;
+                        height: 35px;
+                    }
+                }
+                .paragraphDescription {
+                    font-size: 30px;
+                }
+            }
+        }
+    }
 </style>
