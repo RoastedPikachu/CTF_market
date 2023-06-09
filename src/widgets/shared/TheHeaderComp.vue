@@ -74,14 +74,14 @@
       </nav>
 
       <span>
-          <img src="@/assets/shoppingCartIcon.svg" alt="Корзина" @click="isModalShoppingCartActive = !isModalShoppingCartActive">
+          <img src="@/assets/shoppingCartIcon.svg" alt="Корзина" @click="changeIsModalShoppingCardOpenStatus()">
 
           <p>{{ countOfItemsInShoppingCart }}</p>
       </span>
 
-      <div id="ModalShoppingCart" v-if="isModalShoppingCartActive">
+      <div id="ModalShoppingCart" v-if="isModalShoppingCartOpen">
           <span>
-              <img src="@/assets/x-markIcon.svg" alt="Назад" @click="isModalShoppingCartActive = !isModalShoppingCartActive">
+              <img src="@/assets/x-markIcon.svg" alt="Назад" @click="changeIsModalShoppingCardOpenStatus()">
 
               <p>Корзина</p>
 
@@ -127,12 +127,28 @@
                   <p>{{ totalCost }} баллов</p>
               </span>
 
+              <input type="checkbox" style="display: none" v-model="isFAQApproved" id="FAQApproveInput">
+
+              <div id="FAQApprove">
+                  <label for="FAQApproveInput" :class="{ checkmarkActive:isFAQApproved }">
+                      <img src="@/assets/checkmarkIcon.svg" alt="Принять условия FAQ">
+                  </label>
+
+                  <p>Я прочитал <router-link to="/FAQ" class="faqRoute">FAQ и согласен с условиями доставки</router-link></p>
+              </div>
+
               <input type="text" placeholder="г. Москва, ул. Моросейка, д. 10, кв. 40" v-model="address">
 
-              <button :class="{ active: isPointsEnough }" @click="makeAnOrder()">
+              <button :class="{ active: isPointsEnough && isFAQApproved }" @click="makeAnOrder()">
                   Оплатить
                   <img src="@/assets/arrowRightIcon.svg" alt="Оплатить">
               </button>
+
+              <span id="OrderIsPayed" v-if="isOrderPayed">
+                  <p>Заказ оплачен</p>
+
+                  <img src="@/assets/orderIsPayedIcon.svg" alt="Заказ Оплачен"/>
+              </span>
           </div>
       </div>
   </header>
@@ -146,7 +162,9 @@
   const isSignIn = computed(() => store.state.isSignIn);
   const isMobile = ref(false);
   const isModalProfileActive = ref(false);
-  const isModalShoppingCartActive = ref(false);
+  let isModalShoppingCartOpen = ref(false);
+  const isFAQApproved = ref(false);
+  const isOrderPayed = ref(true);
   const isPointsEnough = ref(false);
 
   const countOfItemsInShoppingCart = computed(() => store.state.countOfItemsInShoppingCart);
@@ -172,6 +190,14 @@
       isPointsEnough.value = totalCost.value <= balance.value;
   }, {deep: true});
 
+  const changeIsModalShoppingCardOpenStatus = () => {
+      if(isModalShoppingCartOpen.value) {
+          isOrderPayed.value = false;
+      }
+
+      isModalShoppingCartOpen.value = !isModalShoppingCartOpen.value;
+  }
+
   const makeAnOrder = () => {
       if(shoppingCartItems.value.length && address.value) {
           const url = new URL('https://ctfmarket.ru:8080/api/v1/product/buy');
@@ -186,6 +212,7 @@
               headers: { 'Content-Type': 'application/json;charset=utf-8' }
           })
               .then(res => {
+                  isOrderPayed.value = true;
                   store.dispatch('clearShoppingCart');
                   address.value = '';
 
@@ -299,8 +326,8 @@
               const target = event.target as HTMLElement;
 
               if(!target.closest('header')) {
-                  if(isModalShoppingCartActive.value) {
-                      isModalShoppingCartActive.value = false;
+                  if(isModalShoppingCartOpen.value) {
+                      isModalShoppingCartOpen.value = false;
                   } else if(isModalProfileActive.value) {
                       isModalProfileActive.value = false;
                   }
@@ -496,7 +523,8 @@
         right: 5%;
         padding: 20px 35px;
         width: 305px;
-        height: 650px;
+        height: auto;
+        min-height: 650px;
         background-color: #1e1e1e;
         border: 2px solid rgba(255, 255, 255, 0.2);
         border-radius: 20px;
@@ -524,7 +552,7 @@
         #shoppingCartItemsWrapper {
             margin-top: 20px;
             width: 100%;
-            height: 350px;
+            height: 280px;
             overflow: scroll;
             overflow-x: hidden;
             .shoppingCartItem {
@@ -621,7 +649,8 @@
         #ShoppingCart_Bottom {
             margin-top: 10px;
             width: 100%;
-            height: 160px;
+            height: auto;
+            min-height: 160px;
             span {
                 height: 40px;
                 p {
@@ -645,7 +674,7 @@
                 margin-top: 10px;
                 padding: 0 20px;
                 width: calc(100% - 44px);
-                height: 41px;
+                height: 45px;
                 background-color: #434343;
                 border: 1px solid rgba(255, 255, 255, 0.6);
                 border-radius: 10px;
@@ -661,6 +690,47 @@
                 font-weight: 700;
                 font-family: 'DM Sans', sans-serif;
             }
+
+            #FAQApprove {
+                padding: 15px 0 10px 0;
+                display: flex;
+                justify-content: space-between;
+                align-items: flex-start;
+                width: 100%;
+                height: auto;
+                label {
+                    width: 25px;
+                    height: 25px;
+                    background-color: #1e1e1e;
+                    border: 1px solid #42d4ba;
+                    border-radius: 5px;
+                    cursor: pointer;
+                    transition: 250ms ease;
+                    img {
+                        display: none;
+                    }
+                }
+                .checkmarkActive {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    background-color: #42d4ba;
+                    img {
+                        display: block;
+                    }
+                }
+                p {
+                    width: 85%;
+                    color: #ffffff;
+                    font-size: 18px;
+                    font-weight: 700;
+                    font-family: 'SF Pro Text', sans-serif;
+                    .faqRoute {
+                        color: #42d4ba;
+                    }
+                }
+            }
+
             button {
                 display: flex;
                 justify-content: space-between;
@@ -677,10 +747,29 @@
                 font-weight: 700;
                 font-family: 'DM Sans', sans-serif;
                 cursor: pointer;
+                transition: 250ms ease;
             }
             .active {
                 background-color: #42d4ba;
                 color: #ffffff;
+            }
+            #OrderIsPayed {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 15px 23% 0 23%;
+                height: 20px;
+                width: 54%;
+                p {
+                    color: #a5a5a5;
+                    font-size: 18px;
+                    font-weight: 700;
+                    font-family: 'DM Sans', sans-serif;
+                }
+                img {
+                    width: 20px;
+                    height: 20px;
+                }
             }
         }
     }
@@ -795,11 +884,17 @@
             }
 
             #shoppingCartItemsWrapper {
-                height: 370px;
+                margin-top: 10px;
+                height: 340px;
             }
 
             #ShoppingCart_Bottom {
-                height: 100px;
+                height: auto;
+                min-height: 100px;
+                #OrderIsPayed {
+                    padding: 15px 26% 0 26%;
+                    width: 48%;
+                }
             }
         }
 
@@ -828,6 +923,15 @@
               }
           }
 
+          #ModalShoppingCart {
+              #ShoppingCart_Bottom {
+                  #OrderIsPayed {
+                      padding: 15px 22.5% 0 22.5%;
+                      width: 55%;
+                  }
+              }
+          }
+
           span {
               width: 22.5px;
 
@@ -841,6 +945,20 @@
       header {
           #HamburgerMenu {
               width: 20px;
+          }
+
+          #ModalShoppingCart {
+              #ShoppingCart_Bottom {
+                  #FAQApprove {
+                      p {
+                          font-size: 14px;
+                      }
+                  }
+                  #OrderIsPayed {
+                      padding: 15px 17.5% 0 17.5%;
+                      width: 65%;
+                  }
+              }
           }
 
           span {
