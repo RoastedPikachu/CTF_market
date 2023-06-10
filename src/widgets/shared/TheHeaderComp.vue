@@ -1,57 +1,27 @@
 <template>
   <header>
-      <img src="@/assets/userAvatar.svg" alt="Профиль" id="ProfileImg" @click="isModalProfileActive = !isModalProfileActive">
+      <img src="@/assets/userAvatar.svg" alt="Профиль" id="ProfileImg"
+           @click="isModalProfileWindowOpen = !isModalProfileWindowOpen"
+      >
 
-      <img src="@/assets/hamburgerIcon.svg" alt="Меню" id="HamburgerMenu" @click="isModalProfileActive = !isModalProfileActive">
+      <img src="@/assets/hamburgerIcon.svg" alt="Меню" id="HamburgerMenu"
+           @click="isModalProfileWindowOpen = !isModalProfileWindowOpen"
+      >
 
-      <div id="ModalProfileWindow" v-if="isModalProfileActive && isSignIn">
-          <img src="@/assets/x-markIcon.svg" alt="Закрыть" id="ModalProfileWindow_Close" v-if="!isMobile" @click="isModalProfileActive = !isModalProfileActive">
-          <img src="@/assets/hamburgerIcon.svg" alt="Закрыть" id="ModalProfileWindow_HamburgerClose" v-if="isMobile" @click="isModalProfileActive = !isModalProfileActive">
+      <ModalProfileWindow
+          :phone="phone"
+          :email="email"
+          :address="address"
+          :fullName="fullName"
+          :balance="balance"
+          :isSignIn="isSignIn"
+          :isModalProfileWindowOpen="isModalProfileWindowOpen"
 
-          <div id="ModalProfileWindow_UserBrieflyInfo">
-              <img src="@/assets/userAvatar.svg" alt="Профиль">
+          v-if="isModalProfileWindowOpen && isSignIn"
 
-              <span>
-                  <p>{{ fullName }}</p>
-
-                  <p>{{ phone }}</p>
-              </span>
-          </div>
-
-          <div id="ModalProfileWindow_Email">
-              <p>Почта</p>
-
-              <p>{{ email }}</p>
-          </div>
-
-          <button class="hamburgerMenuRoute" v-if="isSignIn && isMobile">
-              <router-link to="/" class="hamburgerMenuRoute_Text">Главная</router-link>
-          </button>
-
-          <button class="hamburgerMenuRoute" v-if="isSignIn && isMobile">
-              <router-link to="/shopItems" class="hamburgerMenuRoute_Text">Товары</router-link>
-          </button>
-
-          <button class="hamburgerMenuRoute" v-if="isSignIn && isMobile">
-              <router-link to="/signIn" class="hamburgerMenuRoute_Text">Вход</router-link>
-          </button>
-
-          <button class="hamburgerMenuRoute" v-if="isSignIn && isMobile">
-              <router-link to="/registration" class="hamburgerMenuRoute_Text">Регистрация</router-link>
-          </button>
-
-          <button @click="signOut()">Выйти из аккаунта</button>
-
-          <span id="ModalProfileWindow_Balance">
-              <p>Баланс: </p>
-
-              <span>
-                  <p>{{ balance }}</p>
-
-                  <img src="@/assets/ctfCoinIcon.svg" alt="CTFCoin">
-              </span>
-          </span>
-      </div>
+          @changeModalProfileOpen="(isOpen) => isModalProfileWindowOpen = isOpen"
+          @clearUserData="balance = 0; email = ''; fullName = ''; phone = '';"
+      />
 
       <nav>
           <router-link to="/" class="route">Главная</router-link>
@@ -74,83 +44,24 @@
       </nav>
 
       <span>
-          <img src="@/assets/shoppingCartIcon.svg" alt="Корзина" @click="changeIsModalShoppingCardOpenStatus()">
+          <img src="@/assets/shoppingCartIcon.svg" alt="Корзина" @click="changeIsModalShoppingCartOpenStatus()">
 
           <p>{{ countOfItemsInShoppingCart }}</p>
       </span>
 
-      <div id="ModalShoppingCart" v-if="isModalShoppingCartOpen">
-          <span>
-              <img src="@/assets/x-markIcon.svg" alt="Назад" @click="changeIsModalShoppingCardOpenStatus()">
+      <ModalShoppingCartWindow
+          :token="getCookie('token')"
+          :balance="balance"
+          :totalCost="totalCost"
+          :isPointsEnough="isPointsEnough"
+          :isOrderPayed="isOrderPayed"
+          :shoppingCartItems="shoppingCartItems"
 
-              <p>Корзина</p>
+          v-if="isModalShoppingCartOpen"
 
-              <img src="@/assets/binIcon.svg" alt="Очистить корзину" @click="clearShoppingCart()">
-          </span>
-
-          <div id="shoppingCartItemsWrapper">
-              <div class="shoppingCartItem" v-for="shoppingCartItem of shoppingCartItems" :key="shoppingCartItem.id">
-                  <img :src="shoppingCartItem.photo" :alt="shoppingCartItem.title" class="shoppingCartItemImage">
-
-                  <div class="shoppingCartItem_Right">
-                  <span>
-                      <p>{{ shoppingCartItem.title }}</p>
-
-                      <p>{{ shoppingCartItem.price * shoppingCartItem.count }} баллов</p>
-                  </span>
-
-                      <div>
-                      <span>
-                          <button @click="decreaseShoppingCartItemCount(shoppingCartItem)">&mdash;</button>
-
-                          <p>{{ shoppingCartItem.count }}</p>
-
-                          <button @click="increaseShoppingCartItemCount(shoppingCartItem)">+</button>
-                      </span>
-
-                          <img src="@/assets/itemBinIcon.svg" alt="Удалить" @click="removeShoppingCartItem(shoppingCartItem.id)">
-                      </div>
-                  </div>
-              </div>
-          </div>
-
-          <div id="ShoppingCart_Bottom">
-              <span id="ShoppingCart_BottomBalance">
-                  <p>Баланс</p>
-
-                  <p>{{ balance || 0 }} баллов</p>
-              </span>
-
-              <span>
-                  <p>К ОПЛАТЕ</p>
-
-                  <p>{{ totalCost }} баллов</p>
-              </span>
-
-              <input type="checkbox" style="display: none" v-model="isFAQApproved" id="FAQApproveInput">
-
-              <div id="FAQApprove">
-                  <label for="FAQApproveInput" :class="{ checkmarkActive:isFAQApproved }">
-                      <img src="@/assets/checkmarkIcon.svg" alt="Принять условия FAQ">
-                  </label>
-
-                  <p>Я прочитал <router-link to="/FAQ" class="faqRoute">FAQ и согласен с условиями доставки</router-link></p>
-              </div>
-
-              <input type="text" placeholder="г. Москва, ул. Моросейка, д. 10, кв. 40" v-model="address">
-
-              <button :class="{ active: isPointsEnough && isFAQApproved }" @click="makeAnOrder()">
-                  Оплатить
-                  <img src="@/assets/arrowRightIcon.svg" alt="Оплатить">
-              </button>
-
-              <span id="OrderIsPayed" v-if="isOrderPayed">
-                  <p>Заказ оплачен</p>
-
-                  <img src="@/assets/orderIsPayedIcon.svg" alt="Заказ Оплачен"/>
-              </span>
-          </div>
-      </div>
+          @changeModalShoppingCartActive="changeIsModalShoppingCartOpenStatus()"
+          @order="isOrderPayed = true; getInfoAboutUserByToken();"
+      />
   </header>
 </template>
 
@@ -158,20 +69,22 @@
   import { ref, onMounted, watch, computed } from 'vue';
   import store from '@/store';
   import axios from 'axios';
+  import ModalProfileWindow from "@/widgets/features/modalWindows/ModalProfileWindow.vue";
+  import ModalShoppingCartWindow from "@/widgets/features/modalWindows/ModalShoppingCartWindow.vue";
 
   const isSignIn = computed(() => store.state.isSignIn);
-  const isMobile = ref(false);
-  const isModalProfileActive = ref(false);
+  const isModalProfileWindowOpen = ref(false);
   let isModalShoppingCartOpen = ref(false);
-  const isFAQApproved = ref(false);
-  const isOrderPayed = ref(true);
+  const isOrderPayed = ref(false);
   const isPointsEnough = ref(false);
 
+  const totalCost = computed(() => store.state.totalCost);
+
   const countOfItemsInShoppingCart = computed(() => store.state.countOfItemsInShoppingCart);
+
   const shoppingCartItems = computed(() => store.state.shoppingCart);
 
   const balance = ref(0);
-  const totalCost = computed(() => store.state.totalCost);
 
   const phone = ref('');
   const email = ref('');
@@ -190,95 +103,12 @@
       isPointsEnough.value = totalCost.value <= balance.value;
   }, {deep: true});
 
-  const changeIsModalShoppingCardOpenStatus = () => {
-      if(isModalShoppingCartOpen.value) {
+  const changeIsModalShoppingCartOpenStatus = () => {
+      if (isModalShoppingCartOpen.value) {
           isOrderPayed.value = false;
       }
 
       isModalShoppingCartOpen.value = !isModalShoppingCartOpen.value;
-  }
-
-  const makeAnOrder = () => {
-      if(shoppingCartItems.value.length && address.value) {
-          const url = new URL('https://ctfmarket.ru:8080/api/v1/product/buy');
-
-          const token = getCookie('token');
-
-          axios.post(url.toString(), {
-              token: token,
-              address: address.value,
-              products: shoppingCartItems.value
-          }, {
-              headers: { 'Content-Type': 'application/json;charset=utf-8' }
-          })
-              .then(res => {
-                  isOrderPayed.value = true;
-                  store.dispatch('clearShoppingCart');
-                  address.value = '';
-
-                  getInfoAboutUserByToken();
-              })
-              .catch(error => {
-                  console.log(error);
-              })
-      } else {
-          console.log('Нельзя сделать заказ с пустой корзиной');
-      }
-  }
-
-  const removeShoppingCartItem = (id:number) => {
-      store.dispatch('removeItemFromShoppingCart', id);
-  }
-
-  const clearShoppingCart = () => {
-      store.dispatch('clearShoppingCart');
-  }
-
-  const increaseShoppingCartItemCount = (item:any) => {
-      item.count++;
-
-      store.dispatch('changeItemFromShoppingCart', item);
-      store.dispatch('changeTotalCostValue', totalCost.value + item.price);
-  }
-
-  const decreaseShoppingCartItemCount = (item:any) => {
-      if(item.count > 1) {
-          item.count--;
-
-          store.dispatch('changeItemFromShoppingCart', item);
-          store.dispatch('changeTotalCostValue', totalCost.value - item.price);
-      } else {
-          store.dispatch('removeItemFromShoppingCart', item.id);
-      }
-  }
-
-  const signOut = () => {
-      balance.value = 0;
-
-      email.value = '';
-      fullName.value = '';
-      phone.value = '';
-
-      if(store.state.isAdmin) {
-          store.dispatch('changeIsAdmin');
-      }
-
-      store.dispatch('changeIsSignIn');
-      store.dispatch('clearShoppingCart');
-      store.dispatch('clearIsCookieOpen');
-
-      (function deleteAllCookies() {
-          let cookies = document.cookie.split(";");
-
-          for (let i = 0; i < cookies.length; i++) {
-              let cookie = cookies[i];
-              let eqPos = cookie.indexOf("=");
-              let name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
-              document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
-          }
-      })();
-
-      window.location.reload();
   }
 
   const getCookie = (name:string) => {
@@ -298,7 +128,6 @@
           headers: { 'Content-Type': 'application/json;charset=utf-8' }
       })
           .then((res) => {
-              console.log(res);
               balance.value = res.data.score;
 
               email.value = res.data.email;
@@ -328,14 +157,12 @@
               if(!target.closest('header')) {
                   if(isModalShoppingCartOpen.value) {
                       isModalShoppingCartOpen.value = false;
-                  } else if(isModalProfileActive.value) {
-                      isModalProfileActive.value = false;
+                  } else if(isModalProfileWindowOpen.value) {
+                      isModalProfileWindowOpen.value = false;
                   }
               }
           }
       });
-
-      isMobile.value = window.innerWidth < 480;
   })
 </script>
 
@@ -350,6 +177,7 @@
     height: 100px;
     background-color: #1e1e1e;
     z-index: 10;
+
     #ProfileImg {
       width: 50px;
       height: 50px;
@@ -357,134 +185,18 @@
       border-radius: 50%;
       cursor: pointer;
     }
+
     #HamburgerMenu {
         display: none;
     }
-    #ModalProfileWindow {
-        position: absolute;
-        top: 25px;
-        left: 5%;
-        padding: 20px 0;
-        width: 260px;
-        height: 260px;
-        background-color: #1e1e1e;
-        border: 2px solid #4b4b4b;
-        border-radius: 20px;
-        #ModalProfileWindow_Close {
-            position: absolute;
-            top: 30px;
-            right: 20px;
-            width: 15px;
-            height: 15px;
-            cursor: pointer;
-        }
-        #ModalProfileWindow_UserBrieflyInfo {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 20px 15px;
-            width: calc(100% - 40px);
-            height: 65px;
-            border: 1px solid #4b4b4b;
-            border-width: 0 0 1px 0;
-            img {
-                width: 60px;
-                height: 60px;
-            }
-            span {
-                display: flex;
-                align-items: center;
-                flex-wrap: wrap;
-                margin-left: 0;
-                width: calc(100% - 70px);
-                height: 35px;
-                p {
-                    margin-left: 0;
-                    width: 100%;
-                    color: #ffffff;
-                    font-size: 16px;
-                    font-weight: 500;
-                    font-family: 'DM Sans', sans-serif;
-                }
-                p:last-child {
-                    margin-top: 7.5px;
-                    font-size: 14px;
-                }
-            }
-        }
-        #ModalProfileWindow_Email {
-            padding: 12.5px 20px;
-            width: calc(100% - 40px);
-            height: 50px;
-            border: 1px solid #4b4b4b;
-            border-width: 1px 0 1px 0;
-            p {
-                color: #ffffff;
-                font-size: 18px;
-                font-weight: 500;
-                font-family: 'DM Sans', sans-serif;
-            }
-            p:last-child {
-                margin-top: 7.5px;
-                font-size: 16px;
-            }
-        }
-        button {
-            display: flex;
-            align-items: center;
-            padding: 0 20px;
-            width: 100%;
-            height: 60px;
-            background-color: transparent;
-            border: 1px solid #4b4b4b;
-            border-width: 1px 0 1px 0;
-            color: #fa3e3e;
-            font-size: 18px;
-            font-weight: 700;
-            font-family: 'DM Sans', sans-serif;
-            cursor: pointer;
-            outline: none;
-        }
-        #ModalProfileWindow_Balance {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 20px;
-            width: calc(100% - 40px);
-            height: 60px;
-            p {
-                margin-left: 0;
-                color: #ffffff;
-                font-size: 18px;
-                font-weight: 700;
-                font-family: 'DM Sans', sans-serif;
-            }
-            span {
-                display: flex;
-                justify-content: flex-end;
-                align-items: center;
-                p {
-                    font-size: 24px;
-                }
-                img {
-                    margin-left: 5px;
-                    width: 25px;
-                    height: 25px;
-                    cursor: default;
-                }
-            }
-            p:last-child {
-                margin-left: 20px;
-                font-size: 20px;
-            }
-        }
-    }
+
     nav {
       display: flex;
       justify-content: space-between;
       align-items: center;
       margin-left: -10%;
       width: 35%;
+
       .route {
         color: #ffffff;
         font-size: 20px;
@@ -493,22 +205,27 @@
         text-decoration: none;
         outline: none;
       }
+
       .disabledRoute {
           pointer-events: none;
       }
+
       span {
           display: flex;
       }
     }
+
     span {
       display: flex;
       justify-content: flex-start;
       align-items: center;
       width: 60px;
+
       img {
         width: 32.5px;
         cursor: pointer;
       }
+
       p {
         margin-left: 15px;
         color: #ffffff;
@@ -516,262 +233,6 @@
         font-weight: 400;
         font-family: 'Montserrat', sans-serif;
       }
-    }
-    #ModalShoppingCart {
-        position: absolute;
-        top: 70px;
-        right: 5%;
-        padding: 20px 35px;
-        width: 305px;
-        height: auto;
-        min-height: 650px;
-        background-color: #1e1e1e;
-        border: 2px solid rgba(255, 255, 255, 0.2);
-        border-radius: 20px;
-        z-index: 10;
-        span {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            width: 100%;
-            height: 70px;
-            img:first-child {
-                width: 22px;
-                height: 22px;
-            }
-            img:last-child {
-                width: 26px;
-            }
-            p {
-                color: #ffffff;
-                font-size: 1.125em;
-                font-weight: 700;
-                font-family: 'Montserrat', 'sans-serif';
-            }
-        }
-        #shoppingCartItemsWrapper {
-            margin-top: 20px;
-            width: 100%;
-            height: 280px;
-            overflow: scroll;
-            overflow-x: hidden;
-            .shoppingCartItem {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                margin-top: 20px;
-                width: 100%;
-                height: 85px;
-                .shoppingCartItemImage {
-                    width: 85px;
-                    height: 100%;
-                    background-color: #ffffff;
-                    border-radius: 10px;
-                }
-                .shoppingCartItem_Right {
-                    width: 67.5%;
-                    height: 100%;
-                    span {
-                        display: flex;
-                        align-items: center;
-                        flex-wrap: wrap;
-                        width: 100%;
-                        height: 50%;
-                        p {
-                            margin-left: 0;
-                            width: 100%;
-                            color: #ffffff;
-                            font-size: 0.875em;
-                            font-weight: 500;
-                            font-family: 'DM Sans', sans-serif;
-                        }
-                        p:last-child {
-                            font-size: 0.875em;
-                            font-weight: 700;
-                        }
-                    }
-                    div {
-                        display: flex;
-                        justify-content: space-between;
-                        align-items: center;
-                        margin-top: 5px;
-                        width: 100%;
-                        height: 50%;
-                        span {
-                            display: flex;
-                            justify-content: space-between;
-                            align-items: center;
-                            flex-wrap: nowrap;
-                            width: 60%;
-                            height: 100%;
-                            button {
-                                display: flex;
-                                justify-content: center;
-                                align-items: center;
-                                width: 60px;
-                                height: 30px;
-                                background-color: #ffffff;
-                                border: none;
-                                border-radius: 10px;
-                                font-size: 1.125em;
-                                cursor: pointer;
-                            }
-                            button:last-child {
-                                font-size: 1.375em;
-                            }
-                            p {
-                                text-align: center;
-                            }
-                        }
-                        img {
-                            cursor: pointer;
-                        }
-                    }
-                }
-            }
-            .shoppingCartItem:first-child {
-                margin-top: 0;
-            }
-        }
-        #shoppingCartItemsWrapper::-webkit-scrollbar {
-            width: 10px;
-        }
-
-        #shoppingCartItemsWrapper::-webkit-scrollbar-track {
-            -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
-            border-radius: 10px;
-        }
-
-        #shoppingCartItemsWrapper::-webkit-scrollbar-thumb {
-            border-radius: 10px;
-            -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5);
-        }
-        #ShoppingCart_Bottom {
-            margin-top: 10px;
-            width: 100%;
-            height: auto;
-            min-height: 160px;
-            span {
-                height: 40px;
-                p {
-                    margin-left: 0;
-                    color: rgba(255, 255, 255, 0.6);
-                    font-size: 1.5em;
-                    font-weight: 700;
-                    font-family: 'DM Sans', sans-serif;
-                }
-                p:last-child {
-                    color: #ffffff;
-                    font-size: 1em;
-                }
-            }
-            #ShoppingCart_BottomBalance {
-                p {
-                    font-size: 1em;
-                }
-            }
-            input {
-                margin-top: 10px;
-                padding: 0 20px;
-                width: calc(100% - 44px);
-                height: 45px;
-                background-color: #434343;
-                border: 1px solid rgba(255, 255, 255, 0.6);
-                border-radius: 10px;
-                color: #bababa;
-                font-size: 0.875em;
-                font-weight: 700;
-                font-family: 'DM Sans', sans-serif;
-                outline: none;
-            }
-            ::placeholder {
-                color: #bababa;
-                font-size: 0.875em;
-                font-weight: 700;
-                font-family: 'DM Sans', sans-serif;
-            }
-
-            #FAQApprove {
-                padding: 15px 0 10px 0;
-                display: flex;
-                justify-content: space-between;
-                align-items: flex-start;
-                width: 100%;
-                height: auto;
-                label {
-                    width: 25px;
-                    height: 25px;
-                    background-color: #1e1e1e;
-                    border: 1px solid #42d4ba;
-                    border-radius: 5px;
-                    cursor: pointer;
-                    transition: 250ms ease;
-                    img {
-                        display: none;
-                    }
-                }
-                .checkmarkActive {
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                    background-color: #42d4ba;
-                    img {
-                        display: block;
-                    }
-                }
-                p {
-                    width: 85%;
-                    color: #ffffff;
-                    font-size: 18px;
-                    font-weight: 700;
-                    font-family: 'SF Pro Text', sans-serif;
-                    .faqRoute {
-                        color: #42d4ba;
-                    }
-                }
-            }
-
-            button {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                margin-top: 10px;
-                padding: 0 20px;
-                width: 100%;
-                height: 50px;
-                background-color: #434343;
-                border: none;
-                border-radius: 10px;
-                color: #9a9a9a;
-                font-size: 1em;
-                font-weight: 700;
-                font-family: 'DM Sans', sans-serif;
-                cursor: pointer;
-                transition: 250ms ease;
-            }
-            .active {
-                background-color: #42d4ba;
-                color: #ffffff;
-            }
-            #OrderIsPayed {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                padding: 15px 23% 0 23%;
-                height: 20px;
-                width: 54%;
-                p {
-                    color: #a5a5a5;
-                    font-size: 18px;
-                    font-weight: 700;
-                    font-family: 'DM Sans', sans-serif;
-                }
-                img {
-                    width: 20px;
-                    height: 20px;
-                }
-            }
-        }
     }
   }
 
@@ -789,77 +250,6 @@
             cursor: pointer;
         }
 
-        #ModalProfileWindow {
-            top: 0;
-            left: 0;
-            padding: 30px 40px;
-            width: calc(100% - 84px);
-            height: calc(100vh - 64px);
-            border-radius: 0;
-
-            #ModalProfileWindow_HamburgerClose {
-                width: 25px;
-                height: 25px;
-                cursor: pointer;
-            }
-
-            p {
-                display: block;
-            }
-
-            #ModalProfileWindow_UserBrieflyInfo {
-                padding: 10px 0 10px 0;
-                width: 100%;
-                border-width: 0 0 2px 0;
-
-                span {
-                    height: auto;
-                    p {
-                        font-size: 18px;
-                    }
-
-                    p:last-child {
-                        font-size: 16px;
-                    }
-                }
-            }
-
-            #ModalProfileWindow_Email {
-                padding: 10px 0 10px 0;
-                width: 100%;
-                border-width: 0 0 0.5px 0;
-            }
-
-            .hamburgerMenuRoute {
-                padding: 20px 0 20px 0;
-                width: 100%;
-                height: 60px;
-                border: 0.5px solid #4b4b4b;
-                border-width: 0.5px 0 0.5px 0;
-                outline: none;
-
-                .hamburgerMenuRoute_Text {
-                    color: #ffffff;
-                    font-size: 18px;
-                    font-weight: 700;
-                    font-family: 'DM Sans', sans-serif;
-                    text-decoration: none;
-                }
-            }
-
-            button {
-                width: 100%;
-                padding: 10px 0 10px 0;
-            }
-
-            #ModalProfileWindow_Balance {
-                padding: 0;
-                width: 100%;
-                border: 0.5px solid #4b4b4b;
-                border-width: 0.5px 0 0 0 ;
-            }
-        }
-
         nav {
             margin-left: 0;
             width: 75%;
@@ -870,31 +260,6 @@
 
             span {
                 width: 40%;
-            }
-        }
-
-        #ModalShoppingCart {
-            top: 0;
-            right: 0;
-            width: calc(100% - 74px);
-            height: calc(100vh - 44px);
-            border-radius: 0;
-            p {
-                display: block;
-            }
-
-            #shoppingCartItemsWrapper {
-                margin-top: 10px;
-                height: 340px;
-            }
-
-            #ShoppingCart_Bottom {
-                height: auto;
-                min-height: 100px;
-                #OrderIsPayed {
-                    padding: 15px 26% 0 26%;
-                    width: 48%;
-                }
             }
         }
 
@@ -923,15 +288,6 @@
               }
           }
 
-          #ModalShoppingCart {
-              #ShoppingCart_Bottom {
-                  #OrderIsPayed {
-                      padding: 15px 22.5% 0 22.5%;
-                      width: 55%;
-                  }
-              }
-          }
-
           span {
               width: 22.5px;
 
@@ -945,20 +301,6 @@
       header {
           #HamburgerMenu {
               width: 20px;
-          }
-
-          #ModalShoppingCart {
-              #ShoppingCart_Bottom {
-                  #FAQApprove {
-                      p {
-                          font-size: 14px;
-                      }
-                  }
-                  #OrderIsPayed {
-                      padding: 15px 17.5% 0 17.5%;
-                      width: 65%;
-                  }
-              }
           }
 
           span {
