@@ -28,7 +28,7 @@
                           <button @click="increaseShoppingCartItemCount(shoppingCartItem)">+</button>
                       </span>
 
-                        <img src="@/assets/itemBinIcon.svg" alt="Удалить" @click="removeShoppingCartItem(shoppingCartItem.id)"/>
+                      <img src="@/assets/itemBinIcon.svg" alt="Удалить" @click="removeShoppingCartItem(shoppingCartItem.id)"/>
                     </div>
                 </div>
             </div>
@@ -175,6 +175,9 @@
           align-items: center;
           width: 100%;
           height: 70px;
+          img {
+            cursor: pointer;
+          }
 
           img:first-child {
               width: 22px;

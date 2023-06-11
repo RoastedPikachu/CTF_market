@@ -154,11 +154,14 @@
           if(event.target !== null) {
               const target = event.target as HTMLElement;
 
-              if(!target.closest('header')) {
-                  if(isModalShoppingCartOpen.value) {
+              if(!target.closest('header') && !target.closest('.shoppingCartItem_Right')) {
+                  if(isModalProfileWindowOpen.value && isModalShoppingCartOpen.value) {
                       isModalShoppingCartOpen.value = false;
-                  } else if(isModalProfileWindowOpen.value) {
                       isModalProfileWindowOpen.value = false;
+                  } else if(isModalProfileWindowOpen.value && !isModalShoppingCartOpen.value) {
+                      isModalProfileWindowOpen.value = false;
+                  } else if (isModalShoppingCartOpen.value && !isModalProfileWindowOpen.value){
+                      isModalShoppingCartOpen.value = false;
                   }
               }
           }
