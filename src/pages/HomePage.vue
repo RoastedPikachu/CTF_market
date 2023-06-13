@@ -27,22 +27,26 @@
             <p v-for="category of categories" :key="category.id" :class="{ active: category.isActive }" @click="setBanner(category)">{{ category.title }}</p>
         </div>
 
-        <div v-for="banner of banners" :key="banner.id" class="banner" v-show="banner.isActive">
-            <router-link :to="{ name: 'shopItems', params: { category: banner.title }}" class="bannerImgRoute" v-if="banner.id == 1">
-                <img src="@/assets/mugBanner.svg" alt="Баннер кружек">
-            </router-link>
+        <div id="BannerWrapper">
+            <TransitionGroup name="appearance">
+                <div v-for="banner of banners" :key="banner.id" class="banner" v-show="banner.isActive">
+                    <router-link :to="{ name: 'shopItems', params: { category: banner.title }}" class="bannerImgRoute" v-if="banner.id == 1">
+                        <img src="@/assets/mugBanner.svg" alt="Баннер кружек">
+                    </router-link>
 
-            <router-link :to="{ name: 'shopItems', params: { category: banner.title }}" class="bannerImgRoute" v-if="banner.id == 2">
-                <img src="@/assets/tshirtBanner.svg" alt="Баннер футболок">
-            </router-link>
+                    <router-link :to="{ name: 'shopItems', params: { category: banner.title }}" class="bannerImgRoute" v-if="banner.id == 2">
+                        <img src="@/assets/tshirtBanner.svg" alt="Баннер футболок">
+                    </router-link>
 
-            <router-link :to="{ name: 'shopItems', params: { category: banner.title }}" class="bannerImgRoute" v-if="banner.id == 3">
-                <img src="@/assets/sweatshirtBanner.svg" alt="Баннер толстовок">
-            </router-link>
+                    <router-link :to="{ name: 'shopItems', params: { category: banner.title }}" class="bannerImgRoute" v-if="banner.id == 3">
+                        <img src="@/assets/sweatshirtBanner.svg" alt="Баннер толстовок">
+                    </router-link>
 
-            <router-link :to="{ name: 'shopItems', params: { category: banner.title }}" class="bannerImgRoute" v-if="banner.id == 4">
-                <img src="@/assets/bookBanner.svg" alt="Баннер книжек">
-            </router-link>
+                    <router-link :to="{ name: 'shopItems', params: { category: banner.title }}" class="bannerImgRoute" v-if="banner.id == 4">
+                        <img src="@/assets/bookBanner.svg" alt="Баннер книжек">
+                    </router-link>
+                </div>
+            </TransitionGroup>
         </div>
 
         <span id="PopularShopItem_Text">
@@ -288,20 +292,40 @@
             border-radius: 30px;
         }
       }
-      .banner {
+      #BannerWrapper {
           position: relative;
-          margin: 40px 10% 0 10%;
+          padding: 40px 10% 0 10%;
           width: 80%;
-          height: 640px;
-          .bannerImgRoute {
-              width: 100%;
-              height: 100%;
-              img {
-                  width: 100%;
-                  height: 100%;
-                  border-radius: 35px 35px 0;
-                  background-repeat: no-repeat;
-                  object-fit: cover;
+          height: 600px;
+          overflow: hidden;
+          .appearance-enter-active,
+          .appearance-leave-active {
+              transition: 1500ms ease;
+          }
+          .appearance-enter-from {
+              transform: translateX(200%);
+          }
+          .appearance-enter-to {
+              transform: translateX(0);
+          }
+          .appearance-leave-from {
+              transform: translateX(0);
+          }
+          .appearance-leave-to {
+              transform: translateX(-120%);
+          }
+          .banner {
+              position: absolute;
+              width: 80%;
+              height: 600px;
+              .bannerImgRoute {
+                  img {
+                      width: 100%;
+                      height: 100%;
+                      background-repeat: no-repeat;
+                      border-radius: 35px 35px 0;
+                      object-fit: cover;
+                  }
               }
           }
       }
@@ -591,7 +615,7 @@
 
           .banner {
               margin: 60px 10% 0 10%;
-              height: 1000px;
+              height: 1100px;
           }
 
           #BugBounty {
