@@ -27,7 +27,7 @@
             <p v-for="category of categories" :key="category.id" :class="{ active: category.isActive }" @click="setBanner(category)">{{ category.title }}</p>
         </div>
 
-        <div id="BannerWrapper">
+        <div class="bannerWrapper" :class="{ nextSliderEl: isNext, previousSliderEl: isPrevious }">
             <TransitionGroup name="appearance">
                 <div v-for="banner of banners" :key="banner.id" class="banner" v-show="banner.isActive">
                     <router-link :to="{ name: 'shopItems', params: { category: banner.title }}" class="bannerImgRoute" v-if="banner.id == 1">
@@ -98,6 +98,10 @@
         images: string[]
     }
 
+    const isNext = ref(true);
+    const isPrevious = ref(false);
+    const isPause = ref(false);
+
     const targetId = ref(0);
 
     const categories = ref([
@@ -151,21 +155,37 @@
     let bannerInterval:ReturnType<typeof setInterval> = setInterval(() => getNextPhoto(), 5000);
 
     const setBanner = (category:Category) => {
-        banners.value.forEach(item => {
-            if(item.title != category.title) {
-                item.isActive = false;
-            } else {
-                item.isActive = true;
-                targetId.value = item.id - 1;
-            }
-        });
+        if(!isPause.value) {
+            banners.value.forEach(item => {
+                if(item.isActive) {
+                    isNext.value = item.id < category.id;
+                    console.log(isNext.value);
+                    isPrevious.value = item.id > category.id;
+                    setTimeout(() => {
+                        isNext.value = true;
+                        isPrevious.value = false;
+                    }, 1500);
+                }
 
-        categories.value.forEach(item => item.isActive = false);
+                if(item.title != category.title) {
+                    item.isActive = false;
+                } else {
+                    item.isActive = true;
+                    targetId.value = item.id - 1;
+                }
 
-        category.isActive = true;
+            });
 
-        clearInterval(bannerInterval);
-        bannerInterval = setInterval(() => getNextPhoto(), 5000);
+            categories.value.forEach(item => item.isActive = false);
+
+            category.isActive = true;
+
+            isPause.value = true;
+
+            clearInterval(bannerInterval);
+            bannerInterval = setInterval(() => getNextPhoto(), 5000);
+            setTimeout(() => isPause.value = false, 1500);
+        }
     }
 
     const getShopItems = (start:number, stop:number) => {
@@ -292,12 +312,28 @@
             border-radius: 30px;
         }
       }
-      #BannerWrapper {
+      .bannerWrapper {
           position: relative;
           padding: 40px 10% 0 10%;
           width: 80%;
           height: 600px;
           overflow: hidden;
+          .banner {
+              position: absolute;
+              width: 80%;
+              height: 600px;
+              .bannerImgRoute {
+                  img {
+                      width: 100%;
+                      height: 100%;
+                      background-repeat: no-repeat;
+                      border-radius: 35px 35px 0;
+                      object-fit: cover;
+                  }
+              }
+          }
+      }
+      .nextSliderEl {
           .appearance-enter-active,
           .appearance-leave-active {
               transition: 1500ms ease;
@@ -314,19 +350,23 @@
           .appearance-leave-to {
               transform: translateX(-120%);
           }
-          .banner {
-              position: absolute;
-              width: 80%;
-              height: 600px;
-              .bannerImgRoute {
-                  img {
-                      width: 100%;
-                      height: 100%;
-                      background-repeat: no-repeat;
-                      border-radius: 35px 35px 0;
-                      object-fit: cover;
-                  }
-              }
+      }
+      .previousSliderEl {
+          .appearance-enter-active,
+          .appearance-leave-active {
+              transition: 1500ms ease;
+          }
+          .appearance-enter-from {
+              transform: translateX(-120%);
+          }
+          .appearance-enter-to {
+              transform: translateX(0);
+          }
+          .appearance-leave-from {
+              transform: translateX(0);
+          }
+          .appearance-leave-to {
+              transform: translateX(120%);
           }
       }
       #PopularShopItem_Text {
