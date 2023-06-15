@@ -185,13 +185,13 @@
 
         .targetOrder {
           padding: 2.5px 0 2.5px 10px;
-          border: 1px solid #ffffff;
+          border: 2px solid #42d4ba;
           border-radius: 10px;
         }
       }
 
       #OrdersWrapper::-webkit-scrollbar {
-        width: 15px;
+        width: 10px;
       }
 
       #OrdersWrapper::-webkit-scrollbar-track {
@@ -201,7 +201,7 @@
 
       #OrdersWrapper::-webkit-scrollbar-thumb {
         border-radius: 10px;
-        -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5);
+        -webkit-box-shadow: inset 50px 50px 6px #42d4ba;
       }
 
       aside {
@@ -214,6 +214,7 @@
           height: auto;
           min-height: 280px;
           background-color: rgba(158, 158, 158, 0.25);
+          border: 2px solid #42d4ba;
           border-radius: 10px;
 
           h2 {

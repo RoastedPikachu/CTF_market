@@ -159,8 +159,8 @@
             banners.value.forEach(item => {
                 if(item.isActive) {
                     isNext.value = item.id < category.id;
-                    console.log(isNext.value);
                     isPrevious.value = item.id > category.id;
+
                     setTimeout(() => {
                         isNext.value = true;
                         isPrevious.value = false;
@@ -173,13 +173,11 @@
                     item.isActive = true;
                     targetId.value = item.id - 1;
                 }
-
             });
 
             categories.value.forEach(item => item.isActive = false);
 
             category.isActive = true;
-
             isPause.value = true;
 
             clearInterval(bannerInterval);
@@ -222,6 +220,10 @@
         } else {
             getShopItems(0, 2);
         }
+
+        window.addEventListener('focus', () => {
+            location.reload();
+        });
     })
 </script>
 
@@ -232,96 +234,104 @@
       width: 100%;
       height: auto;
       overflow: hidden;
+
       #MovingImgWrapper {
-        padding-top: 90px;
-        width: 100%;
-        height: 135px;
-        overflow: hidden;
+          padding-top: 90px;
+          width: 100%;
+          height: 135px;
+          overflow: hidden;
 
-        #TopLogoText {
-            width: 100vw;
-            height: 87.5px;
+          #TopLogoText {
+              width: 100vw;
+              height: 87.5px;
 
-            span {
-                display: flex;
-                align-items: center;
+              span {
+                  display: flex;
+                  align-items: center;
 
-                p {
-                    color: #ffffff;
-                    font-size: 94px;
-                    font-weight: 900;
-                    font-family: 'DM Sans', sans-serif;
-                }
+                  p {
+                      color: #ffffff;
+                      font-size: 94px;
+                      font-weight: 900;
+                      font-family: 'DM Sans', sans-serif;
+                  }
 
-                img {
-                    margin-top: -4px;
-                    width: auto;
-                    height: 100%;
-                }
-            }
-        }
+                  img {
+                      margin-top: -4px;
+                      width: auto;
+                      height: 100%;
+                  }
+              }
+          }
 
-        #BottomLogoText {
-            margin-top: 10px;
-            width: 100vw;
-            height: 60px;
+          #BottomLogoText {
+              margin-top: 10px;
+              width: 100vw;
+              height: 60px;
 
-            p {
-                color: #ffffff;
-                font-size: 38px;
-                font-weight: 700;
-                font-family: 'DM Sans', sans-serif;
-                word-break: break-all;
-            }
-        }
+              p {
+                  color: #ffffff;
+                  font-size: 38px;
+                  font-weight: 700;
+                  font-family: 'DM Sans', sans-serif;
+                  word-break: break-all;
+              }
+          }
       }
 
       #BgImage {
-        position: absolute;
-        top: 260px;
-        width: 100%;
-        background-size: cover;
-        transform: scale(1.1);
-        z-index: -1;
+          position: absolute;
+          top: 260px;
+          width: 100%;
+          background-size: cover;
+          transform: scale(1.1);
+          z-index: -1;
       }
+
       #Tagline {
           margin: 80px 10% 0 10%;
           width: 80%;
       }
+
       #Categories {
-        display: flex;
-        justify-content: space-around;
-        align-items: center;
-        padding: 0 15px;
-        margin: 80px 42.5% 0 10%;
-        width: 45%;
-        height: 65px;
-        background-color: #2c2d2d;
-        border-radius: 40px;
-        p {
-            color: #ffffff;
-            font-size: 22px;
-            font-weight: 500;
-            font-family: 'DM Sans', sans-serif;
-            transition: 250ms ease;
-            cursor: pointer;
-        }
-        .active {
-            padding: 7.5px 35px;
-            background-color: #42d4ba;
-            border-radius: 30px;
-        }
+          display: flex;
+          justify-content: space-around;
+          align-items: center;
+          padding: 0 15px;
+          margin: 80px 42.5% 0 10%;
+          width: 45%;
+          height: 65px;
+          background-color: #2c2d2d;
+          border-radius: 40px;
+
+          p {
+              color: #ffffff;
+              font-size: 22px;
+              font-weight: 500;
+              font-family: 'DM Sans', sans-serif;
+              transition: 250ms ease;
+              cursor: pointer;
+          }
+
+          .active {
+              padding: 7.5px 35px;
+              background-color: #42d4ba;
+              border-radius: 30px;
+          }
       }
+
       .bannerWrapper {
           position: relative;
           padding: 40px 10% 0 10%;
           width: 80%;
           height: 600px;
           overflow: hidden;
+
           .banner {
               position: absolute;
               width: 80%;
               height: 600px;
+
               .bannerImgRoute {
                   img {
                       width: 100%;
@@ -333,42 +343,53 @@
               }
           }
       }
+
       .nextSliderEl {
           .appearance-enter-active,
           .appearance-leave-active {
               transition: 1500ms ease;
           }
+
           .appearance-enter-from {
               transform: translateX(200%);
           }
+
           .appearance-enter-to {
               transform: translateX(0);
           }
+
           .appearance-leave-from {
               transform: translateX(0);
           }
+
           .appearance-leave-to {
               transform: translateX(-120%);
           }
       }
+
       .previousSliderEl {
           .appearance-enter-active,
           .appearance-leave-active {
               transition: 1500ms ease;
           }
+
           .appearance-enter-from {
               transform: translateX(-120%);
           }
+
           .appearance-enter-to {
               transform: translateX(0);
           }
+
           .appearance-leave-from {
               transform: translateX(0);
           }
+
           .appearance-leave-to {
               transform: translateX(120%);
           }
       }
+
       #PopularShopItem_Text {
           display: flex;
           justify-content: space-between;
@@ -376,12 +397,14 @@
           margin: 60px 10%;
           width: 80%;
           height: 20px;
+
           p {
               color: #ffffff;
               font-size: 36px;
               font-weight: 500;
               font-family: 'DM Sans', sans-serif;
           }
+
           .seeMoreItemsRoute {
               color: #7f7f7f;
               font-size: 24px;
@@ -391,6 +414,7 @@
               outline: none;
           }
       }
+
       #PopularShopItemsWrapper {
           display: flex;
           justify-content: space-between;
@@ -410,24 +434,30 @@
   @media(max-width: 480px) {
       main {
           padding: 0 0 20px 0;
+
           #MovingImgWrapper {
               padding-top: 50px;
+
               #TopLogoText {
                   position: relative;
                   height: 50px;
+
                   span {
                       p {
                           font-size: 52px;
                       }
+
                       img {
                           height: 50px;
                       }
                   }
               }
+
               #BottomLogoText {
                   position: relative;
                   margin-top: 5px;
                   height: 30px;
+
                   p {
                       margin-left: 2.5px;
                       width: 100%;
@@ -453,33 +483,45 @@
               margin: 35px 5% 0 5%;
               width: 85%;
               height: 40px;
+
               p {
                   font-size: 14px;
               }
+
               .active {
                   padding: 5px 20px;
               }
           }
 
-          .banner {
-              margin: 20px 5% 0 5%;
+          .bannerWrapper {
+              padding: 20px 5% 0 5%;
               width: 90%;
-              height: 40%;
-              border-radius: 10px 10px 0;
-              .bannerImgRoute {
-                  img {
-                      border-radius: 10px 10px 0;
-                      object-fit: fill;
+              height: 32.5vh;
+
+              .banner {
+                  width: 100%;
+                  height: 32.5vh;
+                  border-radius: 10px 10px 0;
+
+                  .bannerImgRoute {
+                      img {
+                          width: 90%;
+                          border-radius: 10px 10px 0;
+                          object-fit: fill;
+                      }
                   }
               }
           }
+
           #PopularShopItem_Text {
               margin: 20px 5% 10px 5%;
               width: 90%;
               height: 20px;
+
               p {
                   font-size: 20px;
               }
+
               .seeMoreItemsRoute {
                   margin-top: 2px;
                   font-size: 16px;
@@ -503,18 +545,30 @@
       main {
           #Categories {
               height: 35px;
+
               p {
                   margin-top: 2px;
                   font-size: 12px;
               }
+
               .active {
                   padding: 4.5px 15px 3.5px 15px;
               }
           }
+
+          .bannerWrapper {
+              height: 30vh;
+
+              .banner {
+                  height: 30vh;
+              }
+          }
+
           #PopularShopItem_Text {
               p {
                   font-size: 18px;
               }
+
               .seeMoreItemsRoute {
                   font-size: 14px;
               }
@@ -528,9 +582,18 @@
               #TopLogoText {
                   height: 40px;
               }
+
               #BottomLogoText {
                   margin-top: 15px;
                   height: 20px;
+              }
+          }
+
+          .bannerWrapper {
+              height: 27.5vh;
+
+              .banner {
+                  height: 27.5vh;
               }
           }
       }
@@ -539,32 +602,51 @@
   @media(max-width: 370px) {
       main {
           padding: 0 0 20px 0;
+
           #MovingImgWrapper {
               #TopLogoText {
                   height: 35px;
               }
+
               #BottomLogoText {
                   margin-top: 20px;
                   height: 20px;
               }
           }
+
           #Categories {
               height: 30px;
+
               p {
                   margin-top: 2px;
                   font-size: 10px;
               }
+
               .active {
                   padding: 4.5px 15px 3.5px 15px;
               }
           }
+
+          .bannerWrapper {
+              height: 25vh;
+
+              .banner {
+                  height: 25vh;
+              }
+          }
+
           #PopularShopItem_Text {
               p {
                   font-size: 16px;
               }
+
               .seeMoreItemsRoute {
                   font-size: 12px;
               }
+          }
+
+          #BugBounty {
+              height: 130px;
           }
       }
   }
@@ -577,6 +659,7 @@
 
               #TopLogoText {
                   height: 100px;
+
                   span {
                       p {
                           font-size: 104px;
@@ -587,6 +670,7 @@
               #BottomLogoText {
                   margin-top: 10px;
                   height: 60px;
+
                   p {
                       font-size: 44px;
                       word-break: break-all;
@@ -598,9 +682,13 @@
               top: 300px;
           }
 
-          .banner {
-              margin: 40px 10% 0 10%;
-              height: 825px;
+          .bannerWrapper {
+              padding: 40px 10% 0 10%;
+              height: 840px;
+
+              .banner {
+                  height: 840px;
+              }
           }
 
           #BugBounty {
@@ -617,10 +705,12 @@
 
               #TopLogoText {
                   height: 100px;
+
                   span {
                       p {
                           font-size: 112px;
                       }
+
                       img {
                           height: 110px;
                       }
@@ -630,6 +720,7 @@
               #BottomLogoText {
                   margin-top: 15px;
                   height: 80px;
+
                   p {
                       font-size: 52px;
                       word-break: break-all;
@@ -648,14 +739,30 @@
               p {
                   font-size: 28px;
               }
+
               .active {
                   padding: 10px 30px;
               }
           }
 
-          .banner {
-              margin: 60px 10% 0 10%;
-              height: 1100px;
+          .bannerWrapper {
+              padding: 60px 10% 0 10%;
+              height: 1150px;
+
+              .banner {
+                  height: 1150px;
+              }
+          }
+
+          #PopularShopItem_Text {
+              margin: 80px 10% 60px 10%;
+              p {
+                  font-size: 52px;
+              }
+
+              .seeMoreItemsRoute {
+                  font-size: 42px;
+              }
           }
 
           #BugBounty {

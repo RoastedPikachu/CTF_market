@@ -6,7 +6,12 @@
 
         <div id="MainShopItemInfo">
             <div id="MainShopItemInfo_Images">
-                <img :src="item.images[targetImageIndex]" :alt="item.description" class="mainShopItemInfo_Images_Photo">
+                <img :src="item.images[targetImageIndex]"
+                     :alt="item.description"
+                     class="mainShopItemInfo_Images_Photo"
+                     @touchstart="firstTouchCoordinates = $event.changedTouches[0].pageX;"
+                     @touchend="changePhotoByTouch($event)"
+                >
 
                 <span>
                     <img src="@/assets/arrowRightIcon.svg" alt="Назад" @click="getPreviousPhoto()">
@@ -44,10 +49,10 @@
 <script lang="ts" setup>
   import { ref, onMounted } from 'vue';
   import { useRoute } from 'vue-router';
+  import store from "@/store";
   import axios from 'axios';
   import TheHeaderComp from '@/widgets/shared/TheHeaderComp.vue';
   import TheFooterComp from '@/widgets/shared/TheFooterComp.vue';
-  import store from "@/store";
 
   interface Size {
       name: string,
@@ -118,9 +123,11 @@
 
   const targetSize = ref('');
   const targetImageIndex = ref(0);
+  const firstTouchCoordinates = ref(0);
+  const lastTouchCoordinates = ref(0);
 
   const changeSizeIsActive = (size:any) => {
-      if(size.count) {
+      if(size.count > 0) {
           sizes.value.forEach(item => item.isActive = false);
 
           targetSize.value = size.prop;
@@ -131,7 +138,7 @@
 
   const addItemToShoppingCart = (item:ShopItem) => {
       if(isSignIn.value) {
-          let size = '';
+          let size:string;
 
           if(isSizesActive.value) {
               size = targetSize.value;
@@ -157,7 +164,7 @@
           headers: { 'Content-Type': 'application/json;charset=utf-8' }
       })
           .then((res:any) => {
-              console.log('Это что товар, а думал сова!')
+              console.log('Это что товар, а думал сова!');
               item.value = res.data;
 
               item.value.sizes.forEach(itemSize => {
@@ -207,6 +214,15 @@
 
       targetImageIndex.value++;
   };
+
+  const changePhotoByTouch = (event:TouchEvent) => {
+      lastTouchCoordinates.value = event.changedTouches[0].pageX;
+      if(firstTouchCoordinates.value > lastTouchCoordinates.value) {
+          getPreviousPhoto();
+      } else if(firstTouchCoordinates.value < event.changedTouches[0].pageX) {
+          getNextPhoto();
+      }
+  }
 
   onMounted(() => {
       getInfoAboutShopItem();
@@ -296,7 +312,7 @@
             position: relative;
             display: flex;
             align-items: center;
-            padding: 2px 20px 0px;
+            padding: 2px 20px 0;
             width: auto;
             height: 50px;
             background-color: #434343;

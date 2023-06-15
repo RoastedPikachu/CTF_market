@@ -6,6 +6,7 @@ import ShopItemsPage from '@/pages/ShopItemsPage.vue';
 import ShopItemPage from '@/pages/ShopItemPage.vue';
 import SignInPage from '@/pages/SignInPage.vue';
 import RegistrationPage from '@/pages/RegistrationPage.vue';
+import FAQPage from '@/pages/FAQPage.vue';
 import Error404Page from '@/pages/Error404Page.vue';
 
 const routes: Array<RouteRecordRaw> = [
@@ -43,6 +44,11 @@ const routes: Array<RouteRecordRaw> = [
     path: '/registration',
     name: 'registration',
     component: RegistrationPage
+  },
+  {
+    path: '/FAQ',
+    name: 'FAQ',
+    component: FAQPage
   },
   {
     path: '/404',
