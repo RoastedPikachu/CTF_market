@@ -29,7 +29,12 @@
 
         <div class="bannerWrapper" :class="{ nextSliderEl: isNext, previousSliderEl: isPrevious }">
             <TransitionGroup name="appearance">
-                <div v-for="banner of banners" :key="banner.id" class="banner" v-show="banner.isActive">
+                <div
+                    v-for="banner of banners"
+                    :key="banner.id"
+                    class="banner"
+                    v-show="banner.isActive"
+                >
                     <router-link :to="{ name: 'shopItems', params: { category: banner.title }}" class="bannerImgRoute" v-if="banner.id == 1">
                         <img src="@/assets/mugBanner.svg" alt="Баннер кружек">
                     </router-link>
@@ -590,10 +595,10 @@
           }
 
           .bannerWrapper {
-              height: 27.5vh;
+              height: 26vh;
 
               .banner {
-                  height: 27.5vh;
+                  height: 26vh;
               }
           }
       }

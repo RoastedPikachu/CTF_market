@@ -146,6 +146,7 @@
 
                   address.value = '';
                   store.dispatch('clearShoppingCart');
+                  console.log(res);
               })
               .catch(error => {
                   console.log(error);
@@ -464,7 +465,7 @@
 
           #shoppingCartItemsWrapper {
               margin-top: 10px;
-              height: 340px;
+              height: 260px;
           }
 
           #ShoppingCart_Bottom {

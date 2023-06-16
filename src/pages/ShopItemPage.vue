@@ -10,7 +10,7 @@
                      :alt="item.description"
                      class="mainShopItemInfo_Images_Photo"
                      @touchstart="firstTouchCoordinates = $event.changedTouches[0].pageX;"
-                     @touchend="changePhotoByTouch($event)"
+                     @touchend="changePhotoByTouch($event, getNextPhoto, getPreviousPhoto)"
                 >
 
                 <span>
@@ -51,6 +51,9 @@
   import { useRoute } from 'vue-router';
   import store from "@/store";
   import axios from 'axios';
+
+  import touchMixins from '@/mixins/touchMixins.js';
+
   import TheHeaderComp from '@/widgets/shared/TheHeaderComp.vue';
   import TheFooterComp from '@/widgets/shared/TheFooterComp.vue';
 
@@ -69,6 +72,8 @@
   }
 
   const route = useRoute();
+
+  const { firstTouchCoordinates, lastTouchCoordinates, changePhotoByTouch } = touchMixins();
 
   const item = ref({
       id: 0,
@@ -123,8 +128,6 @@
 
   const targetSize = ref('');
   const targetImageIndex = ref(0);
-  const firstTouchCoordinates = ref(0);
-  const lastTouchCoordinates = ref(0);
 
   const changeSizeIsActive = (size:any) => {
       if(size.count > 0) {
@@ -214,15 +217,6 @@
 
       targetImageIndex.value++;
   };
-
-  const changePhotoByTouch = (event:TouchEvent) => {
-      lastTouchCoordinates.value = event.changedTouches[0].pageX;
-      if(firstTouchCoordinates.value > lastTouchCoordinates.value) {
-          getPreviousPhoto();
-      } else if(firstTouchCoordinates.value < event.changedTouches[0].pageX) {
-          getNextPhoto();
-      }
-  }
 
   onMounted(() => {
       getInfoAboutShopItem();
