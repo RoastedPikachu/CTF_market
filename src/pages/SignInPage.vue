@@ -30,15 +30,17 @@
 
 <script setup lang="ts">
     import { useRouter } from 'vue-router';
-    import { ref } from 'vue';
+    import { ref, onMounted } from 'vue';
     import store from '@/store';
-    import axios from 'axios';
+
+    import axiosMixins from "@/mixins/axiosMixins.js";
 
     const router = useRouter();
 
+    const { api, errorMess, initAPI } = axiosMixins();
+
     const email = ref('');
     const password = ref('');
-    const errorMess = ref('');
 
     const setSignInData = () => {
         const url = new URL('https://ctfmarket.ru:8080/api/v1/auth/login/');
@@ -47,11 +49,9 @@
 
         if(emailRegex.test(email.value)) {
             if(password.value.length) {
-                axios.post(url.toString(), {
+                api.post(url.toString(), {
                     email: email.value,
                     password: password.value
-                }, {
-                    headers: { 'Content-Type': 'application/json;charset=utf-8' }
                 })
                     .then((res:any) => {
                         if(res.data.error) {
@@ -61,21 +61,6 @@
                             store.dispatch('changeIsSignIn');
                             store.dispatch('changeIsCookieOpen');
                             router.push(`/`);
-                        }
-                    })
-                    .catch((error:any) => {
-                        const parseErrorNumberRegex = /\d+/g;
-
-                        error = error.message.match(parseErrorNumberRegex);
-
-                        switch(+error[0]) {
-                            case 404:
-                                errorMess.value = 'Пользователя с такой почтой несуществует';
-                                break;
-
-                            case 412:
-                                errorMess.value = 'Неверный пароль';
-                                break;
                         }
                     });
             } else {
@@ -88,6 +73,10 @@
             setTimeout(() => errorMess.value = '', 5000);
         }
     }
+
+    onMounted(() => {
+        initAPI(true);
+    })
 </script>
 
 <style lang="scss" scoped>

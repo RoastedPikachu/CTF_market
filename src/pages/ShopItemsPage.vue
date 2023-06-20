@@ -73,7 +73,9 @@
 <script lang="ts" setup>
     import { ref, onMounted } from 'vue';
     import { useRoute } from 'vue-router';
-    import axios from "axios";
+
+    import axiosMixins from '@/mixins/axiosMixins.js';
+
     import TheHeaderComp from '@/widgets/shared/TheHeaderComp.vue';
     import ShopItemCard from '@/widgets/shared/ShopItemCard.vue';
     import TheFooterComp from '@/widgets/shared/TheFooterComp.vue';
@@ -100,6 +102,8 @@
     }
 
     const route = useRoute();
+
+    const { api, initAPI } = axiosMixins();
 
     const isModalFilterActive = ref(false);
 
@@ -202,10 +206,8 @@
     const getShopItems = (start:number, stop:number) => {
         const url = new URL(`https://ctfmarket.ru:8080/api/v1/product/${start}/${stop}`);
 
-        axios.get(url.toString(),  {
-            headers: { 'Content-Type': 'application/json;charset=utf-8' }
-        })
-            .then((res) => {
+        api.get(url.toString())
+            .then((res:any) => {
                 shopItems.value = Object.values(res.data);
                 initialShopItems.value = Object.values(res.data);
 
@@ -214,13 +216,12 @@
 
                     filterShopItems(category);
                 }
-            })
-            .catch((err) => {
-                console.log(err);
-            })
+            });
     }
 
     onMounted(() => {
+        initAPI(false);
+
         getShopItems(0, 9);
     });
 </script>
@@ -281,11 +282,11 @@
         opacity: 0;
     }
     .v-enter-to {
-        margin-top: 0px;
+        margin-top: 0;
         opacity: 1;
     }
     .v-leave-from {
-        margin-top: 0px;
+        margin-top: 0;
         opacity: 1;
     }
     .v-leave-to {
@@ -345,7 +346,7 @@
                 button {
                     display: flex;
                     align-items: center;
-                    padding: 2px 15px 0px;
+                    padding: 2px 15px 0;
                     width: auto;
                     height: 50px;
                     background-color: #434343;
@@ -505,7 +506,7 @@
                       height: 100px;
 
                       button {
-                          padding: 2px 12.5px 0px 12.5px;
+                          padding: 2px 12.5px 0 12.5px;
                           height: 40px;
                           font-size: 16px;
                       }

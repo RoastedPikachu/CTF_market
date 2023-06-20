@@ -68,9 +68,13 @@
 <script lang="ts" setup>
   import { ref, onMounted, watch, computed } from 'vue';
   import store from '@/store';
-  import axios from 'axios';
+
+  import axiosMixins from '@/mixins/axiosMixins.js';
+
   import ModalProfileWindow from "@/widgets/features/modalWindows/ModalProfileWindow.vue";
   import ModalShoppingCartWindow from "@/widgets/features/modalWindows/ModalShoppingCartWindow.vue";
+
+  const { api, initAPI } = axiosMixins();
 
   const isSignIn = computed(() => store.state.isSignIn);
   const isModalProfileWindowOpen = ref(false);
@@ -124,10 +128,8 @@
 
       const token = getCookie('token');
 
-      axios.post(url.toString(), { token: token }, {
-          headers: { 'Content-Type': 'application/json;charset=utf-8' }
-      })
-          .then((res) => {
+      api.post(url.toString(), { token: token })
+          .then((res:any) => {
               balance.value = res.data.score;
 
               email.value = res.data.email;
@@ -139,14 +141,13 @@
               if(res.data.is_admin) {
                   store.dispatch('changeIsAdmin');
               }
-          })
-          .catch((error) => {
-              console.log(error);
-          })
+          });
   }
 
   onMounted(() => {
       if(isSignIn.value) {
+          initAPI(true);
+
           getInfoAboutUserByToken();
       }
 

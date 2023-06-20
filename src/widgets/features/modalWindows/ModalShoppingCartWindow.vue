@@ -74,9 +74,10 @@
 </template>
 
 <script lang="ts" setup>
-  import { ref, defineProps, defineEmits } from 'vue';
+  import { ref, onMounted, defineProps, defineEmits } from 'vue';
   import store from "@/store";
-  import axios from "axios";
+
+  import axiosMixins from '@/mixins/axiosMixins.js';
 
   interface ShoppingCartItem {
       id: number,
@@ -95,6 +96,8 @@
       isOrderPayed: boolean,
       shoppingCartItems: ShoppingCartItem[]
   }
+
+  const { api, initAPI } = axiosMixins();
 
   const props = defineProps<Props>();
 
@@ -134,27 +137,26 @@
       if(props.shoppingCartItems.length && address.value) {
           const url = new URL('https://ctfmarket.ru:8080/api/v1/product/buy');
 
-          axios.post(url.toString(), {
+          api.post(url.toString(), {
               token: props.token,
               address: address.value,
               products: props.shoppingCartItems
-          }, {
-              headers: { 'Content-Type': 'application/json;charset=utf-8' }
           })
-              .then(res => {
-                  emit('order');
+              .then((res:any) => {
+                emit('order');
 
-                  address.value = '';
-                  store.dispatch('clearShoppingCart');
-                  console.log(res);
-              })
-              .catch(error => {
-                  console.log(error);
-              })
+                address.value = '';
+                store.dispatch('clearShoppingCart');
+                console.log(res);
+              });
       } else {
           console.log('Нельзя сделать заказ с пустой корзиной');
       }
   }
+
+  onMounted(() => {
+    initAPI(true);
+  });
 </script>
 
 <style lang="scss" scoped>
@@ -170,12 +172,14 @@
       border: 2px solid rgba(255, 255, 255, 0.2);
       border-radius: 20px;
       z-index: 10;
+
       span {
           display: flex;
           justify-content: space-between;
           align-items: center;
           width: 100%;
           height: 70px;
+
           img {
             cursor: pointer;
           }
@@ -229,6 +233,7 @@
                       flex-wrap: wrap;
                       width: 100%;
                       height: 50%;
+
                       p {
                           margin-left: 0;
                           width: 100%;
@@ -307,6 +312,7 @@
           border-radius: 10px;
           -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5);
       }
+
       #ShoppingCart_Bottom {
           margin-top: 10px;
           width: 100%;
@@ -471,6 +477,7 @@
           #ShoppingCart_Bottom {
               height: auto;
               min-height: 100px;
+
               #OrderIsPayed {
                   padding: 15px 26% 0 26%;
                   width: 48%;

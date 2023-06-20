@@ -50,9 +50,9 @@
   import { ref, onMounted } from 'vue';
   import { useRoute } from 'vue-router';
   import store from "@/store";
-  import axios from 'axios';
 
   import touchMixins from '@/mixins/touchMixins.js';
+  import axiosMixins from '@/mixins/axiosMixins.js';
 
   import TheHeaderComp from '@/widgets/shared/TheHeaderComp.vue';
   import TheFooterComp from '@/widgets/shared/TheFooterComp.vue';
@@ -74,6 +74,7 @@
   const route = useRoute();
 
   const { firstTouchCoordinates, lastTouchCoordinates, changePhotoByTouch } = touchMixins();
+  const { api, initAPI } = axiosMixins();
 
   const item = ref({
       id: 0,
@@ -163,9 +164,7 @@
   const getInfoAboutShopItem = () => {
       const url = new URL(`https://ctfmarket.ru:8080/api/v1/product/${route.params.id}`);
 
-      axios.get(url.toString(), {
-          headers: { 'Content-Type': 'application/json;charset=utf-8' }
-      })
+      api.get(url.toString())
           .then((res:any) => {
               console.log('Это что товар, а думал сова!');
               item.value = res.data;
@@ -196,10 +195,7 @@
                   case 'Толстовки': isSizesActive.value = true;
                     break;
               }
-          })
-          .catch((error:any) => {
-              console.log(error);
-          })
+          });
   }
 
   const getPreviousPhoto = () => {
@@ -219,6 +215,8 @@
   };
 
   onMounted(() => {
+      initAPI(false);
+
       getInfoAboutShopItem();
   })
 </script>
