@@ -34,7 +34,10 @@
   import { useRouter } from 'vue-router';
   import { ref, onMounted, computed } from 'vue';
   import store from '@/store';
-  import axios from 'axios';
+
+  import axiosMixins from "@/mixins/axiosMixins.js";
+
+  const { api, initAPI } = axiosMixins();
 
   interface OrderedPosition {
       id: number,
@@ -77,17 +80,12 @@
 
       const token = getCookie('token');
 
-      axios.post(url.toString(), { token: token }, {
-          headers: { 'Content-Type': 'application/json;charset=utf-8' }
-      })
-          .then(res => {
+      api.post(url.toString(), { token: token })
+          .then((res:any) => {
               orders.value = Object.values(res.data);
 
               setTargetOrder(orders.value[0]);
-          })
-          .catch(error => {
-              console.log(error);
-          })
+          });
   }
 
   const setTargetOrder = (order:Order) => {
@@ -105,20 +103,17 @@
       let decision = confirm('Вы точно хотите удалить заказ');
 
       if(decision) {
-          axios.post(url.toString(), { token: token }, {
-              headers: { 'Content-Type': 'application/json;charset=utf-8' }
-          })
-              .then(res => {
+          api.post(url.toString(), { token: token })
+              .then((res:any) => {
                   getAllOrders();
-              })
-              .catch(error => {
-                  console.log(error);
-              })
+              });
       }
   }
 
   onMounted(() => {
       if(isAdmin.value) {
+          initAPI(true);
+
           getAllOrders();
       } else {
           router.push('/');

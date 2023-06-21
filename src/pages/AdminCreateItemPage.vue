@@ -71,7 +71,8 @@
     import { useRouter } from 'vue-router';
     import { ref, onMounted, computed } from 'vue';
     import store from '@/store';
-    import axios from 'axios';
+
+    import axiosMixins from "@/mixins/axiosMixins.js";
 
     interface Photo {
         id: number,
@@ -81,6 +82,8 @@
     }
 
     const router = useRouter();
+
+    const { api, initAPI } = axiosMixins();
 
     const isAdmin = computed(() => store.state.isAdmin);
 
@@ -193,9 +196,7 @@
         // const formData = new FormData();
         // formData.append('shopItemImg', this.image, 'item.png');
 
-        axios.post(url.toString(), {[`file${id}`]: photos.value[id].file}, {
-            headers: {'Content-Type': 'application/json;charset=utf-8'}
-        })
+        api.post(url.toString(), {[`file${id}`]: photos.value[id].file});
     };
 
     const setPhoto = (event:any) => {
@@ -241,7 +242,7 @@
 
         const token = getCookie('token');
 
-        axios.post(url.toString(), {
+        api.post(url.toString(), {
             token: token,
             title: title.value,
             description: description.value,
@@ -254,6 +255,8 @@
     };
 
     onMounted(() => {
+        initAPI(true);
+
         if(!isAdmin.value) {
             router.push('/');
         }

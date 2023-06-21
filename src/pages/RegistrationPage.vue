@@ -43,17 +43,19 @@
 
 <script setup lang="ts">
     import { useRouter } from 'vue-router';
-    import { ref, watch } from 'vue';
-    import axios from 'axios';
+    import { ref, watch, onMounted } from 'vue';
+
+    import axiosMixins from "@/mixins/axiosMixins.js";
 
     const router = useRouter();
+
+    const { api, errorMess, initAPI } = axiosMixins();
 
     const name = ref('');
     const token = ref('');
     const email = ref('');
     const phone = ref('');
     const password = ref('');
-    const errorMess = ref('');
 
     watch(errorMess, () => {
         setTimeout(() => errorMess.value = '', 5000);
@@ -68,34 +70,17 @@
         if (phoneRegex.test(phone.value) && emailRegex.test(email.value)) {
 
             if (password.value.length && token.value.length) {
-                axios.post(url.toString(), {
+                api.post(url.toString(), {
                     secret_key: token.value,
                     password: password.value,
                     email: email.value,
                     phone: phone.value
-                }, {
-                    headers: {'Content-Type': 'application/json;charset=utf-8'}
                 })
                     .then((res:any) => {
                         if (res.data.error) {
                             throw res.data.error;
                         } else {
                             router.push(`/signIn`);
-                        }
-                    })
-                    .catch((error:any) => {
-                        const parseErrorNumberRegex = /\d+/g;
-
-                        error = error.message.match(parseErrorNumberRegex);
-
-                        switch(+error[0]) {
-                            case 404:
-                                errorMess.value = 'Пользователь по такому токену не найден';
-                                break;
-
-                            case 409:
-                                errorMess.value = 'Пользователь с таким токеном уже существует';
-                                break;
                         }
                     });
 
@@ -120,6 +105,10 @@
 
         }
     }
+
+    onMounted(() => {
+        initAPI(true);
+    })
 </script>
 
 <style lang="scss" scoped>

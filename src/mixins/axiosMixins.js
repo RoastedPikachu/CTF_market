@@ -16,13 +16,23 @@ export default function() {
         api.interceptors.response.use(response => {
             return response;
         }, error => {
+            console.log(`Ошибка на серверной стороне: ${error.message}`);
+
             const parseErrorNumberRegex = /\d+/g;
 
             error = +error.message.match(parseErrorNumberRegex);
 
-            switch(error[0]) {
+            switch(error) {
                 case 404:
+                    errorMess.value = 'Пользователь по такому токену не найден';
+                    break;
+
+                case 405:
                     errorMess.value = 'Пользователя с такой почтой несуществует';
+                    break;
+
+                case 409:
+                    errorMess.value = 'Пользователь с таким токеном уже существует';
                     break;
 
                 case 412:
